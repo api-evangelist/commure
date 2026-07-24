@@ -1,0 +1,107 @@
+aid: commure
+name: Commure
+review:
+  question: Does Commure expose a live, self-serve public API, developer portal, or FHIR CapabilityStatement?
+  answer: false
+  date: '2026-07-24'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    Commure is an AI-native healthcare platform for United States health
+    systems (formed by the 2023 combination of Commure and Athelas). The
+    corporate website at https://commure.com (200) documents the product
+    estate - Ambient AI clinical documentation, Revenue Cycle Management,
+    Call Center Agents, referral Orchestrator, Engage patient coordination,
+    Commure Pro, Dictation, Strongline staff safety, and Athelas Home - and
+    states integration with 60+ EHRs across 130+ health systems. Commure
+    originally launched a FHIR-native open developer platform in 2020
+    (developer.commure.com), but that public developer portal no longer
+    resolves (HTTP 404). No live first-party developer documentation, API
+    reference, FHIR CapabilityStatement (/metadata), or SMART-on-FHIR
+    .well-known/smart-configuration is currently served on any probed host.
+    A Developer User Agreement (last revised 2024-10-10, HTTP 200) references
+    "Developer Services," "application programming interfaces," and a
+    "Sandbox Environment," confirming an API surface exists but is gated
+    behind a partner/approval agreement with no public, self-serve endpoint
+    or documentation. This profile is therefore an honest identity stub: a
+    gated, partner-only API with no public spec to harvest.
+  developerPortal:
+    url: https://developer.commure.com
+    httpStatus: 404
+    confirmedLive: false
+    note: Historical FHIR-native developer platform (launched 2020) no longer resolves.
+  fhirCapabilityStatement:
+    captured: false
+    fhirVersion: null
+    resources: []
+    note: No live FHIR base host found; fhir.commure.com and api.commure.com/.well-known/smart-configuration did not resolve (000/404). Commure's platform was historically FHIR-based (an archived Crucible FHIR test executor exists at github.com/commure/plan_executor).
+  smartConfiguration:
+    captured: false
+    note: https://commure.com/.well-known/smart-configuration and https://developer.commure.com/.well-known/smart-configuration both 404.
+  downloadableSpecs:
+    count: 0
+    openapiHarvested: false
+    provenance: []
+    note: No /openapi.json, /swagger.json, or /api-docs served; nothing to save verbatim.
+  authModel:
+    scheme: OAuth2 / gated Developer Services credentials (Sandbox Environment)
+    smartOnFhir: unknown
+    scopes: []
+    note: Access is governed by the Developer User Agreement; credentials are issued under a partner/approval relationship, not self-serve. No public scope catalog is documented.
+  standardsConformance:
+    usCore: unknown-historical
+    daVinci: unknown
+    carin: unknown
+    ukCore: not-applicable
+    auCore: not-applicable
+    note: Commure's 2020 platform was HL7 FHIR based; current public materials do not restate specific implementation-guide conformance.
+  homeMarket: United States
+  gatedVsSelfServe: gated (partner/approval; no public self-serve API)
+  transports:
+  - protocol: REST
+    scheme: https
+    note: Gated partner API surface implied by the Developer User Agreement (APIs + Sandbox Environment). No public base URL is documented.
+    documented: false
+  - protocol: FHIR REST
+    scheme: https
+    note: Historical FHIR-native platform (2020); no live public FHIR base host or /metadata found at review time.
+    documented: false
+  - protocol: WebSocket
+    scheme: wss
+    documented: false
+    note: No WebSocket endpoint is documented.
+sources:
+- url: https://commure.com/
+  type: Website
+  httpStatus: 200
+  note: Corporate site; AI-native healthcare platform positioning and product list.
+- url: https://commure.com/legal/developer-user-agreement
+  type: DeveloperUserAgreement
+  httpStatus: 200
+  note: Last revised 2024-10-10; references Developer Services, APIs, and a Sandbox Environment. No portal or endpoint URLs.
+- url: https://developer.commure.com
+  type: DeveloperPortal
+  httpStatus: 404
+  note: Historical FHIR developer platform no longer resolves.
+- url: https://commure.com/trust-center
+  type: TrustCenter
+  httpStatus: 200
+  note: Security and compliance trust center.
+- url: https://status.commure.com
+  type: StatusPage
+  httpStatus: 200
+- url: https://github.com/commure
+  type: GitHubOrganization
+  httpStatus: 200
+  note: Mostly infrastructure/tooling forks; includes archived patient-chart-demo-app ("built on top of Commure") and archived FHIR Crucible plan_executor.
+actions:
+  apisYmlUpdated: true
+  reason: |
+    No live public developer portal, API reference, FHIR CapabilityStatement,
+    SMART configuration, or downloadable OpenAPI was found. The apis.yml
+    captures Commure's identity and verified website/legal/status/trust
+    surfaces, with an empty apis[] list because there is no self-serve public
+    API to catalog - only a gated, partner-only Developer Services offering.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
