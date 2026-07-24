@@ -1,0 +1,26 @@
+# Commure
+
+> Commure is a San Francisco-based AI-native healthcare technology company operating an integrated clinical and operational platform for United States health systems (formed by the 2023 combination of Commure and Athelas). Products span Ambient AI clinical documentation (Scribe/Dictation), Revenue Cycle Management (RCM), Call Center Agents, referral Orchestrator, patient Engage coordination, Commure Pro clinical intelligence, Strongline staff-safety alerting, and Athelas Home point-of-care diagnostics — integrating with 60+ EHRs across 130+ health systems.
+
+Note: Commure's API surface is a gated, partner-only Developer Services offering (Sandbox Environment) governed by a Developer User Agreement. The historical FHIR-native developer portal (developer.commure.com, launched 2020) is no longer live, and no self-serve public API documentation, FHIR CapabilityStatement, or downloadable OpenAPI is currently published.
+
+## Company
+- [Website](https://commure.com/): Corporate site and product estate
+- [Company](https://commure.com/company): About Commure
+- [Blog](https://commure.com/blog): Company blog
+- [News](https://commure.com/news): Press and announcements
+- [Partners](https://commure.com/partners): Partner program
+
+## Developer
+- [Developer User Agreement](https://commure.com/legal/developer-user-agreement): Terms governing gated Developer Services and Sandbox Environment
+- [GitHub Organization](https://github.com/commure): Public repositories (mostly infrastructure/tooling; archived FHIR Crucible plan_executor and patient-chart demo)
+
+## Trust & Status
+- [Trust Center](https://commure.com/trust-center): Security and compliance (SOC 2 Type II, HIPAA, HITECH, CCPA)
+- [Status Page](https://status.commure.com): Real-time platform status
+- [Terms of Use](https://commure.com/legal/general-terms-of-use)
+- [Privacy Policy](https://commure.com/legal/privacy-policy)
+
+## Contact
+- [Support / Contact](https://commure.com/contact)
+- [LinkedIn](https://www.linkedin.com/company/commure)

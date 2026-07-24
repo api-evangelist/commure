@@ -47,6 +47,10 @@ modified: '2026-07-24'
 specificationVersion: '0.19'
 apis: []
 common:
+- type: DomainSecurity
+  url: security/commure-domain-security.yml
+- type: LLMsTxt
+  url: llms/commure-llms.txt
 - type: Website
   url: https://commure.com/
 - type: Company
@@ -62,6 +66,8 @@ common:
 - type: StatusPage
   url: https://status.commure.com
 - type: TrustCenter
+  url: https://commure.com/trust-center
+- type: Compliance
   url: https://commure.com/trust-center
 - type: TermsOfService
   url: https://commure.com/legal/general-terms-of-use
