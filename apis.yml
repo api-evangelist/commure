@@ -1,84 +1,23 @@
 aid: commure
-url: https://raw.githubusercontent.com/api-evangelist/commure/refs/heads/main/apis.yml
 name: Commure
-kind: company
-description: >-
-  Commure is a San Francisco-based AI-native healthcare technology company that
-  operates an integrated clinical and operational platform for United States
-  health systems following its 2023 combination with Athelas. Its products span
-  Ambient AI clinical documentation (Scribe/Dictation), end-to-end Revenue Cycle
-  Management (RCM), Call Center Agents, referral Orchestrator, patient Engage
-  coordination, Commure Pro clinical intelligence, Strongline staff-safety
-  alerting, and Athelas Home point-of-care diagnostics, integrating with 60+
-  EHRs across 130+ health systems processing over $25B in annual claims. Commure
-  launched a FHIR-native open developer platform in 2020, but that public
-  developer portal (developer.commure.com) is no longer live; today the API
-  surface is a gated, partner-only offering governed by a Developer User
-  Agreement (Sandbox Environment + Developer Services), with no self-serve
-  public API documentation, FHIR CapabilityStatement, or downloadable OpenAPI
-  currently published. Home market is the United States.
-accessModel:
-  pricing: enterprise
-  onboarding: approval
-  trial: false
-  try_now: false
-  public: false
-  label: Enterprise · Partner/approval onboarding · No public API
-  confidence: high
-  source:
-  - website
-  - legal
-  generated: '2026-07-24'
-  method: derived
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+description: 'Commure is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
+  and added to the network as a stub for full-pipeline profiling.'
+url: https://raw.githubusercontent.com/api-evangelist/commure/refs/heads/main/apis.yml
+x-type: company
+x-source: harvest:secondary-market
+x-tier: stub
+x-tier-reason: harvest
+specificationVersion: '0.20'
+created: '2026-07-31'
+modified: '2026-07-31'
 tags:
-- Healthcare
-- United States
-- Clinical AI
-- Ambient AI
-- Revenue Cycle Management
-- FHIR
-- Interoperability
-- EHR
-- Remote Monitoring
-- Health System
-created: '2026-07-24'
-modified: '2026-07-24'
-specificationVersion: '0.19'
+- Company
 apis: []
-common:
-- type: DomainSecurity
-  url: security/commure-domain-security.yml
-- type: LLMsTxt
-  url: llms/commure-llms.txt
-- type: Website
-  url: https://commure.com/
-- type: Company
-  url: https://commure.com/company
-- type: Blog
-  url: https://commure.com/blog
-- type: News
-  url: https://commure.com/news
-- type: Partners
-  url: https://commure.com/partners
-- type: Support
-  url: https://commure.com/contact
-- type: StatusPage
-  url: https://status.commure.com
-- type: TrustCenter
-  url: https://commure.com/trust-center
-- type: Compliance
-  url: https://commure.com/trust-center
-- type: TermsOfService
-  url: https://commure.com/legal/general-terms-of-use
-- type: PrivacyPolicy
-  url: https://commure.com/legal/privacy-policy
-- type: DeveloperUserAgreement
-  url: https://commure.com/legal/developer-user-agreement
-- type: GitHubOrganization
-  url: https://github.com/commure
-- type: LinkedIn
-  url: https://www.linkedin.com/company/commure
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
+common:
+- type: Website
+  url: https://forgeglobal.com/commure_stock/
