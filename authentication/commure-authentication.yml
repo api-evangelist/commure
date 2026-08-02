@@ -1,0 +1,77 @@
+generated: '2026-07-31'
+method: searched
+source: openapi/commure-fhir-openapi.yml
+docs: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+  - clientCredentials
+schemes:
+- name: SMARTonFHIR
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api-{tenant-id}.developer.commure.com/auth/authorize
+    tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+    scopes: 5
+  - flow: clientCredentials
+    tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+    scopes: 0
+  description: OpenID Connect / SMART App Launch. Supports the authorization code (with PKCE),
+    implicit, hybrid, client credentials and refresh token grants.
+  sources:
+  - openapi/commure-fhir-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Access token issued by the Commure Authentication API, presented as a bearer
+    token (tokens are prefixed "Sec-").
+  sources:
+  - openapi/commure-fhir-openapi.yml
+token:
+  type: bearer
+  header: Authorization
+  format: 'Bearer Sec-...'
+  prefix: Sec-
+grants:
+- authorization_code
+- client_credentials
+- refresh_token
+extras:
+  pkce: true
+  implicit_flow_supported: true
+  hybrid_flow_supported: true
+  smart_ehr_launch: true
+  smart_standalone_launch: true
+  sso: >-
+    The authorize endpoint authenticates the user via single sign-on, typically using an SSO
+    provider configured by the hospital.
+endpoints:
+  authorize: /auth/authorize
+  token: /auth/token
+  userinfo: /auth/userinfo
+  jwks: /auth/jwks
+  logout: /auth/logout
+  openid_configuration: /auth/.well-known/openid-configuration
+  smart_configuration: /api/v1/r4/.well-known/smart-configuration
+tenancy:
+  model: host-scoped
+  note: >-
+    The tenant id is part of the host (api-{tenant-id}.developer.commure.com), so a token is
+    scoped to a single tenant host. Commure's own example tenant id is 99750511.
+x-searched:
+  fetched: '2026-07-31'
+  sources:
+  - https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+  - postman/commure-fhir-api-collection.json
+  findings:
+  - Commure publishes no standalone authentication documentation page; the auth contract above
+    is taken from the request descriptions in its public Postman collection.
+  - Access is gated by the Commure Developer User Agreement - credentials are issued under a
+    partner/approval relationship, not self-serve.
+  - Neither discovery document (/auth/.well-known/openid-configuration,
+    /api/v1/r4/.well-known/smart-configuration) is currently served by any reachable host; see
+    well-known/commure-well-known.yml.

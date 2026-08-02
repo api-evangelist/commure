@@ -1,0 +1,86 @@
+generated: '2026-07-31'
+method: probed
+source: live HTTP probes of every host in apis.yml and every OpenAPI servers[] host
+result: none-served
+summary: >-
+  No /.well-known/ discovery document is served on any reachable Commure host. The corporate
+  site answers every /.well-known/* path with a genuine HTTP 404 (text/html) - not an SPA
+  catch-all 200 - so these are true negatives. The two discovery documents Commure's published
+  contract DOES define (OpenID Connect provider metadata and the SMART App Launch configuration)
+  live on the tenant API hosts, which no longer resolve.
+hosts:
+- host: www.commure.com
+  reachable: true
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/smart-configuration
+    status: 404
+  - path: /llms.txt
+    status: 404
+  - path: /openapi.json
+    status: 404
+  - path: /sitemap.xml
+    status: 200
+    note: Present but not a /.well-known/ document; used to enumerate the public site.
+- host: commure.com
+  reachable: true
+  note: 301 redirects to www.commure.com; identical 404 results on every path above.
+- host: developer.commure.com
+  reachable: partial
+  note: 'Resolves (34.148.125.229) but returns HTTP 404 on every path including /,
+    /docs, /api/v1/r4/metadata and /auth/.well-known/openid-configuration.'
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/smart-configuration
+    status: 404
+- host: api.commure.com
+  reachable: false
+  note: does not resolve
+- host: docs.commure.com
+  reachable: false
+  note: does not resolve
+- host: fhir.commure.com
+  reachable: false
+  note: does not resolve
+- host: mcp.commure.com
+  reachable: false
+  note: does not resolve
+- host: api-{tenant-id}.developer.commure.com
+  reachable: false
+  note: >-
+    The production base URL template published in Commure's Postman collection. Tested with the
+    tenant id Commure documents by example (99750511) - NXDOMAIN.
+- host: www.athelas.com
+  reachable: true
+  note: Athelas product site (Commure combined with Athelas in 2023). All /.well-known/ paths
+    404; no llms.txt, no openapi.json.
+declared_but_unreachable:
+- path: /auth/.well-known/openid-configuration
+  operation: openIDConnectProviderMetadata
+  note: OpenID Connect Discovery metadata, declared in the published contract on the tenant host.
+- path: /api/v1/r4/.well-known/smart-configuration
+  operation: sMARTAppLaunchConfiguration
+  note: SMART App Launch configuration, declared in the published contract on the tenant host.
+documents: []
+x-evidence:
+  fetched: '2026-07-31'
+  method: curl -L, following redirects, recording final status and content-type
+  false_positive_check: >-
+    Every 404 returned content-type text/html with a real 404 status; no host answered 200 to an
+    arbitrary /.well-known/ path, so no SPA catch-all false positives were possible.

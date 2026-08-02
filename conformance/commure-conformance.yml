@@ -1,0 +1,122 @@
+generated: '2026-07-31'
+method: derived
+source: openapi/commure-fhir-openapi.yml
+also_searched:
+- https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+- https://www.commure.com/trust-center
+- https://www.commure.com/real-world-testing
+standards:
+- id: hl7-fhir
+  name: HL7 FHIR
+  conforms: true
+  evidence: >-
+    The entire API surface is the FHIR RESTful API. All 53 data-plane operations are FHIR
+    interactions or FHIR-defined extended operations; media type is application/fhir+json;
+    errors are OperationOutcome; search results are Bundles.
+  versions_referenced: [STU3, R4]
+  note: The fhir_version path variable selects the FHIR release; $fhir-patch is documented as
+    STU3-specific and the SMART configuration is served under /api/v1/r4/.
+- id: fhir-restful-api
+  name: FHIR RESTful API (read, vread, update, delete, create, search, history, batch/transaction)
+  conforms: true
+  evidence: 'operationIds getResource, getSpecificVersionResource, updateResource,
+    deleteResource, createResource, searchResourcesType, searchAllResources,
+    getVersionHistoryResource, getVersionHistoryAllResourcesType, getVersionHistoryAllResources,
+    postBatchOrTransaction'
+- id: fhir-capabilitystatement
+  name: FHIR CapabilityStatement / conformance
+  conforms: true
+  evidence: 'GET /api/v1/{fhir_version}/metadata (getFHIRServerMetadata), plus $subset,
+    $implements and $conforms operations'
+  caveat: No live host currently serves /metadata publicly - the interaction is declared in the
+    published contract, not observed.
+- id: fhir-terminology-services
+  name: FHIR Terminology Service ($lookup, $validate-code, $subsumes, $translate, $expand, $closure)
+  conforms: true
+  evidence: 'CodeSystem $lookup/$validate-code/$subsumes, ConceptMap $translate, ValueSet
+    $expand/$validate-code, server-level $closure'
+- id: fhir-bulk-data
+  name: FHIR Bulk Data Access (Flat FHIR) - kickoff/poll/cancel
+  conforms: true
+  evidence: '$export, $import, $async-status, $async-cancel, $bulk-delete with 202/303
+    kickoff-and-poll semantics'
+- id: smart-app-launch
+  name: SMART App Launch
+  conforms: true
+  evidence: >-
+    /api/v1/r4/.well-known/smart-configuration is a published operation, and the authorize
+    endpoint documents the SMART EHR launch and standalone launch sequences with a `launch`
+    parameter and `aud` audience parameter.
+- id: openid-connect
+  name: OpenID Connect Core + Discovery
+  conforms: true
+  evidence: '/auth/authorize (authorization code, implicit and hybrid flows), /auth/token,
+    /auth/userinfo, /auth/jwks (RFC 7517 JWKS), /auth/.well-known/openid-configuration'
+- id: oauth2
+  name: OAuth 2.0
+  conforms: true
+  evidence: 'securityScheme type oauth2 with authorizationCode and clientCredentials flows;
+    refresh_token grant documented'
+- id: oauth2-pkce
+  name: 'OAuth 2.0 PKCE (RFC 7636)'
+  conforms: true
+  evidence: code_challenge and code_challenge_method parameters on the authorize endpoint
+- id: rfc7517-jwks
+  name: 'JSON Web Key Set (RFC 7517)'
+  conforms: true
+  evidence: GET /auth/jwks returns a JWKS for verifying ID tokens
+- id: rfc7232-conditional-requests
+  name: 'HTTP Conditional Requests (RFC 7232)'
+  conforms: true
+  evidence: ETag, If-Match, If-None-Match, If-Modified-Since headers declared; 304 and 412
+    responses declared
+- id: rfc6902-json-patch
+  name: 'JSON Patch (RFC 6902)'
+  conforms: true
+  evidence: $commure-json-patch extended operation applies JSON Patch to a resource
+- id: rfc9457-problem-details
+  name: 'RFC 9457 Problem Details'
+  conforms: false
+  evidence: >-
+    No application/problem+json responses. Errors use FHIR OperationOutcome, which is the
+    correct FHIR-native equivalent - this is not a defect for a FHIR server.
+- id: us-core
+  name: US Core Implementation Guide
+  conforms: unknown
+  evidence: >-
+    No US Core profile canonicals, no CapabilityStatement.instantiates and no published
+    conformance claim. Commure Pro publishes ONC/ASTP Real World Testing plans and results
+    (2022-2025) for Commure-PatientKeeper v9.2 covering Clinical Information Reconciliation and
+    ePrescribing, which implies certified-health-IT participation, but those documents do not
+    restate (g)(10) standardized-API conformance.
+  references:
+  - https://www.commure.com/real-world-testing
+- id: onc-astp-real-world-testing
+  name: ONC/ASTP Health IT Certification - Real World Testing
+  conforms: true
+  evidence: >-
+    Commure publishes annual Real World Testing plans (2022, 2023, 2024, 2025) and results
+    reports (2022, 2023, 2024) for Commure-PatientKeeper v9.2.
+  references:
+  - https://www.commure.com/real-world-testing
+- id: da-vinci
+  name: Da Vinci implementation guides
+  conforms: unknown
+- id: carin
+  name: CARIN implementation guides
+  conforms: unknown
+- id: fapi
+  name: 'FAPI (Financial-grade API)'
+  conforms: false
+  evidence: not applicable / no FAPI security profile declared
+- id: scim
+  name: SCIM 2.0
+  conforms: false
+- id: odata
+  name: OData
+  conforms: false
+compliance_program:
+  published: true
+  url: https://www.commure.com/trust-center
+  certifications: [SOC 2 Type II, HIPAA, HITECH Act, CCPA]
+  artifact: security/commure-trust-center.yml

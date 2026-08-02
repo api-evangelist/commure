@@ -1,0 +1,66 @@
+generated: '2026-07-31'
+method: searched
+source: https://www.postman.com/commure/commure/
+workspace:
+  name: Commure
+  handle: commure
+  url: https://www.postman.com/commure/commure/
+  visibility: public
+  postman_workspace_id: d93306e5-669f-445d-b828-a6801acf358c
+  created: '2021-01-25'
+  last_updated: '2024-07-08'
+  note: >-
+    Commure's public Postman workspace on the Postman API Network. This is the only
+    surviving first-party machine-readable contract for the Commure Developer Platform;
+    the platform's own developer portal (developer.commure.com) now returns HTTP 404 and
+    the tenant API hosts (api-{tenant-id}.developer.commure.com) no longer resolve.
+collections:
+- name: Commure FHIR API
+  file: commure-fhir-api-collection.json
+  postman_id: 8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24
+  url: https://www.postman.com/commure/commure/collection/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24
+  documentation: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+  requests: 59
+  kind: reference
+  note: >-
+    Full HL7 FHIR RESTful + terminology + Bulk Data surface plus the OpenID Connect /
+    SMART App Launch auth endpoints. Source for openapi/commure-fhir-openapi.yml.
+- name: 'Clinical Scenario: Telehealth Visit'
+  file: commure-telehealth-visit-collection.json
+  postman_id: 12814655-8a24d842-777e-4ccf-927f-c74b41d56994
+  requests: 16
+  kind: scenario
+- name: 'Clinical Scenario: CareTeam Management'
+  file: commure-careteam-management-collection.json
+  postman_id: 12814655-e55ad779-4a92-45a1-93d9-5eb426f1c497
+  requests: 5
+  kind: scenario
+- name: 'Clinical Scenario: Inpatient Medication Workflow'
+  file: commure-inpatient-medication-workflow-collection.json
+  postman_id: 12814655-31596ea2-6b0c-43a0-85c8-7fc005ae26f4
+  requests: 8
+  kind: scenario
+- name: 'Clinical Scenario: Capturing Data with Forms'
+  file: commure-capturing-data-with-forms-collection.json
+  postman_id: 13207120-be5004d6-8b73-4f50-86a3-95577eb05dd4
+  requests: 4
+  kind: scenario
+- name: Patient Chart
+  file: commure-patient-chart-collection.json
+  postman_id: 12814655-3e5e6336-f5d8-4f68-9ec3-d6c76198710b
+  requests: 8
+  kind: tutorial
+  note: Carries the documented production base URL template https://api-{{tenant-id}}.developer.commure.com
+totals:
+  collections: 6
+  requests: 100
+x-evidence:
+  fetched: '2026-07-31'
+  method: Postman public collection export endpoint (https://www.postman.com/collections/<uid>)
+  http_status: 200
+  content_type: application/json
+x-notes:
+- Collections are stored VERBATIM as returned by Postman - including the example
+  "Sec-..." access tokens Commure published in the collection-level auth blocks. Those
+  tokens belong to a decommissioned developer sandbox whose hosts no longer resolve; they
+  are retained for provenance fidelity and are not live credentials.

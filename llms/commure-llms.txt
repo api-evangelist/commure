@@ -2,25 +2,68 @@
 
 > Commure is a San Francisco-based AI-native healthcare technology company operating an integrated clinical and operational platform for United States health systems (formed by the 2023 combination of Commure and Athelas). Products span Ambient AI clinical documentation (Scribe/Dictation), Revenue Cycle Management (RCM), Call Center Agents, referral Orchestrator, patient Engage coordination, Commure Pro clinical intelligence, Strongline staff-safety alerting, and Athelas Home point-of-care diagnostics — integrating with 60+ EHRs across 130+ health systems.
 
-Note: Commure's API surface is a gated, partner-only Developer Services offering (Sandbox Environment) governed by a Developer User Agreement. The historical FHIR-native developer portal (developer.commure.com, launched 2020) is no longer live, and no self-serve public API documentation, FHIR CapabilityStatement, or downloadable OpenAPI is currently published.
+Note: Commure's API surface is a gated, partner-only Developer Services offering (Sandbox Environment) governed by a Developer User Agreement. The FHIR-native developer portal launched in 2020 (developer.commure.com) now returns HTTP 404 and its tenant API hosts (api-{tenant-id}.developer.commure.com) no longer resolve. The one surviving first-party machine-readable contract is Commure's PUBLIC Postman workspace, which publishes a 59-request "Commure FHIR API" collection plus five clinical-scenario collections.
+
+## API
+
+- [Commure FHIR API (Postman documentation)](https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api): HL7 FHIR REST API + OpenID Connect / SMART App Launch auth surface. 59 operations.
+- [Commure public Postman workspace](https://www.postman.com/commure/commure/): Six first-party public collections.
+- Base URL (as published, currently non-resolving): `https://api-{tenant-id}.developer.commure.com`
+- Auth: OAuth 2.0 / OpenID Connect / SMART App Launch. Grants: authorization_code (with PKCE), client_credentials, refresh_token. Bearer tokens carry a `Sec-` prefix.
+- Developer support: dev-support@commure.com
+
+## Capabilities
+
+- FHIR RESTful interactions: read, vread, update, delete, create, search, type/system history, batch and transaction.
+- FHIR extended operations: `$everything` (Patient, Encounter, Group, MedicinalProduct), `$validate`, `$lastn`, `$find`.
+- Terminology services: `$lookup`, `$validate-code`, `$subsumes`, `$translate`, `$expand`, `$closure`.
+- Conformance: `metadata` (CapabilityStatement), `$subset`, `$implements`, `$conforms`, `$snapshot`, `$transform`, `$versions`.
+- FHIR Bulk Data: `$export`, `$import`, `$bulk-delete` with `$async-status` / `$async-cancel` kickoff-and-poll.
+- Commure extensions: `$commure-json-patch` (RFC 6902), `$fhir-patch` (STU3).
+- Idempotency: FHIR conditional create via `If-None-Exist`; optimistic concurrency via `ETag` + `If-Match`; conditional reads via `If-None-Match` / `If-Modified-Since`.
+- Errors: HL7 FHIR `OperationOutcome` (not RFC 9457). Declared statuses: 400, 401, 404, 405, 409, 410, 412, 422, 500.
+
+## Artifacts in this repo
+
+- [OpenAPI](openapi/commure-fhir-openapi.yml): OpenAPI 3.1, derived from the published Postman collection. 55 paths, 59 operations.
+- [Postman collections](postman/_index.yml): all six collections saved verbatim.
+- [Authentication](authentication/commure-authentication.yml) · [OAuth scopes](scopes/commure-scopes.yml)
+- [Conventions](conventions/commure-conventions.yml): idempotency, pagination, versioning, media types, async.
+- [Error catalog](errors/commure-problem-types.yml) · [Data model](data-model/commure-data-model.yml)
+- [Conformance](conformance/commure-conformance.yml) · [Lifecycle](lifecycle/commure-lifecycle.yml)
+- [Well-known probe results](well-known/commure-well-known.yml) · [Domain security](security/commure-domain-security.yml) · [Trust center](security/commure-trust-center.yml)
+- [Agent skills](skills/_index.yml): 5 packaged skills grounded in real operationIds.
+- [Overlay](overlays/commure-fhir-overlay.yaml)
 
 ## Company
-- [Website](https://commure.com/): Corporate site and product estate
-- [Company](https://commure.com/company): About Commure
-- [Blog](https://commure.com/blog): Company blog
-- [News](https://commure.com/news): Press and announcements
-- [Partners](https://commure.com/partners): Partner program
+
+- [Website](https://www.commure.com/): Corporate site and product estate
+- [Company](https://www.commure.com/company): About Commure
+- [System Overview](https://www.commure.com/system-overview)
+- [Customers](https://www.commure.com/customers)
+- [Blog](https://www.commure.com/blog): Company blog
+- [News](https://www.commure.com/news): Press and announcements
+- [Partners](https://www.commure.com/partners): Partner program
+- [Sign up](https://accounts.commure.com/signin/register) · [Sign in](https://accounts.commure.com/signin)
 
 ## Developer
-- [Developer User Agreement](https://commure.com/legal/developer-user-agreement): Terms governing gated Developer Services and Sandbox Environment
-- [GitHub Organization](https://github.com/commure): Public repositories (mostly infrastructure/tooling; archived FHIR Crucible plan_executor and patient-chart demo)
 
-## Trust & Status
-- [Trust Center](https://commure.com/trust-center): Security and compliance (SOC 2 Type II, HIPAA, HITECH, CCPA)
-- [Status Page](https://status.commure.com): Real-time platform status
-- [Terms of Use](https://commure.com/legal/general-terms-of-use)
-- [Privacy Policy](https://commure.com/legal/privacy-policy)
+- [Developer User Agreement](https://www.commure.com/legal/developer-user-agreement): Terms governing gated Developer Services and Sandbox Environment
+- [GitHub Organization](https://github.com/commure): Public repositories (mostly infrastructure/tooling forks; archived FHIR Crucible plan_executor and patient-chart demo app)
+- No first-party SDK, CLI or client library is published on npm, PyPI, crates.io or the GitHub org.
+
+## Trust, Compliance & Status
+
+- [Trust Center](https://www.commure.com/trust-center): SOC 2 Type II, HIPAA, HITECH, CCPA; TLS 1.2+ in transit, AES-256 at rest
+- [Real World Testing](https://www.commure.com/real-world-testing): ONC/ASTP certified health IT Real World Testing plans and results for Commure-PatientKeeper v9.2 (2022–2025)
+- [Status Page](https://status.commure.com): 23 monitored components including Epic, eClinicalWorks, Athenahealth, Practice Fusion, HCHB, WebPT and AdvancedMD connectors
+- [Terms of Use](https://www.commure.com/legal/general-terms-of-use)
+- [Privacy Policy](https://www.commure.com/legal/privacy-policy)
+- [Business Associate Agreement](https://www.commure.com/legal/business-associate-agreement)
+- No `/.well-known/security.txt` and no published vulnerability disclosure program were found.
 
 ## Contact
-- [Support / Contact](https://commure.com/contact)
+
+- [Support / Contact](https://www.commure.com/contact)
+- Developer support: dev-support@commure.com
 - [LinkedIn](https://www.linkedin.com/company/commure)

@@ -1,0 +1,247 @@
+generated: '2026-07-31'
+method: derived
+source:
+- openapi/commure-fhir-openapi.yml
+- postman/commure-fhir-api-collection.json
+- postman/commure-telehealth-visit-collection.json
+- postman/commure-careteam-management-collection.json
+- postman/commure-inpatient-medication-workflow-collection.json
+- postman/commure-capturing-data-with-forms-collection.json
+- postman/commure-patient-chart-collection.json
+model: hl7-fhir
+summary: >-
+  The Commure Developer Platform stores and exposes HL7 FHIR resources, so the data model is
+  FHIR's own. The REST surface is type-parameterised (/api/v1/{fhir_version}/{type}/{id}), which
+  means the OpenAPI does not enumerate resource types; the entities and relationships below are
+  derived from the FHIR resources Commure actually exercises in its published Postman collections
+  (request paths, example payloads and Reference targets), plus the resource types that have
+  dedicated operations in the contract.
+identity:
+  resource_id: FHIR logical id (server-assigned string), addressed as {type}/{id}
+  version_id: FHIR meta.versionId, surfaced as a weak ETag and addressable at /_history/{vid}
+  references: 'FHIR Reference.reference, e.g. {"reference": "Patient/1234"}'
+  no_id_prefixes: Commure does not publish typed id prefixes; ids are opaque FHIR logical ids.
+entities:
+- name: Patient
+  domain: clinical
+  dedicated_operations: [fetchPatientRecord, fetchPatientRecordById]
+  note: '$everything returns the full patient compartment as one Bundle.'
+- name: Person
+  domain: administrative
+- name: Practitioner
+  domain: administrative
+- name: PractitionerRole
+  domain: administrative
+- name: Organization
+  domain: administrative
+- name: Location
+  domain: administrative
+- name: Encounter
+  domain: clinical
+  dedicated_operations: [fetchEncounterRecord]
+- name: Group
+  domain: administrative
+  dedicated_operations: [fetchGroupPatientRecords]
+- name: CareTeam
+  domain: care-coordination
+- name: CarePlan
+  domain: care-coordination
+- name: Condition
+  domain: clinical
+- name: Observation
+  domain: clinical
+  dedicated_operations: [lastNObservationsQuery]
+- name: AllergyIntolerance
+  domain: clinical
+- name: Procedure
+  domain: clinical
+- name: FamilyMemberHistory
+  domain: clinical
+- name: ClinicalImpression
+  domain: clinical
+- name: MedicationRequest
+  domain: medications
+- name: MedicationDispense
+  domain: medications
+- name: MedicationAdministration
+  domain: medications
+- name: MedicationStatement
+  domain: medications
+- name: MedicinalProduct
+  domain: medications
+  dedicated_operations: [fetchProductRecord, fetchProductRecordById]
+- name: Appointment
+  domain: scheduling
+- name: Schedule
+  domain: scheduling
+- name: Slot
+  domain: scheduling
+- name: ServiceRequest
+  domain: workflow
+- name: Questionnaire
+  domain: forms
+- name: QuestionnaireResponse
+  domain: forms
+- name: List
+  domain: workflow
+  dedicated_operations: [findFunctionalList]
+- name: Endpoint
+  domain: infrastructure
+- name: Bundle
+  domain: infrastructure
+  note: Container for search results, history and batch/transaction requests.
+- name: Parameters
+  domain: infrastructure
+  note: Input/output container for every $-prefixed extended operation.
+- name: OperationOutcome
+  domain: infrastructure
+  note: Error envelope - see errors/commure-problem-types.yml.
+- name: CapabilityStatement
+  domain: conformance
+  dedicated_operations: [getFHIRServerMetadata, fetchSubsetCapabilityStatementResource,
+    testIfServerImplementsClientRequiredOperations, testIfServerImplementsClientRequiredOperations2]
+- name: StructureDefinition
+  domain: conformance
+  dedicated_operations: [generateSnapshot, generateSnapshotById]
+- name: StructureMap
+  domain: conformance
+  dedicated_operations: [modelInstanceTransformation, modelInstanceTransformationById]
+- name: CodeSystem
+  domain: terminology
+  dedicated_operations: [conceptLookUpDecomposition, codeSystemBasedValidation,
+    codeSystemBasedValidation2, subsumptionTesting, subsumptionTesting2]
+- name: ValueSet
+  domain: terminology
+  dedicated_operations: [valueSetExpansion, valueSetExpansion2, valueSetBasedValidation,
+    valueSetBasedValidation2]
+- name: ConceptMap
+  domain: terminology
+  dedicated_operations: [conceptTranslation, conceptTranslationById]
+relationships:
+- from: Encounter
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: Observation
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: Condition
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: AllergyIntolerance
+  to: Patient
+  kind: belongs_to
+  via: patient
+- from: MedicationRequest
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: MedicationRequest
+  to: Practitioner
+  kind: belongs_to
+  via: requester
+- from: MedicationDispense
+  to: MedicationRequest
+  kind: belongs_to
+  via: authorizingPrescription
+- from: MedicationDispense
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: MedicationAdministration
+  to: MedicationRequest
+  kind: belongs_to
+  via: request
+- from: MedicationStatement
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: CareTeam
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: CareTeam
+  to: Practitioner
+  kind: has_many
+  via: participant.member
+- from: CareTeam
+  to: Organization
+  kind: belongs_to
+  via: managingOrganization
+- from: Appointment
+  to: Patient
+  kind: has_many
+  via: participant.actor
+- from: Appointment
+  to: Practitioner
+  kind: has_many
+  via: participant.actor
+- from: Appointment
+  to: Slot
+  kind: has_many
+  via: slot
+- from: Slot
+  to: Schedule
+  kind: belongs_to
+  via: schedule
+- from: Schedule
+  to: Practitioner
+  kind: has_many
+  via: actor
+- from: QuestionnaireResponse
+  to: Questionnaire
+  kind: belongs_to
+  via: questionnaire
+- from: QuestionnaireResponse
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: ClinicalImpression
+  to: Patient
+  kind: belongs_to
+  via: subject
+- from: ClinicalImpression
+  to: Encounter
+  kind: belongs_to
+  via: encounter
+- from: PractitionerRole
+  to: Practitioner
+  kind: belongs_to
+  via: practitioner
+- from: PractitionerRole
+  to: Organization
+  kind: belongs_to
+  via: organization
+- from: Patient
+  to: Organization
+  kind: belongs_to
+  via: managingOrganization
+- from: Person
+  to: Patient
+  kind: has_many
+  via: link.target
+- from: Group
+  to: Patient
+  kind: has_many
+  via: member.entity
+compartments:
+- name: Patient
+  operation: fetchPatientRecordById
+  note: Returns every resource in the patient compartment as a single Bundle.
+- name: Encounter
+  operation: fetchEncounterRecord
+- name: Group
+  operation: fetchGroupPatientRecords
+- name: MedicinalProduct
+  operation: fetchProductRecordById
+coverage:
+  entities: 37
+  relationships: 27
+  note: >-
+    Relationship `via` field names are the FHIR-specified reference elements for these resource
+    types; the direction and cardinality are FHIR-normative. Only resources Commure demonstrably
+    exercises in its published collections are listed - the FHIR standard defines many more that
+    Commure's generic {type} route would also accept.
+render: null

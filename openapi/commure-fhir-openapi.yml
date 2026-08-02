@@ -1,0 +1,3229 @@
+# generated: 2026-07-31
+# method: derived
+# source: https://www.postman.com/collections/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24
+openapi: 3.1.0
+info:
+  title: Commure FHIR API
+  version: v1
+  summary: HL7 FHIR REST API and SMART App Launch / OpenID Connect authentication surface of the Commure
+    Developer Platform.
+  description: 'Derived verbatim from Commure''s first-party PUBLIC Postman collection "Commure FHIR API"
+    (https://www.postman.com/commure/commure/collection/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24).
+    The majority of endpoints are specified by the HL7 FHIR standard for healthcare data exchange; Commure
+    adds extended operations ($commure-json-patch, $bulk-delete, $async-status, $async-cancel) alongside
+    the standard FHIR RESTful, terminology, and Bulk Data operations.
+
+
+    NOTE ON AVAILABILITY: the Commure Developer Platform this contract describes (developer.commure.com,
+    tenant hosts api-{tenant-id}.developer.commure.com) no longer resolves publicly (HTTP 404 / NXDOMAIN
+    as of 2026-07-31). This document is captured as the machine-readable record of a real, published contract
+    - it is not a claim that the endpoints are currently callable.'
+  contact:
+    name: Commure Developer Support
+    email: dev-support@commure.com
+  x-origin:
+  - format: postman
+    version: 2.1.0
+    url: https://www.postman.com/collections/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24
+    converter: api-evangelist enrichment pipeline (postman->openapi)
+servers:
+- url: https://api-{tenant-id}.developer.commure.com
+  description: Tenant-scoped Commure Developer Platform host (per Commure's published Postman collection).
+    Currently non-resolving.
+  variables:
+    tenant-id:
+      default: tenant-id
+      description: Tenant identifier, the suffix on the dashboard URL when signed in to the Commure Developer
+        Platform.
+tags:
+- name: FHIR
+- name: auth
+paths:
+  /api/v1/{fhir_version}/{type}/{id}/_history:
+    get:
+      operationId: getVersionHistoryResource
+      summary: Get the version history of a resource
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) the Logical Id of a resource
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}/{id}/_history/{vid}:
+    get:
+      operationId: getSpecificVersionResource
+      summary: Get a specific version of a resource
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) the Logical Id of a resource
+        schema:
+          type: string
+      - name: vid
+        in: path
+        required: true
+        description: (Required) the Version Id of a resource
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '410':
+          description: Gone
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}/{id}:
+    get:
+      operationId: getResource
+      summary: Get a resource
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) the Logical Id of a resource
+        schema:
+          type: string
+      - name: Etag
+        in: header
+        required: false
+        description: header containing the Version Id of a resource (e.g. W/'23')
+        schema:
+          type: string
+      - name: If-Modified-Since
+        in: header
+        required: false
+        description: header indicating a conditional read, if used client SHALL accept a 304 Not Modified
+          response
+        schema:
+          type: string
+      - name: If-None-Match
+        in: header
+        required: false
+        description: header indicating a conditional read, if used client SHALL accept a 304 Not Modified
+          response
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '304':
+          description: Not Modified
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '410':
+          description: Gone
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+    put:
+      operationId: updateResource
+      summary: Update a resource
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) the Logical Id of a resource
+        schema:
+          type: string
+      - name: If-Match
+        in: header
+        required: false
+        description: header indicating a conditional read, if used client SHALL accept a 304 Not Modified
+          response
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '201':
+          description: Created
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '304':
+          description: Not Modified
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '405':
+          description: Method Not Allowed
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '409':
+          description: Conflict
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '412':
+          description: Precondition Failed
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+    delete:
+      operationId: deleteResource
+      summary: Delete a resource
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) the Logical Id of a resource
+        schema:
+          type: string
+      - name: search parameters
+        in: query
+        required: false
+        description: optional search parameters for conditional delete
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '204':
+          description: No Content
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '405':
+          description: Method Not Allowed
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '409':
+          description: Conflict
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '412':
+          description: Precondition Failed
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}/{id}/$fhir-patch:
+    post:
+      operationId: applyFHIRPatchSTU3Resources
+      summary: Apply FHIRPatch for STU3 resources
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}/{id}/$commure-json-patch:
+    post:
+      operationId: applyJSONPatchAsExtendedOperation
+      summary: Apply JSON patch as extended operation
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: patch
+        in: query
+        required: false
+        description: (Required) JSON Patch to apply, serialized as string
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}/{id}/$validate:
+    post:
+      operationId: validateResource
+      summary: Validate a resource
+      description: "The validate operation checks whether the attached content would be acceptable either\
+        \ generally, as a create, an update or as a delete to an existing resource.  The action the server\
+        \ takes depends on the mode parameter:  \n\n* [mode not provided]: The server checks the content\
+        \ of the resource against any schema, constraint rules, and other general terminology rules \n\
+        * create: The server checks the content, and then checks that the content would be acceptable\
+        \ as a create (e.g. that the content would not violate any uniqueness constraints) \n* update:\
+        \ The server checks the content, and then checks that it would accept it as an update against\
+        \ the nominated specific resource (e.g. that there are no changes to immutable fields the server\
+        \ does not allow to change, and checking version integrity if appropriate) \n* delete: The server\
+        \ ignores the content, and checks that the nominated resource is allowed to be deleted (e.g. checking\
+        \ referential integrity rules)  \n\nModes update and delete can only be used when the operation\
+        \ is invoked at the resource instance level.   The return from this operation is an [OperationOutcome](https://www.hl7.org/fhir/operationoutcome.html)\n\
+        \nNote that this operation is not the only way to validate resources - see [Validating Resources](https://www.hl7.org/fhir/validation.html)\
+        \ for further information."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}:
+    get:
+      operationId: searchResourcesType
+      summary: Search resources of a type
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: parameters
+        in: query
+        required: false
+        description: search criteria
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+    post:
+      operationId: createResource
+      summary: Create a resource
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      - name: If-None-Exist
+        in: header
+        required: false
+        description: create a new resource only if some equivalent resource does not already exist on
+          the server. The client defines what equivalence means in this case by supplying a FHIR search
+          query in the header
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '201':
+          description: Created
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '412':
+          description: Precondition Failed
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}/_history:
+    get:
+      operationId: getVersionHistoryAllResourcesType
+      summary: Get the version history of all resources of a type
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/{type}/$validate:
+    post:
+      operationId: validateResource2
+      summary: Validate a resource
+      description: "The validate operation checks whether the attached content would be acceptable either\
+        \ generally, as a create, an update or as a delete to an existing resource.  The action the server\
+        \ takes depends on the mode parameter:  \n\n* [mode not provided]: The server checks the content\
+        \ of the resource against any schema, constraint rules, and other general terminology rules \n\
+        * create: The server checks the content, and then checks that the content would be acceptable\
+        \ as a create (e.g. that the content would not violate any uniqueness constraints) \n* update:\
+        \ The server checks the content, and then checks that it would accept it as an update against\
+        \ the nominated specific resource (e.g. that there are no changes to immutable fields the server\
+        \ does not allow to change, and checking version integrity if appropriate) \n* delete: The server\
+        \ ignores the content, and checks that the nominated resource is allowed to be deleted (e.g. checking\
+        \ referential integrity rules)  \n\nModes update and delete can only be used when the operation\
+        \ is invoked at the resource instance level.   The return from this operation is an [OperationOutcome](https://www.hl7.org/fhir/operationoutcome.html)\n\
+        \nNote that this operation is not the only way to validate resources - see [Validating Resources](https://www.hl7.org/fhir/validation.html)\
+        \ for further information."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        description: (Required) the name of a resource type (e.g. 'Patient')
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CodeSystem/{id}/$validate-code:
+    post:
+      operationId: codeSystemBasedValidation
+      summary: Code System based Validation
+      description: 'Validate that a coded value is in the code system. If the operation is not called
+        at the instance level, one of the parameters "url" or "codeSystem" must be provided. The operation
+        returns a result (true / false), an error message, and the recommended display for the code.
+
+
+        When invoking this operation, a client SHALL provide one (and only one) of the parameters (code+system,
+        coding, or codeableConcept). Other parameters (including version and display) are optional'
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CodeSystem/{id}/$subsumes:
+    post:
+      operationId: subsumptionTesting
+      summary: Subsumption Testing
+      description: 'Test the subsumption relationship between code/Coding A and code/Coding B given the
+        semantics of subsumption in the underlying code system (see [hierarchyMeaning](https://www.hl7.org/fhir/codesystem-definitions.html#CodeSystem.hierarchyMeaning)).
+
+
+        When invoking this operation, a client SHALL provide both a and codes, either as code or Coding
+        parameters. The system parameter is required unless the operation is invoked on an instance of
+        a code system resource. Other parameters are optional'
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CodeSystem/$validate-code:
+    post:
+      operationId: codeSystemBasedValidation2
+      summary: Code System based Validation
+      description: 'Validate that a coded value is in the code system. If the operation is not called
+        at the instance level, one of the parameters "url" or "codeSystem" must be provided. The operation
+        returns a result (true / false), an error message, and the recommended display for the code.
+
+
+        When invoking this operation, a client SHALL provide one (and only one) of the parameters (code+system,
+        coding, or codeableConcept). Other parameters (including version and display) are optional'
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CodeSystem/$lookup:
+    post:
+      operationId: conceptLookUpDecomposition
+      summary: Concept Look Up & Decomposition
+      description: 'Given a code/system, or a Coding, get additional details about the concept, including
+        definition, status, designations, and properties. One of the products of this operation is a full
+        decomposition of a code from a structured terminology.
+
+
+        When invoking this operation, a client SHALL provide both a system and a code, either using the
+        system+code parameters, or in the coding parameter. Other parameters are optional'
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CodeSystem/$subsumes:
+    post:
+      operationId: subsumptionTesting2
+      summary: Subsumption Testing
+      description: 'Test the subsumption relationship between code/Coding A and code/Coding B given the
+        semantics of subsumption in the underlying code system (see [hierarchyMeaning](https://www.hl7.org/fhir/codesystem-definitions.html#CodeSystem.hierarchyMeaning)).
+
+
+        When invoking this operation, a client SHALL provide both a and codes, either as code or Coding
+        parameters. The system parameter is required unless the operation is invoked on an instance of
+        a code system resource. Other parameters are optional'
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/ConceptMap/$translate:
+    post:
+      operationId: conceptTranslation
+      summary: Concept Translation
+      description: "Translate a code from one value set to another, based on the existing value set and\
+        \ concept maps resources, and/or other additional knowledge available to the server. \r\n\r\n\
+        \ One (and only one) of the in parameters (code, coding, codeableConcept) must be provided, to\
+        \ identify the code that is to be translated.  \r\n\r\n The operation returns a set of parameters\
+        \ including a 'result' for whether there is an acceptable match, and a list of possible matches.\
+        \ Note that the list of matches may include notes of codes for which mapping is specifically excluded,\
+        \ so implementers have to check the match.equivalence for each match"
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/ConceptMap/{id}/$translate:
+    post:
+      operationId: conceptTranslationById
+      summary: Concept Translation
+      description: "Translate a code from one value set to another, based on the existing value set and\
+        \ concept maps resources, and/or other additional knowledge available to the server. \r\n\r\n\
+        \ One (and only one) of the in parameters (code, coding, codeableConcept) must be provided, to\
+        \ identify the code that is to be translated.  \r\n\r\n The operation returns a set of parameters\
+        \ including a 'result' for whether there is an acceptable match, and a list of possible matches.\
+        \ Note that the list of matches may include notes of codes for which mapping is specifically excluded,\
+        \ so implementers have to check the match.equivalence for each match"
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/Patient/$everything:
+    get:
+      operationId: fetchPatientRecord
+      summary: Fetch Patient Record
+      description: "This operation is used to return all the information related to one or more patients\
+        \ described in the resource or context on which this operation is invoked. The response is a bundle\
+        \ of type \"searchset\". At a minimum, the patient resource(s) itself is returned, along with\
+        \ any other resources that the server has that are related to the patient(s), and that are available\
+        \ for the given user. The server also returns whatever resources are needed to support the records\
+        \ - e.g. linked practitioners, medications, locations, organizations etc.   \n\nThe intended use\
+        \ for this operation is to provide a patient with access to their entire record (e.g. \"Blue Button\"\
+        ), or for provider or other user to perform a bulk data download.  The server SHOULD return at\
+        \ least all resources that it has that are in the patient compartment for the identified patient(s),\
+        \ and any resource referenced from those, including binaries and attachments. In the US Realm,\
+        \ at a minimum, the resources returned SHALL include all the data covered by the meaningful use\
+        \ common data elements as defined in the US Core Implementation Guide. Other applicable implementation\
+        \ guides may make additional rules about how much information that is returned."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: start
+        in: query
+        required: false
+        description: The date range relates to care dates, not record currency dates - e.g. all records
+          relating to care provided in a certain date range. If no start date is provided, all records
+          prior to the end date are in scope.
+        schema:
+          type: string
+          format: date
+      - name: end
+        in: query
+        required: false
+        description: The date range relates to care dates, not record currency dates - e.g. all records
+          relating to care provided in a certain date range. If no end date is provided, all records subsequent
+          to the start date are in scope.
+        schema:
+          type: string
+          format: date
+      - name: _since
+        in: query
+        required: false
+        description: Resources updated after this period will be included in the response. The intent
+          of this parameter is to allow a client to request only records that have changed since the last
+          request, based on either the return header time, or or (for asynchronous use), the transaction
+          time
+        schema:
+          type: string
+          format: date-time
+      - name: _type
+        in: query
+        required: false
+        description: One or more parameters, each containing one or more comma-delimited FHIR resource
+          types to include in the return resources. In the absence of any specified types, the server
+          returns all resource types
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: See discussion below on the utility of paging through the results of the $everything
+          operation
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/Patient/{id}/$everything:
+    get:
+      operationId: fetchPatientRecordById
+      summary: Fetch Patient Record
+      description: "This operation is used to return all the information related to one or more patients\
+        \ described in the resource or context on which this operation is invoked. The response is a bundle\
+        \ of type \"searchset\". At a minimum, the patient resource(s) itself is returned, along with\
+        \ any other resources that the server has that are related to the patient(s), and that are available\
+        \ for the given user. The server also returns whatever resources are needed to support the records\
+        \ - e.g. linked practitioners, medications, locations, organizations etc.   \n\nThe intended use\
+        \ for this operation is to provide a patient with access to their entire record (e.g. \"Blue Button\"\
+        ), or for provider or other user to perform a bulk data download.  The server SHOULD return at\
+        \ least all resources that it has that are in the patient compartment for the identified patient(s),\
+        \ and any resource referenced from those, including binaries and attachments. In the US Realm,\
+        \ at a minimum, the resources returned SHALL include all the data covered by the meaningful use\
+        \ common data elements as defined in the US Core Implementation Guide. Other applicable implementation\
+        \ guides may make additional rules about how much information that is returned."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: start
+        in: query
+        required: false
+        description: The date range relates to care dates, not record currency dates - e.g. all records
+          relating to care provided in a certain date range. If no start date is provided, all records
+          prior to the end date are in scope.
+        schema:
+          type: string
+          format: date
+      - name: end
+        in: query
+        required: false
+        description: The date range relates to care dates, not record currency dates - e.g. all records
+          relating to care provided in a certain date range. If no end date is provided, all records subsequent
+          to the start date are in scope.
+        schema:
+          type: string
+          format: date
+      - name: _since
+        in: query
+        required: false
+        description: Resources updated after this period will be included in the response. The intent
+          of this parameter is to allow a client to request only records that have changed since the last
+          request, based on either the return header time, or or (for asynchronous use), the transaction
+          time
+        schema:
+          type: string
+          format: date-time
+      - name: _type
+        in: query
+        required: false
+        description: One or more parameters, each containing one or more comma-delimited FHIR resource
+          types to include in the return resources. In the absence of any specified types, the server
+          returns all resource types
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: See discussion below on the utility of paging through the results of the $everything
+          operation
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/MedicinalProduct/$everything:
+    get:
+      operationId: fetchProductRecord
+      summary: Fetch Product Record
+      description: This operation is used to return all the information related to one or more products
+        described in the resource or context on which this operation is invoked. The response is a bundle
+        of type "searchset". At a minimum, the product resource(s) itself is returned, along with any
+        other resources that the server has that are related to the products(s), and that are available
+        for the given user. This is typically the marketing authorisations, ingredients, packages, therapeutic
+        indications and so on. The server also returns whatever resources are needed to support the records
+        - e.g. linked organizations, document references etc.
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: _since
+        in: query
+        required: false
+        description: Resources updated after this period will be included in the response. The intent
+          of this parameter is to allow a client to request only records that have changed since the last
+          request, based on either the return header time, or or (for asynchronous use), the transaction
+          time
+        schema:
+          type: string
+          format: date-time
+      - name: _count
+        in: query
+        required: false
+        description: See discussion below on the utility of paging through the results of the $everything
+          operation
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/MedicinalProduct/{id}/$everything:
+    get:
+      operationId: fetchProductRecordById
+      summary: Fetch Product Record
+      description: This operation is used to return all the information related to one or more products
+        described in the resource or context on which this operation is invoked. The response is a bundle
+        of type "searchset". At a minimum, the product resource(s) itself is returned, along with any
+        other resources that the server has that are related to the products(s), and that are available
+        for the given user. This is typically the marketing authorisations, ingredients, packages, therapeutic
+        indications and so on. The server also returns whatever resources are needed to support the records
+        - e.g. linked organizations, document references etc.
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: _since
+        in: query
+        required: false
+        description: Resources updated after this period will be included in the response. The intent
+          of this parameter is to allow a client to request only records that have changed since the last
+          request, based on either the return header time, or or (for asynchronous use), the transaction
+          time
+        schema:
+          type: string
+          format: date-time
+      - name: _count
+        in: query
+        required: false
+        description: See discussion below on the utility of paging through the results of the $everything
+          operation
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CapabilityStatement/{id}/$subset:
+    get:
+      operationId: fetchSubsetCapabilityStatementResource
+      summary: Fetch a subset of the CapabilityStatement resource
+      description: This operation asks the server to return a subset of the CapabilityStatement resource
+        - just the REST parts that relate to a set of nominated resources - the resources that the client
+        is interested in
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: server
+        in: query
+        required: false
+        description: The canonical URL - use this if the subset is not invoked on an instance (or on the
+          /metadata end-point)
+        schema:
+          type: string
+          format: uri
+      - name: resource
+        in: query
+        required: false
+        description: (Required) A resource that the client would like to include in the return
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CapabilityStatement/{id}/$implements:
+    post:
+      operationId: testIfServerImplementsClientRequiredOperations
+      summary: Test if a server implements a client's required operations
+      description: This operation asks the server to check that it implements all the resources, interactions,
+        search parameters, and operations that the client provides in its capability statement. The client
+        provides its capability statement inline, or by referring the server to the canonical URL of its
+        capability statement
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CapabilityStatement/$subset:
+    get:
+      operationId: fetchSubsetCapabilityStatementResource2
+      summary: Fetch a subset of the CapabilityStatement resource
+      description: This operation asks the server to return a subset of the CapabilityStatement resource
+        - just the REST parts that relate to a set of nominated resources - the resources that the client
+        is interested in
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: server
+        in: query
+        required: false
+        description: The canonical URL - use this if the subset is not invoked on an instance (or on the
+          /metadata end-point)
+        schema:
+          type: string
+          format: uri
+      - name: resource
+        in: query
+        required: false
+        description: (Required) A resource that the client would like to include in the return
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CapabilityStatement/$conforms:
+    get:
+      operationId: testIfServerImplementsClientRequiredOperations2
+      summary: Test if a server implements a client's required operations
+      description: This operation asks the server to check that it implements all the resources, interactions,
+        search parameters, and operations that the client provides in its capability statement. The client
+        provides both capability statements by reference, and must ensure that all the referenced resources
+        are available to the conformance server
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: left
+        in: query
+        required: false
+        description: A canonical reference to the left-hand system's capability statement
+        schema:
+          type: string
+          format: uri
+      - name: right
+        in: query
+        required: false
+        description: A canonical reference to the right-hand system's capability statement
+        schema:
+          type: string
+          format: uri
+      - name: mode
+        in: query
+        required: false
+        description: What kind of comparison to perform - server to server, or client to server (use the
+          codes 'server/server' or 'client/server')
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/CapabilityStatement/$implements:
+    post:
+      operationId: testIfServerImplementsClientRequiredOperations3
+      summary: Test if a server implements a client's required operations
+      description: This operation asks the server to check that it implements all the resources, interactions,
+        search parameters, and operations that the client provides in its capability statement. The client
+        provides its capability statement inline, or by referring the server to the canonical URL of its
+        capability statement
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/StructureDefinition/$snapshot:
+    post:
+      operationId: generateSnapshot
+      summary: Generate Snapshot
+      description: "Generates a [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html)\
+        \ instance  with  a snapshot, based on a differential in a specified [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html).\
+        \   \n\nIf the operation is not called at the instance level, either *definition* or *url* 'in'\
+        \ parameters must be provided. If more than one is specified, servers may raise an error or may\
+        \ resolve with the parameter of their choice. If called at the instance level, these parameters\
+        \ will be ignored."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/StructureDefinition/{id}/$snapshot:
+    post:
+      operationId: generateSnapshotById
+      summary: Generate Snapshot
+      description: "Generates a [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html)\
+        \ instance  with  a snapshot, based on a differential in a specified [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html).\
+        \   \n\nIf the operation is not called at the instance level, either *definition* or *url* 'in'\
+        \ parameters must be provided. If more than one is specified, servers may raise an error or may\
+        \ resolve with the parameter of their choice. If called at the instance level, these parameters\
+        \ will be ignored."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/StructureMap/$transform:
+    post:
+      operationId: modelInstanceTransformation
+      summary: Model Instance Transformation
+      description: The transform operation takes input content, applies a structure map transform, and
+        then returns the output.
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/StructureMap/{id}/$transform:
+    post:
+      operationId: modelInstanceTransformationById
+      summary: Model Instance Transformation
+      description: The transform operation takes input content, applies a structure map transform, and
+        then returns the output.
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/ValueSet/{id}/$expand:
+    post:
+      operationId: valueSetExpansion
+      summary: Value Set Expansion
+      description: "The definition of a value set is used to create a simple collection of codes suitable\
+        \ for use for data entry or validation. \n\nIf the operation is not called at the instance level,\
+        \ one of the in parameters url, context or valueSet must be provided.  An expanded value set will\
+        \ be returned, or an OperationOutcome with an error message."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/ValueSet/{id}/$validate-code:
+    post:
+      operationId: valueSetBasedValidation
+      summary: Value Set based Validation
+      description: 'Validate that a coded value is in the set of codes allowed by a value set.
+
+
+        If the operation is not called at the instance level, one of the in parameters url, context or  valueSet
+        must be provided.  One (and only one) of the in parameters code, coding, or codeableConcept must
+        be provided.  The operation returns a result (true / false), an error message, and the recommended
+        display for the code'
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/ValueSet/$expand:
+    post:
+      operationId: valueSetExpansion2
+      summary: Value Set Expansion
+      description: "The definition of a value set is used to create a simple collection of codes suitable\
+        \ for use for data entry or validation. \n\nIf the operation is not called at the instance level,\
+        \ one of the in parameters url, context or valueSet must be provided.  An expanded value set will\
+        \ be returned, or an OperationOutcome with an error message."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/ValueSet/$validate-code:
+    post:
+      operationId: valueSetBasedValidation2
+      summary: Value Set based Validation
+      description: 'Validate that a coded value is in the set of codes allowed by a value set.
+
+
+        If the operation is not called at the instance level, one of the in parameters url, context or  valueSet
+        must be provided.  One (and only one) of the in parameters code, coding, or codeableConcept must
+        be provided.  The operation returns a result (true / false), an error message, and the recommended
+        display for the code'
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}:
+    get:
+      operationId: searchAllResources
+      summary: Search all resources
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      - name: parameters
+        in: query
+        required: false
+        description: search criteria
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+    post:
+      operationId: postBatchOrTransaction
+      summary: Post a batch or transaction
+      description: Submit a set of actions to perform on a server in a single HTTP request/response. The
+        actions may be performed independently as a 'batch', or as a single atomic 'transaction' where
+        the entire set of changes succeed or fail as a single entity.
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/_history:
+    get:
+      operationId: getVersionHistoryAllResources
+      summary: Get the version history of all resources
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/metadata:
+    get:
+      operationId: getFHIRServerMetadata
+      summary: Get this FHIR server's metadata
+      description: Retrieves the server's Capability Statement that defines how it supports resources.
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) The version of the FHIR specification that this CapabilityStatement describes
+          (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no
+          default value.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/openapi:
+    get:
+      operationId: getOpenAPISpec
+      summary: Get OpenAPI spec
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/$async-cancel:
+    post:
+      operationId: asyncCancel
+      summary: AsyncCancel
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: operation
+        in: query
+        required: false
+        description: (Required) Asynchronous operation to cancel
+        schema:
+          type: string
+      - name: operation_uri
+        in: query
+        required: false
+        description: (Required) Canonical URI of asynchronous operation
+        schema:
+          type: string
+          format: uri
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/$async-status:
+    get:
+      operationId: asyncStatus
+      summary: AsyncStatus
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: operation
+        in: query
+        required: false
+        description: (Required) Asynchronous operation to check status for
+        schema:
+          type: string
+      - name: operation_uri
+        in: query
+        required: false
+        description: (Required) Canonical URI of asynchronous operation
+        schema:
+          type: string
+          format: uri
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/$bulk-delete:
+    post:
+      operationId: bulkDeleteDataFromFHIRServer
+      summary: Bulk delete data from a FHIR server
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: _since
+        in: query
+        required: false
+        description: First updated timestamp of the resources to delete.
+        schema:
+          type: string
+          format: date-time
+      - name: _until
+        in: query
+        required: false
+        description: Last updated timestamp of the resources to delete.
+        schema:
+          type: string
+          format: date-time
+      - name: _type
+        in: query
+        required: false
+        description: Comma-separated list of FHIR resource types to delete.
+        schema:
+          type: string
+      - name: _typeFilter
+        in: query
+        required: false
+        description: Comma-separated list of FHIR REST API queries.
+        schema:
+          type: string
+      - name: _lists
+        in: query
+        required: false
+        description: Comma-separated list of subscriptions.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/$export:
+    post:
+      operationId: exportDataFromFHIRServer
+      summary: Export data from a FHIR server
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/$import:
+    post:
+      operationId: importDataFromFHIRServer
+      summary: Import data from a FHIR server
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/$closure:
+    post:
+      operationId: closureTableMaintenance
+      summary: Closure Table Maintenance
+      description: This operation provides support for ongoing maintenance of a client-side [transitive
+        closure table](https://en.wikipedia.org/wiki/Transitive_closure#In_graph_theory) based on server-side
+        terminological logic. For details of how this is used, see [Maintaining a Closure Table](https://www.hl7.org/fhir/terminology-service.html#closure)
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+              description: FHIR resource or Parameters resource
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '404':
+          description: Not Found
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/$versions:
+    get:
+      operationId: discoverWhatVersionsServerSupports
+      summary: Discover what versions a server supports
+      description: Using the [FHIR Version Mime Type Parameter](https://www.hl7.org/fhir/http.html#version-parameter),
+        a server can support [multiple versions on the same end-point](https://www.hl7.org/fhir/versioning.html#mt-version).
+        The only way for client to find out what versions a server supports in this fashion is the $versions
+        operation. The client invokes the operation with no parameters. and the server returns the list
+        of supported versions, along with the default version it will use if no fhirVersion parameter
+        is present
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/Encounter/{id}/$everything:
+    get:
+      operationId: fetchEncounterRecord
+      summary: Fetch Encounter Record
+      description: "This operation is used to return all the information related to an encounter described\
+        \ in the resource on which this operation is invoked. The response is a bundle of type \"searchset\"\
+        . At a minimum, the encounter resource itself is returned, along with any other resources that\
+        \ the server has available for the given encounter for the user. The server also returns whatever\
+        \ resources are needed to support the records - e.g. linked practitioners, locations, organizations\
+        \ etc. The principle intended use for this operation is to provide a patient with access to their\
+        \ record, or to allow a client to retrieve everything for an encounter for efficient display).\r\
+        \rThe server SHOULD return all resources it has that:\r\r* are included in the encounter compartment\
+        \ for the identified encounter (have a reference to the encounter)\r* are referenced by the standard\
+        \ extenstion for associating an encounter (where no reference element exists) http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter\r\
+        * the server believes are relevant to the context of the encounter for any other reason (internally\
+        \ defined/decided)\r* any resource referenced by the above, including binaries and attachments\
+        \ (to make a more complete package)\r\rIn the US Realm, at a mimimum, the resources returned SHALL\
+        \ include all the data covered by the meaningful use common data elements (see [DAF](http://hl7.org/fhir/us/daf)\
+        \ for further guidance). Other applicable implementation guides may make additional rules about\
+        \ the information that is returned.   Note that for many resources, the exact nature of the link\
+        \ to encounter can be ambiguous (e.g. for a DiagnosticReport, is it the encounter when it was\
+        \ initiated, or when it was reported?)"
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: _since
+        in: query
+        required: false
+        description: Resources updated after this period will be included in the response. The intent
+          of this parameter is to allow a client to request only records that have changed since the last
+          request, based on either the return header time, or or (for asynchronous use), the transaction
+          time
+        schema:
+          type: string
+          format: date-time
+      - name: _type
+        in: query
+        required: false
+        description: One or more parameters, each containing one or more comma-delimited FHIR resource
+          types to include in the return resources. In the absense of any specified types, the server
+          returns all resource types
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: See discussion below on the utility of paging through the results of the $everything
+          operation
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/Group/{id}/$everything:
+    get:
+      operationId: fetchGroupPatientRecords
+      summary: Fetch a group of Patient Records
+      description: This operation is used to return all the information related to one or more patients
+        that are part of the group on which this operation is invoked. The response is a bundle of type
+        "searchset". At a minimum, the patient resource(s) itself is returned, along with any other resources
+        that the server has that are related to the patient(s), and that are available for the given user.
+        The server also returns whatever resources are needed to support the records - e.g. linked practitioners,
+        medications, locations, organizations etc.   The intended use for this operation is for a provider
+        or other user to perform a bulk data download.  The server SHOULD return at least all resources
+        that it has that are in the patient compartment for the identified patient(s), and any resource
+        referenced from those, including binaries and attachments. In the US Realm, at a mimimum, the
+        resources returned SHALL include all the data covered by the meaningful use common data elements
+        as defined in [US-Core](http://hl7.org/fhir/us/coref). Other applicable implementation guides
+        may make additional rules about how much information that is returned.
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: (Required) id of the instance
+        schema:
+          type: string
+      - name: start
+        in: query
+        required: false
+        description: The date range relates to care dates, not record currency dates - e.g. all records
+          relating to care provided in a certain date range. If no start date is provided, all records
+          prior to the end date are in scope.
+        schema:
+          type: string
+          format: date
+      - name: end
+        in: query
+        required: false
+        description: The date range relates to care dates, not record currency dates - e.g. all records
+          relating to care provided in a certain date range. If no end date is provided, all records subsequent
+          to the start date are in scope.
+        schema:
+          type: string
+          format: date
+      - name: _since
+        in: query
+        required: false
+        description: Resources updated after this period will be included in the response. The intent
+          of this parameter is to allow a client to request only records that have changed since the last
+          request, based on either the return header time, or or (for asynchronous use), the transaction
+          time
+        schema:
+          type: string
+          format: date-time
+      - name: _type
+        in: query
+        required: false
+        description: One or more parameters, each containing one or more comma-delimited FHIR resource
+          types to include in the return resources. In the absense of any specified types, the server
+          returns all resource types
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: See discussion below on the utility of paging through the results of the $everything
+          operation
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/List/$find:
+    get:
+      operationId: findFunctionalList
+      summary: Find a functional list
+      description: This operation allows a client to find an identified list for a particular function
+        by its function. The operation takes two parameters, the identity of a patient, and the name of
+        a functional list.     The list of defined functional lists can be found at [Current Resource
+        Lists](https://www.hl7.org/fhir/lifecycle.html#lists). Applications are not required to support
+        all the lists, and may define additional lists of their own.   If the system is able to locate
+        a list that serves the identified purpose, it returns it as the body of the response with a 200
+        OK status. If the resource cannot be located, the server returns a 404 not found (optionally with
+        an OperationOutcome resource)
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: patient
+        in: query
+        required: false
+        description: (Required) The id of a patient resource located on the server on which this operation
+          is executed
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: false
+        description: (Required) The code for the functional list that is being found
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/{fhir_version}/Observation/$lastn:
+    get:
+      operationId: lastNObservationsQuery
+      summary: Last N Observations Query
+      description: "The *lastn query* meets the common need for searching for the most recent or last\
+        \ n=number of observations for a subject. For example, retrieving the last 5 temperatures for\
+        \ a patient to view trends or fetching the most recent laboratory results or vitals signs. To\
+        \ ask a server to return the last n=number of observations, the *lastn* query uses the [normal\
+        \ search parameters](https://www.hl7.org/fhir/observation.html#search) defined for the Observation\
+        \ resource.  However, rather than their normal use, they are interpreted as inputs - i.e.. instead\
+        \ of requiring that the resources literally contain the search parameters, they are passed to\
+        \ a server algorithm of some kind that uses them to determine the most appropriate matches.\n\n\
+        The request for a lastn query SHALL include:\n\n* A `$lastn` operation parameter\n*  A subject\
+        \ using either the `patient` or `subject`  search parameter\n*  A `category` parameter and/or\
+        \ a search parameter that contains a code element in its FHIRpath expression.  ( e.g., `code`\
+        \ or `code-value-concept`)\n\nThe request for a lastn query MAY include:\n\n* Other Observation\
+        \ search parameters and modifiers\n\nThe response from a lastn query is a set of observations:\n\
+        \n*  Filtered by additional parameters\n   * If not explicitly filtered by status then will include\
+        \ statuses of 'entered-in-error'\n* 'GROUP BY' `Observation.code`\n   * Codes SHALL be considered\
+        \ equivalent if the `coding.value` *and* `coding.system` are the same.\n   * Text only codes SHALL\
+        \ be treated and grouped based on the text.\n   * For codes with translations (multiple codings),\
+        \ the code translations are assumed to be equal and the grouping by code SHALL follow the transitive\
+        \ property of equality.\n\nfor example:\n\n|Observation.code for observation a|Observation.code\
+        \ for observation b|Observation.code for observation c|number of groups [codes/text in each group]|\
+        \    \n|---|---|---|---|     \n|a|b|c | 3 [a],[b],[c]|    \n|a|b|a,c | 2 [a.c],[b]|     \n|a|b|a,b\
+        \ | 1 [a,b]|    \n|'textM'|'Text'|'t e x t'|3 ['text'],['Text'],['t e x t']|\n\n* Sorted from\
+        \ most recent to the oldest\n* Limited to the number of requested responses per group specified\
+        \ by the optional *max* query parameter\n  * In case of a tie - when the effective times for >1\
+        \ Observations are equal - both will be returned.  Therefore, more Observations may be returned\
+        \ than is specified in *max*.  For example, 4 Observations instead of 3 if the 3rd and 4th most\
+        \ recent observation had the same effective time.\n* If no maximum number is given then only the\
+        \ most recent Observation in each group is returned.\n\nThe set of returned observations should\
+        \ represent distinct real world observations and not the same observation with changes in status\
+        \ or versions. If there are no matches, the *lastn* query SHALL return an empty search set with\
+        \ no error, but may include an operation outcome with further advice."
+      tags:
+      - FHIR
+      parameters:
+      - name: fhir_version
+        in: path
+        required: true
+        description: (Required) Version of the FHIR
+        schema:
+          type: string
+      - name: max
+        in: query
+        required: false
+        description: '`max` is  an optional input parameter to the *lastn* query operation.  It is used
+          to specify the maximum number of Observations to return from each group. For example for the
+          query "Fetch the last 3 results for all vitals for a patient" `max` = 3.'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '500':
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /api/v1/r4/.well-known/smart-configuration:
+    get:
+      operationId: sMARTAppLaunchConfiguration
+      summary: SMART App Launch Configuration
+      description: '[SMART App Launch configuration](http://www.hl7.org/fhir/smart-app-launch/conformance/index.html#using-well-known).'
+      tags:
+      - FHIR
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/authorize:
+    get:
+      operationId: authorizationEndpoint
+      summary: Authorization Endpoint
+      description: 'This endpoint allows clients to initiate the OpenID Connect/SMART App Launch authentication
+        process. The Commure Authentication API supports the OpenID Connect [Authorization Code](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth),
+        [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth), and [Hybrid](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth)
+        flows, combined with the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence)
+        and [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence).
+
+
+        To initiate the authentication process, clients should navigate the user to this endpoint, which
+        will authenticate the user via single sign-on (SSO), typically using an SSO provider configured
+        by a hospital. After the SSO process completes, the user will be redirected to the URL specified
+        in the `redirect_uri` query parameter. This callback will include query parameters that depend
+        on the requested `response_type`, as defined by [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html).
+        If an error occurs, the user will be forwarded to the `redirect_uri` with an [error response](https://openid.net/specs/openid-connect-core-1_0.html#AuthError).'
+      tags:
+      - auth
+      parameters:
+      - name: response_type
+        in: query
+        required: false
+        description: '(Required) Specifies the desired authentication flow. This parameter is a space-delimited
+          string that supports any combination of the following values:
+
+          * `code`: [Authorization Code](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth)
+          flow.
+
+          * `token`: [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth)
+          flow.
+
+          * `id_token`: [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth)
+          flow.
+
+
+          The most common and secure usage is to pass the value `code`, which indicates that the client
+          wishes to receive a single-use authorization `code` at its `redirect_uri`, which can then be
+          exchanged for an access token using the Token Endpoint.
+
+
+          Alternatively, the values `token` or `token id_token` (if using the `openid` scope) indicate
+          that the client wishes to receive an access token and optional OpenID Connect ID token at its
+          `redirect_uri` utilizing the [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth)
+          flow. Finally, combinations such as `code token id_token` may also be used for the [Hybrid](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth)
+          flow.
+
+
+          **For security reasons, the Implicit and Hybrid flows may not be enabled in all Commure Platform
+          environments.**'
+        schema:
+          type: string
+      - name: client_id
+        in: query
+        required: false
+        description: (Required) Client identifier provided by Commure.
+        schema:
+          type: string
+      - name: redirect_uri
+        in: query
+        required: false
+        description: (Required) The URL to which the user should be navigated following completion or
+          failure of the SSO process. For security reasons, this URL *must* be pre-configured with the
+          Commure Platform; otherwise, the user will be presented with an error message.
+        schema:
+          type: string
+          format: uri
+      - name: scope
+        in: query
+        required: false
+        description: '(Required) Specifies the scope of the access request. This parameter is a space-delimited
+          string that supports any combination of the following values:
+
+          * `openid`: Requests that the Token Endpoint return an OpenID Connect ID token.
+
+          * `profile`: Requests that the OpenID Connect ID token contain the user''s default profile claims
+          (`name`, `family_name`, `given_name`, etc.).
+
+          * `email`: Requests that the OpenID Connect ID token contain the `email` claim.
+
+          * `phone`: Requests that the OpenID Connect ID token contain the user''s phone number.
+
+          * `address`: Requests that the OpenID Connect ID token contain the user''s address.
+
+          * `fhirUser`: Requests that the OpenID Connect ID token contain the SMART App Launch `fhirUser`
+          claim.'
+        schema:
+          type: string
+      - name: state
+        in: query
+        required: false
+        description: (Required) Opaque value used for passing state to the `redirect_uri` and mitigating
+          session fixation/cross-site request forgery (CSRF) vulnerabilities. Clients not using the `<CommureSmartApp/>`
+          React component should include a cryptographically secure pseudorandom value in the `state`
+          parameter for each authentication request and verify this value at the specified `redirect_uri`,
+          as described in [Section 10.12 of RFC 6749](https://tools.ietf.org/html/rfc6749#section-10.12).
+        schema:
+          type: string
+      - name: nonce
+        in: query
+        required: false
+        description: Value used for mitigating ID token replay vulnerabilities. If the `openid` scope
+          is requested, this parameter will be included as the `nonce` value in the OpenID Connect ID
+          token. Clients not using the `<CommureSmartApp/>` React component should provide a cryptographically
+          secure pseudorandom `nonce` value for each authentication request and verify that the `nonce`
+          contained in the ID token returned by the Token Endpoint (or passed to the `redirect_uri` in
+          the Implicit or Hybrid flows) matches this value.
+        schema:
+          type: string
+      - name: code_challenge
+        in: query
+        required: false
+        description: '[Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) challenge
+          for mitigating authorization code interception attacks. Clients without a client secret are
+          strongly encouraged to use PKCE when utilizing the Authorization Code flow.'
+        schema:
+          type: string
+      - name: code_challenge_method
+        in: query
+        required: false
+        description: '[Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) challenge
+          method. For security reasons, the Commure Authentication API only supports the `S256` (SHA-256)
+          challenge method.'
+        schema:
+          type: string
+      - name: launch
+        in: query
+        required: false
+        description: Opaque value issued by the EHR during the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence).
+          If omitted, the [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence)
+          is used.
+        schema:
+          type: string
+      - name: aud
+        in: query
+        required: false
+        description: URL of the EHR FHIR server that should be used to authenticate the user. This URL
+          must be pre-configured with the Commure Platform. This parameter is required for the [SMART
+          EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence) and is
+          typically used alongside the `launch` parameter. However, it may optionally be specified for
+          the [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence)
+          as well.
+        schema:
+          type: string
+          format: uri
+      responses:
+        '303':
+          description: See Other
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/token:
+    post:
+      operationId: tokenEndpoint
+      summary: Token Endpoint
+      description: 'This endpoint allows clients to retrieve access tokens for use in authenticated requests
+        to Commure APIs.
+
+
+        The following grant types are supported:
+
+        * Authorization Code: used for exchanging a single-use authorization `code` sent to a client''s
+        `redirect_uri` for an access token and optional refresh token.
+
+        * Client Credentials: used by clients with an associated client secret for which the Client Credentials
+        grant is enabled within the specific Commure Platform environment to exchange their client credentials
+        for an access token and optional refresh token. This grant should only be used when making Commure
+        API requests that cannot reasonably be associated with an individual user. Otherwise, the Authorization
+        Code grant should be used.
+
+        * Refresh Token: used for exchanging a refresh token for a new access token and optional refresh
+        token.'
+      tags:
+      - auth
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/jwks:
+    get:
+      operationId: publicKeys
+      summary: Public Keys
+      description: This endpoint returns a [JSON Web Key Set (JWKS)](https://tools.ietf.org/html/rfc7517)
+        that clients can use to verify OpenID Connect ID tokens issued by the Commure Authentication API.
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/.well-known/openid-configuration:
+    get:
+      operationId: openIDConnectProviderMetadata
+      summary: OpenID Connect Provider Metadata
+      description: '[OpenID Connect Discovery metadata](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig)
+        describing provider configuration.'
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/userinfo:
+    get:
+      operationId: userInfo
+      summary: UserInfo
+      description: This endpoint returns information about the authenticated user in the form of [OpenID
+        Connect claims](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). The returned
+        claims depend on the `scope` values associated with the access token as well as the information
+        provided by the single sign-on (SSO) provider and electronic health record (EHR). Even when the
+        relevant scope has been requested, clients should expect that any claim except `aud` (audience
+        client ID) and `sub` (subject ID) may be omitted from the response.
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/logout:
+    get:
+      operationId: logout
+      summary: Logout
+      description: This endpoint logs out the authenticated user.
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+components:
+  securitySchemes:
+    SMARTonFHIR:
+      type: oauth2
+      description: OpenID Connect / SMART App Launch. Supports the authorization code (with PKCE), implicit,
+        hybrid, client credentials and refresh token grants.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api-{tenant-id}.developer.commure.com/auth/authorize
+          tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+          refreshUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+          scopes:
+            openid: OpenID Connect authentication; returns an ID token.
+            profile: OpenID Connect profile claims for the authenticated user.
+            email: OpenID Connect email claim for the authenticated user.
+            launch: SMART EHR launch context.
+            offline_access: Request a refresh token for long-lived access.
+        clientCredentials:
+          tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token issued by the Commure Authentication API, presented as a bearer token
+        (tokens are prefixed "Sec-").
+  schemas:
+    OperationOutcome:
+      type: object
+      description: HL7 FHIR OperationOutcome - the standard FHIR error envelope returned on 4xx/5xx.
+      properties:
+        resourceType:
+          type: string
+          const: OperationOutcome
+        issue:
+          type: array
+          items:
+            type: object
+            properties:
+              severity:
+                type: string
+                enum:
+                - fatal
+                - error
+                - warning
+                - information
+              code:
+                type: string
+              diagnostics:
+                type: string
+              details:
+                type: object
+              expression:
+                type: array
+                items:
+                  type: string
+security:
+- SMARTonFHIR: []
+- bearerAuth: []

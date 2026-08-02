@@ -1,23 +1,41 @@
-generated: '2026-07-24'
+generated: '2026-07-31'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
-- host: commure.com
+- host: www.commure.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 23 01:12:41 2026 GMT
+  cert_expires: Oct  1 04:57:30 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: www.postman.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 14 09:01:44 2026 GMT
   hsts: true
   hsts_max_age: 31536000
 domains:
 - domain: commure.com
   dnssec: true
   caa:
+  - 0 issue "godaddy.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 iodef "mailto:ops+caa@commure.com"
   - 0 issue "amazon.com"
   - 0 issue "amazonaws.com"
-  - 0 issue "amazontrust.com"
-  - 0 issue "awstrust.com"
-  - 0 issue "comodoca.com"
-  - 0 issue "digicert.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
+- domain: postman.com
+  dnssec: false
+  caa:
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 issuewild "amazon.com"
+  - 0 issuewild "digicert.com"
+  - 0 issuewild "letsencrypt.org"
+  - 0 issuewild "pki.goog; cansignhttpexchanges=yes"
   spf: true
   dmarc: true
   dmarc_policy: quarantine

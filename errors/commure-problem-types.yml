@@ -1,0 +1,98 @@
+generated: '2026-07-31'
+method: derived
+source: openapi/commure-fhir-openapi.yml
+format: fhir-operationoutcome
+envelope:
+  media_type: application/fhir+json
+  resource: OperationOutcome
+  schema: openapi/commure-fhir-openapi.yml#/components/schemas/OperationOutcome
+  fields:
+  - name: resourceType
+    value: OperationOutcome
+  - name: issue[].severity
+    values: [fatal, error, warning, information]
+  - name: issue[].code
+    note: FHIR IssueType code (e.g. invalid, structure, security, not-found, conflict,
+      processing, exception).
+  - name: issue[].diagnostics
+    note: Human-readable diagnostic text.
+  - name: issue[].expression
+    note: FHIRPath expression(s) locating the offending element.
+  note: >-
+    Commure does not publish an RFC 9457 application/problem+json envelope. Errors use the
+    HL7 FHIR OperationOutcome resource, which is the FHIR-standard equivalent and is the
+    correct envelope for a FHIR server. Status codes below are the ones actually declared in
+    Commure's published contract.
+problems:
+- status: 400
+  code: invalid
+  title: Bad Request
+  meaning: The request or the submitted resource is syntactically or semantically invalid.
+  operations_declaring: 19
+  remediation: Validate the resource with $validate before submitting; check search
+    parameter names and modifiers against the FHIR specification for the requested
+    fhir_version.
+- status: 401
+  code: security
+  title: Unauthorized
+  meaning: No access token was presented, or the token is expired/invalid.
+  operations_declaring: 6
+  remediation: >-
+    Obtain a token from /auth/token (authorization code, client credentials or
+    refresh token grant) and present it as `Authorization: Bearer Sec-...`.
+- status: 404
+  code: not-found
+  title: Not Found
+  meaning: The resource type, resource instance, or version does not exist on this server.
+  operations_declaring: 18
+  remediation: Confirm the resource type is supported by this server's CapabilityStatement
+    (getFHIRServerMetadata) and that the logical id exists.
+- status: 405
+  code: not-supported
+  title: Method Not Allowed
+  meaning: The interaction is not supported for this resource type (e.g. update or delete
+    disallowed).
+  operations_declaring: 2
+  remediation: Check `rest.resource.interaction` in the server CapabilityStatement.
+- status: 409
+  code: conflict
+  title: Conflict
+  meaning: Version conflict - the resource changed since the version identified by If-Match,
+    or a conditional operation matched more than one resource.
+  operations_declaring: 2
+  remediation: Re-read the resource, merge, and retry with the current ETag in If-Match.
+- status: 410
+  code: deleted
+  title: Gone
+  meaning: The resource existed and has been deleted.
+  operations_declaring: 2
+  remediation: Use the version history (getVersionHistoryResource) to retrieve prior
+    versions of a deleted resource.
+- status: 412
+  code: conflict
+  title: Precondition Failed
+  meaning: An If-Match / If-None-Match / If-None-Exist precondition was not satisfied.
+  operations_declaring: 3
+  remediation: This is the expected outcome of an optimistic-concurrency or conditional-create
+    guard. Re-read the current version and retry.
+- status: 422
+  code: processing
+  title: Unprocessable Entity
+  meaning: The resource is well formed but fails business or profile validation rules.
+  operations_declaring: 2
+  remediation: Run $validate against the applicable profile; the returned OperationOutcome
+    issue[].expression identifies the failing element.
+- status: 500
+  code: exception
+  title: Internal Server Error
+  meaning: Unexpected server-side failure.
+  operations_declaring: 40
+  remediation: Retry with backoff; check https://status.commure.com for platform incidents.
+coverage:
+  operations_total: 59
+  operations_with_4xx_or_5xx: 44
+  distinct_status_codes: 9
+x-evidence:
+  derived_from: Commure's public Postman collection "Commure FHIR API" (100% of the status
+    codes above are declared as saved example responses in that collection).
+  source_url: https://www.postman.com/commure/commure/collection/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24

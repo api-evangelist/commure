@@ -1,0 +1,61 @@
+generated: '2026-07-31'
+method: searched
+source: openapi/commure-fhir-openapi.yml
+docs: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+schemes:
+- name: SMARTonFHIR
+  source: openapi/commure-fhir-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api-{tenant-id}.developer.commure.com/auth/authorize
+    tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+  - flow: clientCredentials
+    tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+  description: OpenID Connect / SMART App Launch. Supports the authorization code (with PKCE),
+    implicit, hybrid, client credentials and refresh token grants.
+scopes:
+- scope: email
+  description: OpenID Connect email claim for the authenticated user.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/commure-fhir-openapi.yml
+- scope: launch
+  description: SMART EHR launch context.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/commure-fhir-openapi.yml
+- scope: offline_access
+  description: Request a refresh token for long-lived access.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/commure-fhir-openapi.yml
+- scope: openid
+  description: OpenID Connect authentication; returns an ID token.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/commure-fhir-openapi.yml
+- scope: profile
+  description: OpenID Connect profile claims for the authenticated user.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/commure-fhir-openapi.yml
+x-searched:
+  fetched: '2026-07-31'
+  sources:
+  - https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+  - postman/commure-fhir-api-collection.json
+  findings:
+  - Commure publishes no standalone scopes/permissions reference page. The only scope guidance
+    on the public surface is in the "Commure FHIR API" collection description, which documents
+    the starter scope set `openid email` against client id `smart_hello_world`.
+  - Commure's authorize endpoint documents the SMART EHR launch and standalone launch sequences,
+    so SMART App Launch resource scopes (patient/*.rs, user/*.rs, system/*.rs) are expected to
+    apply. Commure does NOT enumerate them publicly - they are advertised per tenant in
+    /api/v1/r4/.well-known/smart-configuration (`scopes_supported`), which no reachable host
+    currently serves. No SMART resource scopes are asserted here rather than guessing them.
+  - The clientCredentials flow declares no scopes in the published contract.

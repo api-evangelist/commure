@@ -1,0 +1,132 @@
+generated: '2026-07-31'
+method: derived
+source: openapi/commure-fhir-openapi.yml
+docs: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+summary: >-
+  Cross-cutting request/response semantics of the Commure FHIR API, derived from Commure's
+  published Postman collection and the resulting OpenAPI. The API follows HL7 FHIR RESTful
+  conventions throughout: FHIR media types, Bundle-based search results, ETag/version-aware
+  concurrency, and OperationOutcome errors.
+authentication:
+  style: oauth2-bearer
+  schemes: [SMARTonFHIR (OpenID Connect / SMART App Launch), bearerAuth (HTTP bearer)]
+  header: 'Authorization: Bearer Sec-...'
+  token_prefix: Sec-
+  grants: [authorization_code, client_credentials, refresh_token]
+  pkce: true
+  discovery:
+  - /auth/.well-known/openid-configuration
+  - /api/v1/r4/.well-known/smart-configuration
+  jwks: /auth/jwks
+  artifact: authentication/commure-authentication.yml
+idempotency:
+  supported: true
+  model: fhir-conditional
+  mechanisms:
+  - name: If-None-Exist
+    applies_to: create (POST {type})
+    semantics: >-
+      FHIR conditional create. The header carries a search query; if it matches exactly one
+      existing resource the server returns 200 with that resource instead of creating a
+      duplicate, making a retried create safe. This is FHIR's idempotency key.
+    operations: [createResource]
+  - name: If-Match
+    applies_to: update (PUT {type}/{id}), delete (DELETE {type}/{id})
+    semantics: >-
+      Optimistic concurrency against the resource ETag / meta.versionId. A retry that carries
+      the already-consumed version returns 409/412 rather than silently re-applying.
+    operations: [updateResource, deleteResource]
+  - name: If-None-Match
+    applies_to: read
+    semantics: Conditional read; returns 304 Not Modified when the client's version is current.
+  - name: If-Modified-Since
+    applies_to: read
+    semantics: Conditional read by timestamp; returns 304 Not Modified.
+  - name: ETag
+    applies_to: all resource responses
+    semantics: 'Weak ETag carrying the FHIR version id, e.g. W/"3". Feed it back in If-Match.'
+  intrinsically_idempotent_methods: [GET, HEAD, PUT, DELETE]
+  scope: per-resource-version
+  retention: n/a (version-based, not key-based - Commure publishes no idempotency-key window)
+  header_evidence: openapi/commure-fhir-openapi.yml (If-None-Exist, If-Match, If-None-Match,
+    If-Modified-Since and Etag are declared as request headers on the create/update/delete/read
+    operations)
+pagination:
+  style: fhir-bundle-links
+  request_params:
+  - _count (page size, positiveInt)
+  - _offset / _since (where supported by the interaction)
+  response:
+    container: Bundle
+    total_field: Bundle.total
+    link_relations: [self, first, next, previous, last]
+    cursor_field: Bundle.link[relation=next].url
+  note: >-
+    Search and history interactions return a FHIR searchset/history Bundle; the client follows
+    the opaque `next` link URL rather than constructing offsets. The published clinical-scenario
+    collections use a `link-to-next-url` variable to walk pages.
+filtering_and_search:
+  style: fhir-search
+  params: >-
+    Standard FHIR search parameters plus modifiers and chaining, per the FHIR specification for
+    the requested fhir_version. Control parameters observed in the contract: _count, _since,
+    _type, _typeFilter, _lists, _elements-style subsetting via $subset.
+  cross_type_search: GET /api/v1/{fhir_version} (searchAllResources)
+  compartment_reads: $everything on Patient, Encounter, Group, MedicinalProduct
+field_expansion:
+  supported: partial
+  mechanisms:
+  - '$everything - returns the full compartment for a Patient/Encounter/Group as one Bundle'
+  - 'Bundle.entry inclusion via FHIR _include/_revinclude search parameters'
+  - '$subset - returns a reduced CapabilityStatement'
+versioning:
+  api_version:
+    scheme: uri-path
+    current: v1
+    segment: /api/v1
+  fhir_version:
+    scheme: uri-path-variable
+    param: fhir_version
+    note: 'Every FHIR path is prefixed /api/v1/{fhir_version}/... (e.g. r4, stu3). The
+      published contract references both STU3 ($fhir-patch is documented as STU3-specific) and
+      R4 (the SMART configuration is served at /api/v1/r4/.well-known/smart-configuration).'
+    discovery: GET /api/v1/{fhir_version}/$versions (discoverWhatVersionsServerSupports)
+  resource_version:
+    scheme: fhir-versionid
+    read: GET /{type}/{id}/_history/{vid}
+    header: ETag
+media_types:
+  request: application/fhir+json
+  response: application/fhir+json
+  patch:
+  - application/json-patch+json ($commure-json-patch)
+  - FHIRPatch Parameters ($fhir-patch)
+error_envelope:
+  format: fhir-operationoutcome
+  media_type: application/fhir+json
+  artifact: errors/commure-problem-types.yml
+async_and_bulk:
+  standard: FHIR Bulk Data Access (Flat FHIR)
+  kickoff: [exportDataFromFHIRServer, importDataFromFHIRServer, bulkDeleteDataFromFHIRServer]
+  poll: asyncStatus (GET $async-status)
+  cancel: asyncCancel (POST $async-cancel)
+  status_codes: 202/303 kickoff-and-poll pattern (303 See Other is declared on the async surface)
+rate_limiting:
+  documented: false
+  note: Commure publishes no rate-limit headers, quotas or retry guidance in the public contract.
+request_tracing:
+  documented: false
+  note: No request-id/correlation-id header is documented in the public contract.
+webhooks_and_events:
+  documented: false
+  note: >-
+    The 2020 platform announcement described an "event service bus", but no FHIR Subscription
+    resource, webhook catalog or AsyncAPI document appears in any published Commure artifact.
+    No event surface is recorded - see asyncapi/ (absent by design, not fabricated).
+cross_links:
+  authentication: authentication/commure-authentication.yml
+  scopes: scopes/commure-scopes.yml
+  errors: errors/commure-problem-types.yml
+  lifecycle: lifecycle/commure-lifecycle.yml
+  conformance: conformance/commure-conformance.yml
+  data_model: data-model/commure-data-model.yml

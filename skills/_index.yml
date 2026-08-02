@@ -1,0 +1,41 @@
+generated: '2026-07-31'
+method: generated
+source: openapi/commure-fhir-openapi.yml (derived from Commure's public Postman collections)
+note: >-
+  Packaged agent skills for the Commure FHIR API. Every step is grounded in an operationId that
+  exists verbatim in openapi/commure-fhir-openapi.yml, and every multi-step flow mirrors a
+  clinical-scenario collection Commure published itself. The tenant hosts these skills target are
+  currently unreachable (see lifecycle/commure-lifecycle.yml) - the skills describe the correct
+  operating contract for a provisioned tenant, not a callable public endpoint.
+skills:
+- file: commure-authenticate-smart-on-fhir.md
+  name: Authenticate against the Commure FHIR API (SMART on FHIR / OIDC)
+  api: openapi/commure-fhir-openapi.yml
+  operations: [sMARTAppLaunchConfiguration, openIDConnectProviderMetadata, authorizationEndpoint,
+    tokenEndpoint, publicKeys, userInfo, logout]
+- file: commure-build-a-patient-chart.md
+  name: Build a patient chart from the Commure FHIR API
+  api: openapi/commure-fhir-openapi.yml
+  source_collection: postman/commure-patient-chart-collection.json
+  operations: [searchResourcesType, getResource, fetchPatientRecordById, lastNObservationsQuery,
+    searchAllResources]
+- file: commure-schedule-a-telehealth-visit.md
+  name: Schedule and run a telehealth visit on Commure
+  api: openapi/commure-fhir-openapi.yml
+  source_collection: postman/commure-telehealth-visit-collection.json
+  operations: [postBatchOrTransaction, searchResourcesType, createResource, updateResource,
+    applyJSONPatchAsExtendedOperation, getResource]
+- file: commure-inpatient-medication-workflow.md
+  name: Track an inpatient medication order from prescription to administration
+  api: openapi/commure-fhir-openapi.yml
+  source_collection: postman/commure-inpatient-medication-workflow-collection.json
+  operations: [createResource, searchResourcesType, getVersionHistoryAllResourcesType,
+    applyJSONPatchAsExtendedOperation, postBatchOrTransaction]
+- file: commure-bulk-export-and-terminology.md
+  name: Run a FHIR bulk export and resolve codes with Commure terminology services
+  api: openapi/commure-fhir-openapi.yml
+  operations: [exportDataFromFHIRServer, asyncStatus, asyncCancel, importDataFromFHIRServer,
+    bulkDeleteDataFromFHIRServer, conceptLookUpDecomposition, codeSystemBasedValidation2,
+    valueSetExpansion2, valueSetBasedValidation2, conceptTranslation, subsumptionTesting2,
+    closureTableMaintenance]
+count: 5

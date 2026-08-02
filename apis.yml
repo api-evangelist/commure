@@ -1,18 +1,105 @@
 aid: commure
-name: Commure
-description: 'Commure is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
 url: https://raw.githubusercontent.com/api-evangelist/commure/refs/heads/main/apis.yml
+name: Commure
+kind: company
+description: >-
+  Commure is a San Francisco-based AI-native healthcare technology company that
+  operates an integrated clinical and operational platform for United States
+  health systems following its 2023 combination with Athelas. Its products span
+  Ambient AI clinical documentation (Scribe/Dictation), end-to-end Revenue Cycle
+  Management (RCM), Call Center Agents, referral Orchestrator, patient Engage
+  coordination, Commure Pro clinical intelligence, Strongline staff-safety
+  alerting, and Athelas Home point-of-care diagnostics, integrating with 60+
+  EHRs across 130+ health systems processing over $25B in annual claims. Commure
+  launched a FHIR-native open developer platform in 2020; that public developer
+  portal (developer.commure.com) and its tenant API hosts
+  (api-{tenant-id}.developer.commure.com) no longer resolve, and today the API
+  surface is a gated, partner-only offering governed by a Developer User
+  Agreement (Sandbox Environment + Developer Services). The one surviving
+  first-party machine-readable contract is Commure's public Postman workspace,
+  which publishes a 59-request "Commure FHIR API" collection covering the HL7
+  FHIR RESTful, terminology and Bulk Data operations plus the OpenID Connect /
+  SMART App Launch authentication endpoints, alongside five clinical-scenario
+  collections. Home market is the United States.
+accessModel:
+  pricing: enterprise
+  onboarding: approval
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Partner/approval onboarding · No public self-serve API
+  confidence: high
+  source:
+  - website
+  - legal
+  - postman
+  generated: '2026-07-31'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Healthcare
+- United States
+- Clinical AI
+- Ambient AI
+- Revenue Cycle Management
+- FHIR
+- SMART on FHIR
+- Interoperability
+- EHR
+- Remote Monitoring
+- Health System
+- Terminology Services
+created: '2026-07-24'
+modified: '2026-07-31'
+specificationVersion: '0.20'
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
-created: '2026-07-31'
-modified: '2026-07-31'
-tags:
-- Company
-apis: []
+apis:
+- aid: commure:commure-fhir-api
+  name: Commure FHIR API
+  description: >-
+    The HL7 FHIR REST API of the Commure Developer Platform, together with its
+    OpenID Connect / SMART App Launch authentication surface. Covers the FHIR
+    RESTful interactions (read, vread, update, delete, create, search, history,
+    batch/transaction), the terminology operations ($lookup, $validate-code,
+    $subsumes, $translate, $expand, $closure), the conformance operations
+    ($subset, $implements, $conforms, $snapshot, $transform), the record
+    operations ($everything on Patient/Encounter/Group/MedicinalProduct), FHIR
+    Bulk Data ($export, $import, $bulk-delete, $async-status, $async-cancel) and
+    two Commure extensions ($commure-json-patch, $fhir-patch). Access is gated
+    behind the Commure Developer User Agreement; the tenant hosts described by
+    the published contract no longer resolve publicly.
+  humanURL: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+  baseURL: https://api-{tenant-id}.developer.commure.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - FHIR
+  - SMART on FHIR
+  - Healthcare
+  - Terminology
+  - Bulk Data
+  - OpenID Connect
+  properties:
+  - type: OpenAPI
+    url: openapi/commure-fhir-openapi.yml
+  - type: Postman
+    url: postman/commure-fhir-api-collection.json
+  - type: APIReference
+    url: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+  - type: Authentication
+    url: authentication/commure-authentication.yml
+  - type: OAuthScopes
+    url: scopes/commure-scopes.yml
+  - type: ErrorCatalog
+    url: errors/commure-problem-types.yml
+  - type: Conventions
+    url: conventions/commure-conventions.yml
+  - type: Idempotency
+    url: conventions/commure-conventions.yml
+  - type: DataModel
+    url: data-model/commure-data-model.yml
+  - type: Overlay
+    url: overlays/commure-fhir-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +107,79 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://www.commure.com/
+- type: Company
+  url: https://www.commure.com/company
+- type: APIReference
+  url: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+- type: Postman
+  url: https://www.postman.com/commure/commure/
+- type: OpenAPI
+  url: openapi/commure-fhir-openapi.yml
+- type: Authentication
+  url: authentication/commure-authentication.yml
+- type: OAuthScopes
+  url: scopes/commure-scopes.yml
+- type: Conventions
+  url: conventions/commure-conventions.yml
+- type: Idempotency
+  url: conventions/commure-conventions.yml
+- type: ErrorCatalog
+  url: errors/commure-problem-types.yml
+- type: DataModel
+  url: data-model/commure-data-model.yml
+- type: Conformance
+  url: conformance/commure-conformance.yml
+- type: Lifecycle
+  url: lifecycle/commure-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/commure-lifecycle.yml
+- type: StatusPage
+  url: https://status.commure.com
+- type: WellKnown
+  url: well-known/commure-well-known.yml
+- type: DomainSecurity
+  url: security/commure-domain-security.yml
+- type: TrustCenter
+  url: https://www.commure.com/trust-center
+- type: Compliance
+  url: https://www.commure.com/trust-center
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Overlay
+  url: overlays/commure-fhir-overlay.yaml
+- type: LLMsTxt
+  url: llms/commure-llms.txt
+- type: SignUp
+  url: https://accounts.commure.com/signin/register
+- type: Login
+  url: https://accounts.commure.com/signin
+- type: Blog
+  url: https://www.commure.com/blog
+- type: News
+  url: https://www.commure.com/news
+- type: Partners
+  url: https://www.commure.com/partners
+- type: Support
+  url: https://www.commure.com/contact
+- type: Customers
+  url: https://www.commure.com/customers
+- type: TermsOfService
+  url: https://www.commure.com/legal/general-terms-of-use
+- type: PrivacyPolicy
+  url: https://www.commure.com/legal/privacy-policy
+- type: DeveloperUserAgreement
+  url: https://www.commure.com/legal/developer-user-agreement
+- type: BusinessAssociateAgreement
+  url: https://www.commure.com/legal/business-associate-agreement
+- type: GitHubOrganization
+  url: https://github.com/commure
+- type: LinkedIn
+  url: https://www.linkedin.com/company/commure
+- type: SecondaryMarket
   url: https://forgeglobal.com/commure_stock/
+x-enrichment:
+  date: '2026-07-31'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v1

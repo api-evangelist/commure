@@ -1,0 +1,101 @@
+generated: '2026-07-31'
+method: searched
+source:
+- https://status.commure.com/api/v2/summary.json
+- https://www.postman.com/commure/commure/
+- https://www.commure.com/legal/developer-user-agreement
+- https://developer.commure.com
+versioning:
+  scheme: uri-path
+  current: v1
+  segment: /api/v1
+  fhir_release_selector: '{fhir_version} path variable (r4, stu3)'
+  discovery_operation: discoverWhatVersionsServerSupports
+  resource_versioning: FHIR meta.versionId exposed as a weak ETag; prior versions readable via
+    /_history/{vid}
+  docs: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+deprecation:
+  policy_url: https://www.commure.com/legal/developer-user-agreement
+  sunset_header: false
+  deprecation_header: false
+  policy_summary: >-
+    Commure publishes no RFC 8594 Sunset/Deprecation header contract and no dated API
+    deprecation schedule. The Developer User Agreement (last revised 2024-10-10) is the only
+    document governing changes to, suspension of, or termination of the Developer Services and
+    the Sandbox Environment, and it reserves the right to modify or discontinue them.
+  observed_deprecation:
+    event: Commure Developer Platform retired
+    evidence:
+    - url: https://developer.commure.com
+      http_status: 404
+      checked: '2026-07-31'
+    - url: https://api-99750511.developer.commure.com
+      http_status: '000'
+      note: host does not resolve (NXDOMAIN)
+      checked: '2026-07-31'
+    - url: https://dashboard-99750511.developer.commure.com
+      http_status: '000'
+      note: host does not resolve (NXDOMAIN)
+      checked: '2026-07-31'
+    note: >-
+      The FHIR-native open developer platform launched in February 2020 and documented in
+      Commure's public Postman workspace has been withdrawn without a published sunset notice.
+      developer.commure.com still resolves in DNS (34.148.125.229) but returns HTTP 404 on
+      every path probed, including /docs, /api/v1/r4/metadata and
+      /auth/.well-known/openid-configuration. The Postman workspace was last updated
+      2024-07-08 and is the only surviving public contract.
+  deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment is published; terms are contracted per health system.
+status_page:
+  url: https://status.commure.com
+  provider: Atlassian Statuspage
+  api:
+    summary: https://status.commure.com/api/v2/summary.json
+    status: https://status.commure.com/api/v2/status.json
+    history_feed: https://status.commure.com/history.rss
+  last_observed: '2026-07-30T13:28:45Z'
+  components:
+  - Ambient AI
+  - Note Generation
+  - Autonomous Coding
+  - Call Center Agents
+  - AI Referrals
+  - Engage
+  - Memora
+  - eRX
+  - MDS
+  - IMO
+  - Epic
+  - eCW
+  - Practice Fusion
+  - HCHB
+  - WebPT
+  - AdvancedMD
+  - Athena
+  - Azure US
+  - Hosting Center
+  - Web App
+  - iOS
+  - Android
+  - Chrome Extension
+  component_count: 23
+  note: >-
+    The status page is product- and integration-scoped (named EHR connectors Epic, eClinicalWorks,
+    Athenahealth, Practice Fusion, HCHB, WebPT, AdvancedMD are individually monitored). It does
+    NOT list the FHIR developer-platform API as a component - further evidence the developer
+    platform is retired.
+changelog:
+  published: false
+  note: >-
+    No dated API changelog or release-notes feed was found. https://www.commure.com/news carries
+    corporate press releases, not API changes; status.commure.com/history.rss carries incident
+    history only. No changelog/ artifact is emitted rather than fabricating one.
+support:
+  developer_email: dev-support@commure.com
+  contact: https://www.commure.com/contact
+  source: >-
+    Commure FHIR API Postman collection ("Contact Support - Name: Commure, Email:
+    dev-support@commure.com")

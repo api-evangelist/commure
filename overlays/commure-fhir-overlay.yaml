@@ -1,0 +1,96 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Commure FHIR API
+  version: 1.0.0
+extends: openapi/commure-fhir-openapi.yml
+x-generated: '2026-07-31'
+x-method: generated
+x-source: >-
+  API Evangelist enrichment pipeline. Captures our annotations over the OpenAPI derived from
+  Commure's public Postman collection; the derived spec itself is never mutated.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provenance: derived-from-postman
+    x-apievangelist-source: https://www.postman.com/commure/commure/collection/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24
+    x-apievangelist-reviewed: '2026-07-31'
+    x-apievangelist-availability: retired-host
+    x-apievangelist-access: gated
+    x-apievangelist-artifacts:
+      authentication: authentication/commure-authentication.yml
+      scopes: scopes/commure-scopes.yml
+      conventions: conventions/commure-conventions.yml
+      errors: errors/commure-problem-types.yml
+      conformance: conformance/commure-conformance.yml
+      lifecycle: lifecycle/commure-lifecycle.yml
+      data_model: data-model/commure-data-model.yml
+      skills: skills/_index.yml
+      postman: postman/_index.yml
+      well_known: well-known/commure-well-known.yml
+- target: $.info
+  update:
+    x-apievangelist-standards:
+    - hl7-fhir
+    - smart-app-launch
+    - openid-connect
+    - oauth2
+    - oauth2-pkce
+    - fhir-bulk-data
+    - fhir-terminology-services
+    - rfc7232-conditional-requests
+    - rfc6902-json-patch
+    - rfc7517-jwks
+- target: $.servers
+  update:
+    x-apievangelist-host-status:
+      probed: '2026-07-31'
+      developer.commure.com: 404
+      api-{tenant-id}.developer.commure.com: NXDOMAIN
+      note: The published tenant host template no longer resolves; access is provisioned per
+        partner under the Commure Developer User Agreement.
+- target: $.components.securitySchemes.SMARTonFHIR
+  update:
+    x-apievangelist-grants:
+    - authorization_code
+    - client_credentials
+    - refresh_token
+    x-apievangelist-pkce: true
+    x-apievangelist-discovery:
+    - /auth/.well-known/openid-configuration
+    - /api/v1/r4/.well-known/smart-configuration
+    x-apievangelist-note: >-
+      Commure's authorize endpoint also supports the implicit and hybrid flows and the SMART EHR
+      and standalone launch sequences. New clients should use authorization code with PKCE.
+- target: $.paths['/api/v1/{fhir_version}/{type}'].post
+  update:
+    x-idempotency:
+      supported: true
+      mechanism: If-None-Exist
+      style: fhir-conditional-create
+      note: A create carrying If-None-Exist that matches exactly one existing resource returns
+        200 with that resource instead of creating a duplicate.
+- target: $.paths['/api/v1/{fhir_version}/{type}/{id}'].put
+  update:
+    x-idempotency:
+      supported: true
+      mechanism: If-Match
+      style: optimistic-concurrency
+      note: Guarded by the resource ETag / meta.versionId; a stale version yields 409/412.
+- target: $.paths['/api/v1/{fhir_version}/{type}/{id}'].delete
+  update:
+    x-idempotency:
+      supported: true
+      mechanism: If-Match
+      style: optimistic-concurrency
+- target: $.paths['/api/v1/{fhir_version}/$export'].post
+  update:
+    x-async:
+      pattern: kickoff-and-poll
+      standard: FHIR Bulk Data Access
+      poll: asyncStatus
+      cancel: asyncCancel
+- target: $.paths['/api/v1/{fhir_version}/$bulk-delete'].post
+  update:
+    x-apievangelist-risk: destructive
+    x-apievangelist-note: Tenant-wide deletion. Always scope with _type/_since/_until; never
+      include in an automated retry path.
