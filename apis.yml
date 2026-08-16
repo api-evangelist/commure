@@ -50,7 +50,7 @@ tags:
 - Health System
 - Terminology Services
 created: '2026-07-24'
-modified: '2026-07-31'
+modified: '2026-08-15'
 specificationVersion: '0.20'
 x-type: company
 x-source: harvest:secondary-market
@@ -100,6 +100,16 @@ apis:
     url: data-model/commure-data-model.yml
   - type: Overlay
     url: overlays/commure-fhir-overlay.yaml
+  - type: RateLimits
+    url: rate-limits/commure-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/commure-sandbox.yml
+  - type: MCPServer
+    url: mcp/commure-mcp.yml
+  - type: Packages
+    url: packages/commure-packages.yml
+  - type: WellKnown
+    url: well-known/commure-well-known.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -150,6 +160,28 @@ common:
   url: overlays/commure-fhir-overlay.yaml
 - type: LLMsTxt
   url: llms/commure-llms.txt
+- type: Packages
+  url: packages/commure-packages.yml
+- type: Components
+  url: components/commure-components.yml
+- type: MCPServer
+  url: mcp/commure-mcp.yml
+- type: Sandbox
+  url: sandbox/commure-sandbox.yml
+- type: Plans
+  url: plans/commure-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/commure-rate-limits.yml
+- type: Pricing
+  url: https://www.commure.com/pricing
+- type: Resources
+  url: https://www.commure.com/resources
+- type: Careers
+  url: https://www.commure.com/careers
+- type: Events
+  url: https://www.commure.com/events
+- type: RealWorldTesting
+  url: https://www.commure.com/real-world-testing
 - type: SignUp
   url: https://accounts.commure.com/signin/register
 - type: Login
@@ -179,7 +211,7 @@ common:
 - type: SecondaryMarket
   url: https://forgeglobal.com/commure_stock/
 x-enrichment:
-  date: '2026-07-31'
+  date: '2026-08-15'
   status: enriched
-  artifacts_added: 24
+  artifacts_added: 9
   pass: local-v1
