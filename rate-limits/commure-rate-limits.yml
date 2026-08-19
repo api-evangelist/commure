@@ -1,0 +1,57 @@
+generated: '2026-08-15'
+method: searched
+source:
+- https://www.commure.com/legal/developer-user-agreement
+- https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+- openapi/commure-fhir-openapi.yml
+limit_count: 0
+publishes_limits: false
+summary: >-
+  Commure publishes no numeric rate limits and no rate-limit response headers. The Developer User
+  Agreement (last revised 2024-10-10) acknowledges that limits EXIST - "The Developer Services may
+  be subject to limitations, such as limits on storage space or the number of calls you are
+  permitted to make against our APIs. You must not exceed or circumvent any limitations" - but
+  states no window, no ceiling, no burst allowance and no per-scope breakdown. The published
+  contract declares 400, 401, 404, 405, 409, 410, 412, 422 and 500 responses and does NOT declare
+  429, so a client has no documented signal for exhaustion. Limits are presumably set per tenant
+  under the health-system contract.
+limits: []
+response_headers:
+  published: false
+  x_ratelimit: null
+  ratelimit_draft: null
+  retry_after: null
+  note: >-
+    No X-RateLimit-*, RateLimit-* (RFC 9331 draft) or Retry-After header appears anywhere in the
+    59-operation published contract or in any of Commure's six public Postman collections.
+exhaustion:
+  status_code: null
+  declared_in_contract: false
+  note: >-
+    429 Too Many Requests is not among the declared responses on any operation. FHIR errors are
+    returned as OperationOutcome (see errors/commure-problem-types.yml); a throttling
+    OperationOutcome shape is not documented.
+observed:
+  probed: false
+  reason: >-
+    No live unauthenticated response could be observed. The base host template
+    api-{tenant-id}.developer.commure.com does not resolve for any tenant, so runtime headers
+    cannot be measured, only their absence from documentation recorded.
+contractual_limits:
+- source: https://www.commure.com/legal/developer-user-agreement
+  clause: >-
+    "The Developer Services may be subject to limitations, such as limits on storage space or the
+    number of calls you are permitted to make against our APIs. You must not exceed or circumvent
+    any limitations."
+  quantified: false
+  revised: '2024-10-10'
+x-evidence:
+  fetched: '2026-08-15'
+  checks:
+  - url: https://www.commure.com/legal/developer-user-agreement
+    http_status: 200
+  - url: https://developer.commure.com
+    http_status: 404
+    note: The retired developer portal, the only place a rate-limit reference page could have lived.
+  - artifact: openapi/commure-fhir-openapi.yml
+    finding: 'grep for 429 / RateLimit / Retry-After across all 59 operations: zero matches.'

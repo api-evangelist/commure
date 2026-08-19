@@ -34,6 +34,12 @@ Note: Commure's API surface is a gated, partner-only Developer Services offering
 - [Well-known probe results](well-known/commure-well-known.yml) · [Domain security](security/commure-domain-security.yml) · [Trust center](security/commure-trust-center.yml)
 - [Agent skills](skills/_index.yml): 5 packaged skills grounded in real operationIds.
 - [Overlay](overlays/commure-fhir-overlay.yaml)
+- [Packages](packages/commure-packages.yml): 33 first-party `@commure` npm packages at 0.1.12 — private registry, none installable today.
+- [Components](components/commure-components.yml): the `@commure/components-*` React clinical UI suite for SMART apps.
+- [MCP](mcp/commure-mcp.yml): no Commure MCP server exists; a candidate tool list derived from the FHIR contract.
+- [Sandbox](sandbox/commure-sandbox.yml): the Sandbox Environment as defined in the Developer User Agreement.
+- [Plans / pricing](plans/commure-plans-pricing.yml): 0 published plans — enterprise contact-sales only.
+- [Rate limits](rate-limits/commure-rate-limits.yml): 0 published limits, no rate-limit response headers.
 
 ## Company
 
@@ -50,7 +56,9 @@ Note: Commure's API surface is a gated, partner-only Developer Services offering
 
 - [Developer User Agreement](https://www.commure.com/legal/developer-user-agreement): Terms governing gated Developer Services and Sandbox Environment
 - [GitHub Organization](https://github.com/commure): Public repositories (mostly infrastructure/tooling forks; archived FHIR Crucible plan_executor and patient-chart demo app)
-- No first-party SDK, CLI or client library is published on npm, PyPI, crates.io or the GitHub org.
+- First-party SDK: Commure published a 33-package `@commure` JavaScript/TypeScript SDK and clinical component suite (`@commure/components-core`, `@commure/smart-core`, `@commure/fhir-client`, `@commure/fhir-types`, …), all pinned at **0.1.12**, to a PRIVATE authenticated registry at `npm.developer.commure.com`. That host is now NXDOMAIN and every `@commure` package 404s on registry.npmjs.org — none is installable. Evidence: the yarn.lock of [commure/patient-chart-demo-app](https://github.com/commure/patient-chart-demo-app) (archived).
+- No first-party CLI is published. The public [commure/homebrew-packages](https://github.com/commure/homebrew-packages) tap contains only pinned CPython formulae for internal toolchain use.
+- No MCP server, no A2A agent card, no GraphQL endpoint and no AsyncAPI/event contract were found on any Commure host.
 
 ## Trust, Compliance & Status
 
@@ -61,6 +69,12 @@ Note: Commure's API surface is a gated, partner-only Developer Services offering
 - [Privacy Policy](https://www.commure.com/legal/privacy-policy)
 - [Business Associate Agreement](https://www.commure.com/legal/business-associate-agreement)
 - No `/.well-known/security.txt` and no published vulnerability disclosure program were found.
+- Discovery documents that ARE served: `accounts.commure.com` (Commure's product sign-in, an Okta Customer Identity org on Commure's own domain) answers `/.well-known/openid-configuration`, `/.well-known/oauth-authorization-server` (RFC 8414) and `/oauth2/default/.well-known/openid-configuration` with real metadata — saved verbatim in [well-known/](well-known/commure-well-known.yml). It supports PKCE (S256), DPoP, private_key_jwt and the device-code grant. This is product sign-in, not an API authorization server: no Commure resource server publishes RFC 9728 protected-resource metadata.
+
+## Pricing & Limits
+
+- [Pricing page](https://www.commure.com/pricing): no tiers, no prices — the only calls to action are "Schedule A Demo" / "Get a Demo". Every product is sold under a negotiated health-system contract.
+- No published rate limits. The Developer User Agreement acknowledges "limits on storage space or the number of calls you are permitted to make against our APIs" but names no number, and the published contract declares no 429 response and no rate-limit headers.
 
 ## Contact
 

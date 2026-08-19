@@ -1,0 +1,110 @@
+generated: '2026-08-15'
+method: searched
+source:
+- https://github.com/commure/patient-chart-demo-app
+- https://raw.githubusercontent.com/commure/patient-chart-demo-app/master/yarn.lock
+- https://raw.githubusercontent.com/commure/patient-chart-demo-app/master/README.md
+summary: >-
+  Commure shipped a first-party client-side component library for building clinical SMART on FHIR
+  applications on top of the Commure Developer Platform: a React component suite (@commure/components-*)
+  bound to a FHIR data layer, plus a code-generation path that renders components from FHIR
+  StructureDefinitions. This is distinct from the SDK/client packages in packages/ - these are
+  renderable UI surfaces a developer embeds in their own app, not transport clients. The evidence
+  is Commure's own public demo application, the finished result of its "Patient Chart Demo App"
+  tutorial, which composes the library into a working patient chart.
+distribution:
+  model: private-npm
+  registry: https://npm.developer.commure.com/
+  auth_required: true
+  cdn: false
+  note: >-
+    No CDN/script-tag or unpkg/jsDelivr distribution exists - the library was never published to a
+    public registry, so there is no loader URL to record. Installation required authenticated yarn
+    credentials issued under the Commure Developer User Agreement.
+  status: unavailable
+  status_note: >-
+    npm.developer.commure.com is NXDOMAIN and every @commure package 404s on registry.npmjs.org as
+    of 2026-08-15; the library cannot be installed today.
+families:
+- family: components-core
+  package: '@commure/components-core'
+  version: 0.1.12
+  description: >-
+    The top-level clinical component set - the surface a SMART app composes. Depends on the data,
+    foundation, web-fhir, style, smart-core and fhir-* layers, plus react-table for tabular
+    clinical data.
+- family: components-data
+  packages:
+  - '@commure/components-data'
+  - '@commure/components-data-internal'
+  version: 0.1.12
+  description: >-
+    Data-bound component layer: binds components to FHIR resources fetched and cached through the
+    fhir-rest / fhir-sync stack.
+- family: components-foundation
+  package: '@commure/components-foundation'
+  version: 0.1.12
+  description: Primitive/foundation components the higher-level families build on.
+- family: components-web-fhir
+  package: '@commure/components-web-fhir'
+  version: 0.1.12
+  description: Web components that render FHIR resource types directly.
+- family: components-dashboard
+  package: '@commure/components-dashboard'
+  version: 0.1.12
+  description: Dashboard-shaped composite components (panels, summary surfaces).
+- family: react-data-providers
+  package: '@commure/react-data-providers'
+  version: 0.1.12
+  description: React context providers that supply FHIR data and SMART launch context to the tree.
+- family: style
+  package: '@commure/style'
+  version: 0.1.12
+  description: Shared design tokens / stylesheet for the component suite.
+loaders:
+- name: '@commure/smart-core'
+  version: 0.1.12
+  role: >-
+    SMART App Launch bootstrap - performs the EHR/standalone launch handshake and supplies the
+    authenticated FHIR context the components render against. This is the entry point, the nearest
+    equivalent to a loader script in a hosted component product.
+- name: '@commure/smart-new'
+  version: 0.1.12
+  role: Newer SMART launch implementation carried alongside smart-core in the same release.
+codegen:
+- name: '@commure/autogen'
+  version: 0.1.12
+  description: >-
+    Generates components from a Commure-defined DSL over FHIR StructureDefinitions, so a component
+    surface can be derived from a profile rather than hand-written.
+- name: '@commure/autogen-dsl'
+  version: 0.1.12
+  description: PEG-based parser for the autogen DSL.
+reference_implementation:
+  repo: https://github.com/commure/patient-chart-demo-app
+  archived: true
+  last_commit: '2025-09-05'
+  app_name: my-commure-smart-app
+  stack: React 17 + TypeScript 3.7 + react-scripts 4
+  configured_against: 'REACT_APP_FHIR_BASE_URL=https://api-0000.developer.commure.com/api/v1/r4'
+  client_id: smart_hello_world
+  tutorial: https://developer.commure.com/docs/patient-chart-tutorial/introduction
+  tutorial_status: 404
+hosted_or_embedded_surfaces:
+  published: false
+  note: >-
+    Commure publishes no embeddable dashboard, hosted widget, iframe embed or prebuilt UI surface
+    on its current product sites. Today's Commure products (Ambient AI, RCM, Call Center Agents,
+    Engage, Strongline) ship as applications and EHR-embedded extensions (a Chrome extension and
+    iOS/Android apps are monitored on status.commure.com), not as developer-embeddable components.
+x-evidence:
+  fetched: '2026-08-15'
+  checks:
+  - url: https://github.com/commure/patient-chart-demo-app
+    http_status: 200
+    note: Public first-party repository, archived.
+  - url: https://npm.developer.commure.com/
+    http_status: '000'
+    note: NXDOMAIN - the registry that served the component packages.
+  - url: https://developer.commure.com/docs/patient-chart-tutorial/introduction
+    http_status: 404

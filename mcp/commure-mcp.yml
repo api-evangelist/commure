@@ -1,0 +1,159 @@
+generated: '2026-08-15'
+method: derived
+source: openapi/commure-fhir-openapi.yml
+status: candidate
+summary: >-
+  Commure publishes NO Model Context Protocol server - not a hosted remote endpoint, not a stdio
+  package, not a config snippet in any documentation. The tool list below is a CANDIDATE derived by
+  API Evangelist from the operations in Commure's own published FHIR contract; it is what an MCP
+  server over the Commure FHIR API would expose, not something Commure ships. Note that the
+  contract it is derived from targets tenant hosts that no longer resolve, so even the candidate is
+  not callable today.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+  note: >-
+    No endpoint is asserted because none exists. mcp.commure.com does not resolve (NXDOMAIN) and no
+    /mcp path is served on any reachable Commure host. Authentication is recorded as `unknown`
+    rather than `oauth` because there is no server to authenticate to; the underlying REST API uses
+    OAuth 2.0 / SMART on FHIR (see authentication/commure-authentication.yml).
+search:
+  performed: '2026-08-15'
+  looked_for:
+  - a hosted MCP endpoint on any Commure host
+  - an @commure or commure MCP package on npm/PyPI
+  - an MCP server repository in github.com/commure
+  - an MCP configuration snippet in Commure documentation or marketing
+  results:
+  - url: https://mcp.commure.com
+    http_status: '000'
+    note: NXDOMAIN
+  - url: https://www.commure.com/.well-known/ai-plugin.json
+    http_status: 404
+  - url: 'https://registry.npmjs.org/-/v1/search?text=scope:commure'
+    http_status: 200
+    note: 0 packages
+  - url: https://api.github.com/orgs/commure/repos
+    http_status: 200
+    note: 38 repositories, none an MCP server; the FHIR-related ones are a demo SMART app and a
+      fork of the Crucible FHIR test executor.
+  finding: >-
+    No first-party MCP server exists. Commure's current products are delivered as applications and
+    EHR-embedded surfaces with an enterprise sales motion, not as an agent-callable API.
+tools_candidate:
+- tool: fhir_search_resources
+  category: read
+  rest: [searchResourcesType, searchAllResources]
+  description: Search FHIR resources of a type, or across all types, returning a Bundle.
+- tool: fhir_read_resource
+  category: read
+  rest: [getResource, getSpecificVersionResource]
+  description: Read a FHIR resource by id, optionally at a specific version.
+- tool: fhir_resource_history
+  category: read
+  rest: [getVersionHistoryResource, getVersionHistoryAllResourcesType, getVersionHistoryAllResources]
+  description: Retrieve the version history of a resource, a resource type, or the whole server.
+- tool: fhir_create_resource
+  category: write
+  rest: [createResource]
+  description: Create a FHIR resource; supports conditional create via If-None-Exist.
+- tool: fhir_update_resource
+  category: write
+  rest: [updateResource]
+  description: Update a FHIR resource with optimistic concurrency via If-Match.
+- tool: fhir_delete_resource
+  category: write
+  rest: [deleteResource]
+- tool: fhir_patch_resource
+  category: write
+  rest: [applyJSONPatchAsExtendedOperation, applyFHIRPatchSTU3Resources]
+  description: Apply an RFC 6902 JSON Patch ($commure-json-patch) or an STU3 FHIRPatch.
+- tool: fhir_batch_transaction
+  category: write
+  rest: [postBatchOrTransaction]
+  description: Submit a FHIR Bundle as a batch or an atomic transaction.
+- tool: fhir_validate_resource
+  category: validate
+  rest: [validateResource, validateResource2]
+- tool: fhir_patient_everything
+  category: record
+  rest: [fetchPatientRecord, fetchPatientRecordById]
+  description: Fetch the complete record for a patient ($everything).
+- tool: fhir_encounter_everything
+  category: record
+  rest: [fetchEncounterRecord]
+- tool: fhir_group_everything
+  category: record
+  rest: [fetchGroupPatientRecords]
+- tool: fhir_product_everything
+  category: record
+  rest: [fetchProductRecord, fetchProductRecordById]
+- tool: fhir_last_n_observations
+  category: record
+  rest: [lastNObservationsQuery]
+  description: Retrieve the most recent N Observations for a subject ($lastn).
+- tool: fhir_find_list
+  category: record
+  rest: [findFunctionalList]
+- tool: terminology_lookup_concept
+  category: terminology
+  rest: [conceptLookUpDecomposition]
+- tool: terminology_validate_code
+  category: terminology
+  rest: [codeSystemBasedValidation, codeSystemBasedValidation2, valueSetBasedValidation, valueSetBasedValidation2]
+- tool: terminology_subsumes
+  category: terminology
+  rest: [subsumptionTesting, subsumptionTesting2]
+- tool: terminology_translate
+  category: terminology
+  rest: [conceptTranslation, conceptTranslationById]
+- tool: terminology_expand_valueset
+  category: terminology
+  rest: [valueSetExpansion, valueSetExpansion2]
+- tool: terminology_closure
+  category: terminology
+  rest: [closureTableMaintenance]
+- tool: bulk_export
+  category: bulk
+  rest: [exportDataFromFHIRServer]
+  description: Kick off a FHIR Bulk Data export; returns 202 with a poll location.
+- tool: bulk_import
+  category: bulk
+  rest: [importDataFromFHIRServer]
+- tool: bulk_delete
+  category: bulk
+  rest: [bulkDeleteDataFromFHIRServer]
+- tool: bulk_async_status
+  category: bulk
+  rest: [asyncStatus]
+- tool: bulk_async_cancel
+  category: bulk
+  rest: [asyncCancel]
+- tool: server_capabilities
+  category: conformance
+  rest: [getFHIRServerMetadata, fetchSubsetCapabilityStatementResource, fetchSubsetCapabilityStatementResource2,
+    discoverWhatVersionsServerSupports, getOpenAPISpec]
+- tool: server_conformance_check
+  category: conformance
+  rest: [testIfServerImplementsClientRequiredOperations, testIfServerImplementsClientRequiredOperations2,
+    testIfServerImplementsClientRequiredOperations3]
+- tool: structure_snapshot
+  category: conformance
+  rest: [generateSnapshot, generateSnapshotById]
+- tool: structure_transform
+  category: conformance
+  rest: [modelInstanceTransformation, modelInstanceTransformationById]
+coverage:
+  openapi_operations: 59
+  operations_mapped: 52
+  candidate_tools: 30
+  operations_unmapped: 7
+  unmapped_note: >-
+    The 7 unmapped operations are the OAuth/OIDC endpoints (authorizationEndpoint, tokenEndpoint,
+    publicKeys, userInfo, logout, openIDConnectProviderMetadata, sMARTAppLaunchConfiguration).
+    These are the transport's authentication handshake, not agent tools; an MCP server would
+    consume them, not expose them.

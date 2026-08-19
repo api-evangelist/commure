@@ -1,0 +1,375 @@
+generated: '2026-08-15'
+method: searched
+source:
+- https://github.com/commure/patient-chart-demo-app
+- https://raw.githubusercontent.com/commure/patient-chart-demo-app/master/yarn.lock
+- https://raw.githubusercontent.com/commure/patient-chart-demo-app/master/package.json
+- https://registry.npmjs.org/
+summary: >-
+  Commure published a first-party JavaScript/TypeScript SDK and component suite under the npm
+  scope @commure, but NOT on the public npm registry. Every package resolves to
+  https://npm.developer.commure.com/, a private authenticated registry Commure operated as part
+  of the Commure Developer Platform. Commure's own public demo application
+  (github.com/commure/patient-chart-demo-app, the finished result of its "Patient Chart Demo App"
+  tutorial) pins 33 @commure packages at version 0.1.12 and instructs developers to "make sure you
+  have your yarn settings configured to pull @commure packages from the appropriate (authenticated)
+  registry, per the Account Setup instructions". Both the private registry host
+  (npm.developer.commure.com) and the account-setup docs host (staging.developer.commure.com) are
+  now NXDOMAIN, and every @commure package name 404s on registry.npmjs.org. The SDK is therefore
+  real, first-party and dated, but no longer obtainable by anyone.
+registries_searched:
+- registry: npm
+  endpoint: https://registry.npmjs.org/
+  scope_search: 'https://registry.npmjs.org/-/v1/search?text=scope:commure'
+  result: 0 packages
+  note: >-
+    Every @commure package named in Commure's own lockfile returns HTTP 404 on
+    registry.npmjs.org. They were never published to, or have been removed from, the public
+    registry.
+- registry: pypi
+  endpoint: https://pypi.org/pypi/commure/json
+  result: 404
+  note: >-
+    pypi.org/project/athelas exists but belongs to an unrelated author (github.com/TianpeiLuke,
+    an ML model catalog) - NOT Commure's Athelas. Not recorded.
+- registry: rubygems
+  result: none
+- registry: crates.io
+  result: none
+  note: >-
+    github.com/commure hosts several Rust repositories (sourcegen, datatest, stencil, hazy,
+    precommit, cargo-local-registry) but they are internal/OSS tooling, not clients for the
+    Commure API, and are not evaluated here as API SDKs.
+- registry: maven-central
+  result: none
+- registry: nuget
+  result: none
+- registry: pkg.go.dev
+  result: none
+- registry: homebrew
+  tap: https://github.com/commure/homebrew-packages
+  result: not-an-sdk
+  note: >-
+    Commure operates a public Homebrew tap, but its 31 formulae are all pinned CPython builds
+    (python@3.9 - python@3.14) for internal toolchain reproducibility. There is no Commure CLI or
+    client formula in it.
+packages:
+- name: '@commure/components-core'
+  language: typescript
+  registry: private-npm
+  registry_url: https://npm.developer.commure.com/
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+  source: yarn.lock of github.com/commure/patient-chart-demo-app
+  note: >-
+    Core clinical UI + data component library for Commure SMART apps. version read from the pinned
+    dependency in Commure's own demo app; `published` is null because the private registry that
+    held the metadata (npm.developer.commure.com) no longer resolves and the package is absent
+    from registry.npmjs.org, so no publish date can be read from any registry.
+- name: '@commure/components-data'
+  language: typescript
+  registry: private-npm
+  registry_url: https://npm.developer.commure.com/
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+  source: package.json of github.com/commure/patient-chart-demo-app
+- name: '@commure/smart-core'
+  language: typescript
+  registry: private-npm
+  registry_url: https://npm.developer.commure.com/
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+  note: SMART App Launch client - the OAuth/OIDC launch and token handling layer.
+- name: '@commure/fhir-types'
+  language: typescript
+  registry: private-npm
+  registry_url: https://npm.developer.commure.com/
+  official: true
+  role: types
+  version: 0.1.12
+  published: null
+  installable: false
+  note: TypeScript type definitions for the FHIR resource graph.
+- name: '@commure/fhir-client'
+  language: typescript
+  registry: private-npm
+  registry_url: https://npm.developer.commure.com/
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+  note: FHIR REST client - the closest thing to a conventional API SDK in the suite.
+- name: '@commure/fhir-rest'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-operations'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+  note: Client bindings for the FHIR extended operations ($everything, $expand, $export, ...).
+- name: '@commure/fhir-search'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-query'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-terminology'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-validation'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-definition'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-structure-definition'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-resource'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-history'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-storage'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-db'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-db-sync'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhir-sync'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: sdk
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/fhirpath'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: library
+  version: 0.1.12
+  published: null
+  installable: false
+  note: FHIRPath expression evaluator.
+- name: '@commure/fhirpatch'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: library
+  version: 0.1.12
+  published: null
+  installable: false
+  note: Backs the $fhir-patch / $commure-json-patch extended operations.
+- name: '@commure/components-dashboard'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: components
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/components-foundation'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: components
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/components-web-fhir'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: components
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/components-data-internal'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: components
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/react-data-providers'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: components
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/react-logger'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: library
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/style'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: components
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/autogen'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: codegen
+  version: 0.1.12
+  published: null
+  installable: false
+  note: Generates components from a Commure DSL over FHIR StructureDefinitions.
+- name: '@commure/autogen-dsl'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: codegen
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/logger'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: library
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/shared-utils'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: library
+  version: 0.1.12
+  published: null
+  installable: false
+- name: '@commure/base64-utf8'
+  language: typescript
+  registry: private-npm
+  official: true
+  role: library
+  version: 0.1.12
+  published: null
+  installable: false
+counts:
+  total: 33
+  official: 33
+  publicly_installable: 0
+  with_registry_version: 33
+  with_registry_publish_date: 0
+decay:
+  signal: strong
+  finding: >-
+    Every first-party Commure client package is pinned at 0.1.12 in Commure's own demo app, whose
+    last commit is 2025-09-05 and which is now ARCHIVED on GitHub. The private registry that
+    served them (npm.developer.commure.com) is NXDOMAIN, the account-setup instructions host
+    (staging.developer.commure.com) is NXDOMAIN, and the tutorial they accompany
+    (developer.commure.com/docs/patient-chart-tutorial/introduction) returns HTTP 404. Zero of the
+    33 packages can be installed today by anyone, authenticated or not.
+  evidence:
+  - url: https://registry.npmjs.org/@commure%2Fcomponents-core
+    http_status: 404
+  - url: https://registry.npmjs.org/@commure%2Ffhir-types
+    http_status: 404
+  - url: https://npm.developer.commure.com/
+    http_status: '000'
+    note: NXDOMAIN
+  - url: https://staging.developer.commure.com/
+    http_status: '000'
+    note: NXDOMAIN
+  - url: https://developer.commure.com/docs/patient-chart-tutorial/introduction
+    http_status: 404
+  checked: '2026-08-15'
+sdk_pointer_withheld:
+  reason: >-
+    No `type: SDKs` pointer is emitted in apis.yml. The SDK check asks whether a developer can
+    obtain and use a first-party client library; here the answer is no on every registry probed.
+    Recording these as shipping SDKs would credit Commure with a client surface that cannot be
+    installed. The packages are recorded under `type: Packages` instead, which is the honest
+    claim: they existed, they were first-party, and here is exactly what happened to them.

@@ -1,6 +1,13 @@
-generated: '2026-07-31'
+generated: '2026-08-15'
 method: derived
 source: openapi/commure-fhir-openapi.yml
+also_probed:
+- url: https://accounts.commure.com/.well-known/openid-configuration
+  status: 200
+- url: https://accounts.commure.com/.well-known/oauth-authorization-server
+  status: 200
+- url: https://accounts.commure.com/oauth2/default/.well-known/openid-configuration
+  status: 200
 also_searched:
 - https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
 - https://www.commure.com/trust-center
@@ -60,11 +67,68 @@ standards:
 - id: oauth2-pkce
   name: 'OAuth 2.0 PKCE (RFC 7636)'
   conforms: true
-  evidence: code_challenge and code_challenge_method parameters on the authorize endpoint
+  evidence: >-
+    code_challenge and code_challenge_method parameters on the authorize endpoint of the published
+    FHIR contract; and LIVE, code_challenge_methods_supported [S256] on both accounts.commure.com
+    authorization servers.
+- id: oidc-discovery
+  name: 'OpenID Connect Discovery 1.0 (/.well-known/openid-configuration)'
+  conforms: true
+  method: probed
+  evidence: >-
+    LIVE. https://accounts.commure.com/.well-known/openid-configuration returns HTTP 200 with a
+    valid provider-metadata document (issuer https://accounts.commure.com), as does the custom
+    authorization server at /oauth2/default/. Saved verbatim in well-known/. Note this is Commure's
+    product sign-in host (Okta Customer Identity on Commure's domain), not the retired FHIR
+    developer platform - the tenant-host discovery document declared in the published FHIR contract
+    is still unreachable.
+  artifacts:
+  - well-known/commure-accounts-openid-configuration.json
+  - well-known/commure-accounts-default-openid-configuration.json
+- id: rfc8414-as-metadata
+  name: 'RFC 8414 OAuth 2.0 Authorization Server Metadata'
+  conforms: true
+  method: probed
+  evidence: >-
+    LIVE. https://accounts.commure.com/.well-known/oauth-authorization-server returns HTTP 200 with
+    a conformant authorization-server metadata document.
+  artifact: well-known/commure-accounts-oauth-authorization-server.json
+- id: rfc8628-device-grant
+  name: 'RFC 8628 OAuth 2.0 Device Authorization Grant'
+  conforms: true
+  method: probed
+  evidence: >-
+    device_authorization_endpoint advertised and urn:ietf:params:oauth:grant-type:device_code
+    listed in grant_types_supported on accounts.commure.com.
+- id: rfc7591-dynamic-client-registration
+  name: 'RFC 7591 OAuth 2.0 Dynamic Client Registration'
+  conforms: partial
+  method: probed
+  evidence: >-
+    A registration_endpoint (https://accounts.commure.com/oauth2/v1/clients) is advertised. This is
+    standard Okta org behaviour and is expected to be access-token protected; it was not exercised,
+    so open registration is NOT asserted.
+- id: rfc9449-dpop
+  name: 'RFC 9449 DPoP (Demonstrating Proof of Possession)'
+  conforms: true
+  method: probed
+  evidence: >-
+    dpop_signing_alg_values_supported [RS256, RS384, RS512, ES256, ES384, ES512] advertised on both
+    accounts.commure.com authorization servers.
+- id: rfc9728-protected-resource-metadata
+  name: 'RFC 9728 OAuth 2.0 Protected Resource Metadata'
+  conforms: false
+  method: probed
+  evidence: >-
+    /.well-known/oauth-protected-resource returns HTTP 405 on accounts.commure.com and 404 on
+    www.commure.com. No Commure resource server advertises protected-resource metadata, so an agent
+    cannot discover which authorization server guards which API.
 - id: rfc7517-jwks
   name: 'JSON Web Key Set (RFC 7517)'
   conforms: true
-  evidence: GET /auth/jwks returns a JWKS for verifying ID tokens
+  evidence: >-
+    GET /auth/jwks returns a JWKS for verifying ID tokens in the published FHIR contract; and LIVE,
+    accounts.commure.com advertises jwks_uri https://accounts.commure.com/oauth2/v1/keys.
 - id: rfc7232-conditional-requests
   name: 'HTTP Conditional Requests (RFC 7232)'
   conforms: true

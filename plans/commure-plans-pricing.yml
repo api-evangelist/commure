@@ -1,0 +1,40 @@
+generated: '2026-08-15'
+method: searched
+source: https://www.commure.com/pricing
+plan_count: 0
+publishes_pricing: false
+model: enterprise-contact-sales
+summary: >-
+  Commure publishes no pricing tiers, no list price, no per-seat or per-encounter rate, and no API
+  usage pricing. https://www.commure.com/pricing returns HTTP 200 but contains no plan table - it is
+  a lead-capture page whose only calls to action are "Schedule A Demo" / "Get a Demo" and a "Let's
+  Talk" link to the contact form. Every Commure product (Ambient AI / Scribe, RCM, Call Center
+  Agents, Orchestrator, Engage, Commure Pro, Strongline, Athelas Home) is sold under a negotiated
+  health-system contract. API access is separately gated by the Developer User Agreement and is not
+  priced publicly either.
+plans: []
+signals:
+  self_serve_signup: false
+  free_tier: false
+  trial: false
+  usage_based_pricing_published: false
+  quotas_published: false
+  quota_note: >-
+    The Developer User Agreement does state that "The Developer Services may be subject to
+    limitations, such as limits on storage space or the number of calls you are permitted to make
+    against our APIs" - but it names no number. See rate-limits/commure-rate-limits.yml.
+  procurement: >-
+    Demo request -> sales qualification -> health-system contract. Onboarding is approval-gated;
+    see accessModel in apis.yml.
+x-evidence:
+  fetched: '2026-08-15'
+  checks:
+  - url: https://www.commure.com/pricing
+    http_status: 200
+    finding: No plan tiers, no prices, no currency. CTA text is "Schedule A Demo" / "Get a Demo".
+  - url: https://www.commure.com/legal/developer-user-agreement
+    http_status: 200
+    finding: Governs Developer Services / Sandbox Environment access; contains no pricing.
+  - url: https://developer.commure.com
+    http_status: 404
+    finding: The retired developer portal, which would have carried any API price list.

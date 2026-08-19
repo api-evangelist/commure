@@ -1,7 +1,10 @@
-generated: '2026-07-31'
+generated: '2026-08-15'
 method: searched
 source: openapi/commure-fhir-openapi.yml
 docs: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+also_probed:
+- https://accounts.commure.com/oauth2/default/.well-known/openid-configuration
+- https://accounts.commure.com/.well-known/oauth-authorization-server
 schemes:
 - name: SMARTonFHIR
   source: openapi/commure-fhir-openapi.yml
@@ -44,8 +47,67 @@ scopes:
   - authorizationCode
   sources:
   - openapi/commure-fhir-openapi.yml
+identity_provider_scopes:
+  scope_note: >-
+    These scopes are advertised anonymously by Commure's LIVE identity host accounts.commure.com
+    (an Okta Customer Identity org on Commure's own domain). They govern sign-in to Commure's
+    product estate, NOT the FHIR API above - keep the two sets separate. Recorded because they are
+    the only Commure OAuth scopes readable from a live, machine-readable document today.
+  method: probed
+  probed: '2026-08-15'
+  authorization_servers:
+  - issuer: https://accounts.commure.com/oauth2/default
+    kind: custom
+    source: well-known/commure-accounts-default-openid-configuration.json
+    commure_configured: true
+    scopes:
+    - scope: default
+      description: Default access scope on Commure's custom authorization server.
+      standard: false
+    - scope: interclient_access
+      description: >-
+        Commure-defined scope; the name indicates cross-client/service access between Commure
+        applications. Commure publishes no description of it.
+      standard: false
+    - scope: device_sso
+      description: Okta device-level single sign-on, enabled on this authorization server.
+      standard: false
+    - scope: groups
+      description: Group memberships of the authenticated user, returned as a claim.
+      standard: false
+    - scope: openid
+      description: OpenID Connect authentication; returns an ID token.
+      standard: true
+    - scope: profile
+      description: OpenID Connect profile claims.
+      standard: true
+    - scope: email
+      description: OpenID Connect email claim.
+      standard: true
+    - scope: address
+      description: OpenID Connect address claim.
+      standard: true
+    - scope: phone
+      description: OpenID Connect phone_number claim.
+      standard: true
+    - scope: offline_access
+      description: Request a refresh token.
+      standard: true
+  - issuer: https://accounts.commure.com
+    kind: org
+    source: well-known/commure-accounts-oauth-authorization-server.json
+    commure_configured: false
+    scopes_summary: >-
+      Advertises 7 OIDC scopes (openid, email, profile, address, phone, offline_access, groups)
+      plus 78 okta.* management scopes (okta.users.*, okta.groups.*, okta.apps.*, okta.policies.*,
+      okta.logs.read, ...). The okta.* set is Okta's own platform management API, identical in
+      every Okta org, and is NOT enumerated here because it says nothing about Commure - see the
+      verbatim document for the full list.
+    okta_platform_scope_count: 78
+    oidc_scope_count: 7
 x-searched:
-  fetched: '2026-07-31'
+  fetched: '2026-08-15'
+  previous: '2026-07-31'
   sources:
   - https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
   - postman/commure-fhir-api-collection.json

@@ -1,0 +1,106 @@
+generated: '2026-08-15'
+method: searched
+source:
+- https://www.commure.com/legal/developer-user-agreement
+- https://github.com/commure/patient-chart-demo-app
+- https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+status: contractual-only
+summary: >-
+  Commure operates a Sandbox Environment as a named, contractually-defined part of its Developer
+  Services - but it is credential-gated, has no public sign-up, and its hosts no longer resolve.
+  The Developer User Agreement (last revised 2024-10-10) is the only surviving public document that
+  describes it. There is no test-vs-live key prefix scheme published, no hosted test tokens, no test
+  fixtures, no time simulation and no trigger tooling. What Commure DOES publish are six public
+  Postman collections with realistic FHIR request bodies, and one archived demo application wired to
+  an example tenant - which together are the closest thing to a usable sandbox artifact on the
+  public surface.
+environments:
+- name: Sandbox Environment
+  purpose: development and testing against Commure Developer Services
+  base_url_pattern: https://api-{tenant-id}.developer.commure.com
+  reachable: false
+  reachable_note: NXDOMAIN for every tenant id tested, including Commure's own documented examples.
+  self_serve: false
+  gated_by: Commure Developer User Agreement (credentials issued by Commure)
+  data_policy: >-
+    "Only test data may be submitted or uploaded to the Sandbox Environment. You are prohibited
+    from using any real protected health information or personal health information in the Sandbox
+    Environment." - Developer User Agreement, revised 2024-10-10.
+  availability_commitment: none
+  availability_note: >-
+    The agreement disclaims any guarantee of functionality, availability or uptime for the Sandbox
+    Environment and reserves the right to delete sandbox data at any time without notice.
+  license_scope: >-
+    "solely for your personal, noncommercial and internal use and solely for the purposes of
+    creating healthcare applications" - production use of the sandbox is not granted.
+- name: staging developer portal
+  host: staging.developer.commure.com
+  purpose: >-
+    Named in Commure's own demo-app README as the home of the Account Setup instructions for
+    obtaining authenticated package-registry credentials.
+  reachable: false
+  reachable_note: NXDOMAIN.
+credentials:
+  test_key_prefix: null
+  live_key_prefix: null
+  token_prefix: 'Sec-'
+  token_prefix_note: >-
+    Commure bearer tokens carry a `Sec-` prefix, but this is NOT a mode marker - it applies to
+    tokens generally and does not distinguish sandbox from production. No test-vs-live key scheme
+    is published.
+  issuance: >-
+    Credentials are issued by Commure under the Developer User Agreement, are declared Commure's
+    Confidential Information and property, may not be disclosed, transferred, sold or sublicensed,
+    and may be revoked at any time for any reason.
+  self_serve_key: false
+published_test_values:
+  client_id: smart_hello_world
+  client_id_source: >-
+    Commure's public Postman collection description and the .env.example of
+    github.com/commure/patient-chart-demo-app. This is the tutorial client id Commure published
+    itself - recorded verbatim, not invented.
+  example_tenant_ids:
+  - value: '0000'
+    source: '.env.example of patient-chart-demo-app (REACT_APP_FHIR_BASE_URL=https://api-0000.developer.commure.com/api/v1/r4)'
+  - value: '99750511'
+    source: Commure's Postman collection documentation, used as the worked example tenant id.
+  starter_scopes: openid email
+  test_cards: null
+  test_bank_accounts: null
+  test_patients: null
+  test_patients_note: >-
+    Commure publishes no seeded sandbox patient roster. The clinical-scenario Postman collections
+    use placeholder variables ({{baseUrl}}, :id) rather than fixed sandbox fixtures.
+tooling:
+  time_simulation: false
+  test_clocks: false
+  fixtures: false
+  triggers: false
+  mock_server: false
+  mock_server_note: >-
+    Commure's public Postman workspace publishes collections but no Postman mock server, so the
+    collections cannot be exercised without a provisioned tenant.
+usable_public_substitutes:
+- artifact: postman/_index.yml
+  what: >-
+    Six first-party public Postman collections (59-request FHIR API collection plus five clinical
+    scenarios) with real request shapes and example bodies - runnable against any FHIR server once
+    baseUrl is repointed.
+- artifact: openapi/commure-fhir-openapi.yml
+  what: OpenAPI 3.1 derived from those collections; usable to generate a local mock.
+- repo: https://github.com/commure/patient-chart-demo-app
+  what: Archived first-party SMART app that shows the intended sandbox wiring end to end.
+  archived: true
+x-evidence:
+  fetched: '2026-08-15'
+  checks:
+  - url: https://www.commure.com/legal/developer-user-agreement
+    http_status: 200
+    finding: Names the Sandbox Environment, its test-data-only rule, credential terms and unquantified call limits.
+  - url: https://staging.developer.commure.com/
+    http_status: '000'
+    note: NXDOMAIN
+  - url: https://developer.commure.com/docs/patient-chart-tutorial/introduction
+    http_status: 404
+  - url: https://github.com/commure/patient-chart-demo-app
+    http_status: 200

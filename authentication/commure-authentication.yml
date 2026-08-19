@@ -1,7 +1,11 @@
-generated: '2026-07-31'
+generated: '2026-08-15'
 method: searched
 source: openapi/commure-fhir-openapi.yml
 docs: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+also_probed:
+- https://accounts.commure.com/.well-known/openid-configuration
+- https://accounts.commure.com/.well-known/oauth-authorization-server
+- https://accounts.commure.com/oauth2/default/.well-known/openid-configuration
 summary:
   types:
   - http
@@ -62,8 +66,83 @@ tenancy:
   note: >-
     The tenant id is part of the host (api-{tenant-id}.developer.commure.com), so a token is
     scoped to a single tenant host. Commure's own example tenant id is 99750511.
+identity_provider:
+  scope: >-
+    This block describes the LIVE identity surface for Commure's PRODUCTS (the accounts.commure.com
+    sign-in already linked from apis.yml). It is a separate surface from the FHIR API auth
+    described above, which lives on the retired tenant hosts. It is recorded here because it is the
+    only Commure authentication endpoint that is currently reachable and machine-readable.
+  host: accounts.commure.com
+  platform: Okta Customer Identity (Okta-hosted, on Commure's own domain)
+  method: probed
+  probed: '2026-08-15'
+  issuers:
+  - issuer: https://accounts.commure.com
+    metadata:
+    - path: /.well-known/openid-configuration
+      status: 200
+      file: well-known/commure-accounts-openid-configuration.json
+      spec: OpenID Connect Discovery 1.0
+    - path: /.well-known/oauth-authorization-server
+      status: 200
+      file: well-known/commure-accounts-oauth-authorization-server.json
+      spec: RFC 8414 OAuth 2.0 Authorization Server Metadata
+    endpoints:
+      authorization: https://accounts.commure.com/oauth2/v1/authorize
+      token: https://accounts.commure.com/oauth2/v1/token
+      userinfo: https://accounts.commure.com/oauth2/v1/userinfo
+      jwks: https://accounts.commure.com/oauth2/v1/keys
+      introspection: https://accounts.commure.com/oauth2/v1/introspect
+      revocation: https://accounts.commure.com/oauth2/v1/revoke
+      registration: https://accounts.commure.com/oauth2/v1/clients
+      device_authorization: https://accounts.commure.com/oauth2/v1/device/authorize
+      end_session: https://accounts.commure.com/oauth2/v1/logout
+  - issuer: https://accounts.commure.com/oauth2/default
+    role: Commure's custom authorization server - the one carrying Commure-configured scopes.
+    metadata:
+    - path: /oauth2/default/.well-known/openid-configuration
+      status: 200
+      file: well-known/commure-accounts-default-openid-configuration.json
+      spec: OpenID Connect Discovery 1.0
+    endpoints:
+      authorization: https://accounts.commure.com/oauth2/default/v1/authorize
+      token: https://accounts.commure.com/oauth2/default/v1/token
+      userinfo: https://accounts.commure.com/oauth2/default/v1/userinfo
+      jwks: https://accounts.commure.com/oauth2/default/v1/keys
+      introspection: https://accounts.commure.com/oauth2/default/v1/introspect
+      revocation: https://accounts.commure.com/oauth2/default/v1/revoke
+      end_session: https://accounts.commure.com/oauth2/default/v1/logout
+  grants:
+  - authorization_code
+  - implicit
+  - refresh_token
+  - password
+  - client_credentials
+  - 'urn:ietf:params:oauth:grant-type:device_code'
+  grants_note: >-
+    client_credentials is advertised only by the org authorization server
+    (/.well-known/oauth-authorization-server); the custom `default` server does not list it. The
+    urn:okta:* and auth0.com MFA grant types in the raw documents are Okta platform grants and are
+    not restated here.
+  response_types: [code, token, id_token, code id_token, code token, id_token token, code id_token token]
+  pkce: true
+  code_challenge_methods: [S256]
+  token_endpoint_auth_methods: [client_secret_basic, client_secret_post, client_secret_jwt, private_key_jwt, none]
+  private_key_jwt: true
+  dpop: true
+  dpop_algorithms: [RS256, RS384, RS512, ES256, ES384, ES512]
+  dynamic_client_registration: true
+  dynamic_client_registration_note: >-
+    A registration_endpoint is advertised (/oauth2/v1/clients). This is standard Okta org behaviour
+    and is almost certainly access-token protected; it was not exercised.
+  caveat: >-
+    This is a delegated identity provider. It authenticates humans into Commure's product estate;
+    it is NOT an authorization server for a public Commure API, and no Commure API resource server
+    advertises it (/.well-known/oauth-protected-resource returns 405 here). Do not read it as a
+    developer-facing API auth surface.
 x-searched:
-  fetched: '2026-07-31'
+  fetched: '2026-08-15'
+  previous: '2026-07-31'
   sources:
   - https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
   - postman/commure-fhir-api-collection.json

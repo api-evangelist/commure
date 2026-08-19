@@ -1,0 +1,2315 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Commure FHIR API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "FHIR",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the version history of a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id/_history",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the Logical Id of a resource"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the version history of a resource"
+        },
+        {
+          "info": {
+            "name": "Get a specific version of a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id/_history/:vid",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the Logical Id of a resource"
+              },
+              {
+                "name": "vid",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the Version Id of a resource"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a specific version of a resource"
+        },
+        {
+          "info": {
+            "name": "Get a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id",
+            "headers": [
+              {
+                "name": "Etag",
+                "value": ""
+              },
+              {
+                "name": "If-Modified-Since",
+                "value": ""
+              },
+              {
+                "name": "If-None-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the Logical Id of a resource"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get a resource"
+        },
+        {
+          "info": {
+            "name": "Update a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id",
+            "headers": [
+              {
+                "name": "If-Match",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the Logical Id of a resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update a resource"
+        },
+        {
+          "info": {
+            "name": "Delete a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the Logical Id of a resource"
+              },
+              {
+                "name": "search parameters",
+                "value": "",
+                "type": "query",
+                "description": "optional search parameters for conditional delete"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Delete a resource"
+        },
+        {
+          "info": {
+            "name": "Apply FHIRPatch for STU3 resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id/$fhir-patch",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Apply FHIRPatch for STU3 resources"
+        },
+        {
+          "info": {
+            "name": "Apply JSON patch as extended operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id/$commure-json-patch",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              },
+              {
+                "name": "patch",
+                "value": "",
+                "type": "query",
+                "description": "(Required) JSON Patch to apply, serialized as string"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Apply JSON patch as extended operation"
+        },
+        {
+          "info": {
+            "name": "Validate a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/:id/$validate",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The validate operation checks whether the attached content would be acceptable either generally, as a create, an update or as a delete to an existing resource.  The action the server takes depends on the mode parameter:  \n\n* [mode not provided]: The server checks the content of the resource against any schema, constraint rules, and other general terminology rules \n* create: The server checks the content, and then checks that the content would be acceptable as a create (e.g. that the content woul"
+        },
+        {
+          "info": {
+            "name": "Search resources of a type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              },
+              {
+                "name": "parameters",
+                "value": "",
+                "type": "query",
+                "description": "search criteria"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Search resources of a type"
+        },
+        {
+          "info": {
+            "name": "Create a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type",
+            "headers": [
+              {
+                "name": "If-None-Exist",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a resource"
+        },
+        {
+          "info": {
+            "name": "Get the version history of all resources of a type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/_history",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the version history of all resources of a type"
+        },
+        {
+          "info": {
+            "name": "Validate a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/:type/$validate",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "(Required) the name of a resource type (e.g. 'Patient')"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The validate operation checks whether the attached content would be acceptable either generally, as a create, an update or as a delete to an existing resource.  The action the server takes depends on the mode parameter:  \n\n* [mode not provided]: The server checks the content of the resource against any schema, constraint rules, and other general terminology rules \n* create: The server checks the content, and then checks that the content would be acceptable as a create (e.g. that the content woul"
+        },
+        {
+          "info": {
+            "name": "Code System based Validation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CodeSystem/:id/$validate-code",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Validate that a coded value is in the code system. If the operation is not called at the instance level, one of the parameters \"url\" or \"codeSystem\" must be provided. The operation returns a result (true / false), an error message, and the recommended display for the code.\n\nWhen invoking this operation, a client SHALL provide one (and only one) of the parameters (code+system, coding, or codeableConcept). Other parameters (including version and display) are optional"
+        },
+        {
+          "info": {
+            "name": "Subsumption Testing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CodeSystem/:id/$subsumes",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Test the subsumption relationship between code/Coding A and code/Coding B given the semantics of subsumption in the underlying code system (see [hierarchyMeaning](https://www.hl7.org/fhir/codesystem-definitions.html#CodeSystem.hierarchyMeaning)).\n\nWhen invoking this operation, a client SHALL provide both a and codes, either as code or Coding parameters. The system parameter is required unless the operation is invoked on an instance of a code system resource. Other parameters are optional"
+        },
+        {
+          "info": {
+            "name": "Code System based Validation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CodeSystem/$validate-code",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Validate that a coded value is in the code system. If the operation is not called at the instance level, one of the parameters \"url\" or \"codeSystem\" must be provided. The operation returns a result (true / false), an error message, and the recommended display for the code.\n\nWhen invoking this operation, a client SHALL provide one (and only one) of the parameters (code+system, coding, or codeableConcept). Other parameters (including version and display) are optional"
+        },
+        {
+          "info": {
+            "name": "Concept Look Up & Decomposition",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CodeSystem/$lookup",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Given a code/system, or a Coding, get additional details about the concept, including definition, status, designations, and properties. One of the products of this operation is a full decomposition of a code from a structured terminology.\n\nWhen invoking this operation, a client SHALL provide both a system and a code, either using the system+code parameters, or in the coding parameter. Other parameters are optional"
+        },
+        {
+          "info": {
+            "name": "Subsumption Testing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CodeSystem/$subsumes",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Test the subsumption relationship between code/Coding A and code/Coding B given the semantics of subsumption in the underlying code system (see [hierarchyMeaning](https://www.hl7.org/fhir/codesystem-definitions.html#CodeSystem.hierarchyMeaning)).\n\nWhen invoking this operation, a client SHALL provide both a and codes, either as code or Coding parameters. The system parameter is required unless the operation is invoked on an instance of a code system resource. Other parameters are optional"
+        },
+        {
+          "info": {
+            "name": "Concept Translation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/ConceptMap/$translate",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Translate a code from one value set to another, based on the existing value set and concept maps resources, and/or other additional knowledge available to the server. \r\n\r\n One (and only one) of the in parameters (code, coding, codeableConcept) must be provided, to identify the code that is to be translated.  \r\n\r\n The operation returns a set of parameters including a 'result' for whether there is an acceptable match, and a list of possible matches. Note that the list of matches may include notes "
+        },
+        {
+          "info": {
+            "name": "Concept Translation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/ConceptMap/:id/$translate",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Translate a code from one value set to another, based on the existing value set and concept maps resources, and/or other additional knowledge available to the server. \r\n\r\n One (and only one) of the in parameters (code, coding, codeableConcept) must be provided, to identify the code that is to be translated.  \r\n\r\n The operation returns a set of parameters including a 'result' for whether there is an acceptable match, and a list of possible matches. Note that the list of matches may include notes "
+        },
+        {
+          "info": {
+            "name": "Fetch Patient Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/Patient/$everything",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no start date is provided, all records prior to the end date are in scope."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no end date is provided, all records subsequent to the start date are in scope."
+              },
+              {
+                "name": "_since",
+                "value": "",
+                "type": "query",
+                "description": "Resources updated after this period will be included in the response. The intent of this parameter is to allow a client to request only records that have changed since the last request, based on either the return header time, or or (for asynchronous use), the transaction time"
+              },
+              {
+                "name": "_type",
+                "value": "",
+                "type": "query",
+                "description": "One or more parameters, each containing one or more comma-delimited FHIR resource types to include in the return resources. In the absence of any specified types, the server returns all resource types"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "See discussion below on the utility of paging through the results of the $everything operation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation is used to return all the information related to one or more patients described in the resource or context on which this operation is invoked. The response is a bundle of type \"searchset\". At a minimum, the patient resource(s) itself is returned, along with any other resources that the server has that are related to the patient(s), and that are available for the given user. The server also returns whatever resources are needed to support the records - e.g. linked practitioners, me"
+        },
+        {
+          "info": {
+            "name": "Fetch Patient Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/Patient/:id/$everything",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no start date is provided, all records prior to the end date are in scope."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no end date is provided, all records subsequent to the start date are in scope."
+              },
+              {
+                "name": "_since",
+                "value": "",
+                "type": "query",
+                "description": "Resources updated after this period will be included in the response. The intent of this parameter is to allow a client to request only records that have changed since the last request, based on either the return header time, or or (for asynchronous use), the transaction time"
+              },
+              {
+                "name": "_type",
+                "value": "",
+                "type": "query",
+                "description": "One or more parameters, each containing one or more comma-delimited FHIR resource types to include in the return resources. In the absence of any specified types, the server returns all resource types"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "See discussion below on the utility of paging through the results of the $everything operation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation is used to return all the information related to one or more patients described in the resource or context on which this operation is invoked. The response is a bundle of type \"searchset\". At a minimum, the patient resource(s) itself is returned, along with any other resources that the server has that are related to the patient(s), and that are available for the given user. The server also returns whatever resources are needed to support the records - e.g. linked practitioners, me"
+        },
+        {
+          "info": {
+            "name": "Fetch Product Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/MedicinalProduct/$everything",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "_since",
+                "value": "",
+                "type": "query",
+                "description": "Resources updated after this period will be included in the response. The intent of this parameter is to allow a client to request only records that have changed since the last request, based on either the return header time, or or (for asynchronous use), the transaction time"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "See discussion below on the utility of paging through the results of the $everything operation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation is used to return all the information related to one or more products described in the resource or context on which this operation is invoked. The response is a bundle of type \"searchset\". At a minimum, the product resource(s) itself is returned, along with any other resources that the server has that are related to the products(s), and that are available for the given user. This is typically the marketing authorisations, ingredients, packages, therapeutic indications and so on. T"
+        },
+        {
+          "info": {
+            "name": "Fetch Product Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/MedicinalProduct/:id/$everything",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "_since",
+                "value": "",
+                "type": "query",
+                "description": "Resources updated after this period will be included in the response. The intent of this parameter is to allow a client to request only records that have changed since the last request, based on either the return header time, or or (for asynchronous use), the transaction time"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "See discussion below on the utility of paging through the results of the $everything operation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation is used to return all the information related to one or more products described in the resource or context on which this operation is invoked. The response is a bundle of type \"searchset\". At a minimum, the product resource(s) itself is returned, along with any other resources that the server has that are related to the products(s), and that are available for the given user. This is typically the marketing authorisations, ingredients, packages, therapeutic indications and so on. T"
+        },
+        {
+          "info": {
+            "name": "Fetch a subset of the CapabilityStatement resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CapabilityStatement/:id/$subset",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "server",
+                "value": "",
+                "type": "query",
+                "description": "The canonical URL - use this if the subset is not invoked on an instance (or on the /metadata end-point)"
+              },
+              {
+                "name": "resource",
+                "value": "",
+                "type": "query",
+                "description": "(Required) A resource that the client would like to include in the return"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation asks the server to return a subset of the CapabilityStatement resource - just the REST parts that relate to a set of nominated resources - the resources that the client is interested in"
+        },
+        {
+          "info": {
+            "name": "Test if a server implements a client's required operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CapabilityStatement/:id/$implements",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation asks the server to check that it implements all the resources, interactions, search parameters, and operations that the client provides in its capability statement. The client provides its capability statement inline, or by referring the server to the canonical URL of its capability statement"
+        },
+        {
+          "info": {
+            "name": "Fetch a subset of the CapabilityStatement resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CapabilityStatement/$subset",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "server",
+                "value": "",
+                "type": "query",
+                "description": "The canonical URL - use this if the subset is not invoked on an instance (or on the /metadata end-point)"
+              },
+              {
+                "name": "resource",
+                "value": "",
+                "type": "query",
+                "description": "(Required) A resource that the client would like to include in the return"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation asks the server to return a subset of the CapabilityStatement resource - just the REST parts that relate to a set of nominated resources - the resources that the client is interested in"
+        },
+        {
+          "info": {
+            "name": "Test if a server implements a client's required operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CapabilityStatement/$conforms",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "left",
+                "value": "",
+                "type": "query",
+                "description": "A canonical reference to the left-hand system's capability statement"
+              },
+              {
+                "name": "right",
+                "value": "",
+                "type": "query",
+                "description": "A canonical reference to the right-hand system's capability statement"
+              },
+              {
+                "name": "mode",
+                "value": "",
+                "type": "query",
+                "description": "What kind of comparison to perform - server to server, or client to server (use the codes 'server/server' or 'client/server')"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation asks the server to check that it implements all the resources, interactions, search parameters, and operations that the client provides in its capability statement. The client provides both capability statements by reference, and must ensure that all the referenced resources are available to the conformance server"
+        },
+        {
+          "info": {
+            "name": "Test if a server implements a client's required operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/CapabilityStatement/$implements",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation asks the server to check that it implements all the resources, interactions, search parameters, and operations that the client provides in its capability statement. The client provides its capability statement inline, or by referring the server to the canonical URL of its capability statement"
+        },
+        {
+          "info": {
+            "name": "Generate Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/StructureDefinition/$snapshot",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Generates a [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html) instance  with  a snapshot, based on a differential in a specified [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html).   \n\nIf the operation is not called at the instance level, either *definition* or *url* 'in' parameters must be provided. If more than one is specified, servers may raise an error or may resolve with the parameter of their choice. If called at the instance level, these param"
+        },
+        {
+          "info": {
+            "name": "Generate Snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/StructureDefinition/:id/$snapshot",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Generates a [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html) instance  with  a snapshot, based on a differential in a specified [StructureDefinition](https://www.hl7.org/fhir/structuredefinition.html).   \n\nIf the operation is not called at the instance level, either *definition* or *url* 'in' parameters must be provided. If more than one is specified, servers may raise an error or may resolve with the parameter of their choice. If called at the instance level, these param"
+        },
+        {
+          "info": {
+            "name": "Model Instance Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/StructureMap/$transform",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The transform operation takes input content, applies a structure map transform, and then returns the output."
+        },
+        {
+          "info": {
+            "name": "Model Instance Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/StructureMap/:id/$transform",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The transform operation takes input content, applies a structure map transform, and then returns the output."
+        },
+        {
+          "info": {
+            "name": "Value Set Expansion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/ValueSet/:id/$expand",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The definition of a value set is used to create a simple collection of codes suitable for use for data entry or validation. \n\nIf the operation is not called at the instance level, one of the in parameters url, context or valueSet must be provided.  An expanded value set will be returned, or an OperationOutcome with an error message."
+        },
+        {
+          "info": {
+            "name": "Value Set based Validation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/ValueSet/:id/$validate-code",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Validate that a coded value is in the set of codes allowed by a value set.\n\nIf the operation is not called at the instance level, one of the in parameters url, context or  valueSet must be provided.  One (and only one) of the in parameters code, coding, or codeableConcept must be provided.  The operation returns a result (true / false), an error message, and the recommended display for the code"
+        },
+        {
+          "info": {
+            "name": "Value Set Expansion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/ValueSet/$expand",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The definition of a value set is used to create a simple collection of codes suitable for use for data entry or validation. \n\nIf the operation is not called at the instance level, one of the in parameters url, context or valueSet must be provided.  An expanded value set will be returned, or an OperationOutcome with an error message."
+        },
+        {
+          "info": {
+            "name": "Value Set based Validation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/ValueSet/$validate-code",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Validate that a coded value is in the set of codes allowed by a value set.\n\nIf the operation is not called at the instance level, one of the in parameters url, context or  valueSet must be provided.  One (and only one) of the in parameters code, coding, or codeableConcept must be provided.  The operation returns a result (true / false), an error message, and the recommended display for the code"
+        },
+        {
+          "info": {
+            "name": "Search all resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              },
+              {
+                "name": "parameters",
+                "value": "",
+                "type": "query",
+                "description": "search criteria"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Search all resources"
+        },
+        {
+          "info": {
+            "name": "Post a batch or transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Submit a set of actions to perform on a server in a single HTTP request/response. The actions may be performed independently as a 'batch', or as a single atomic 'transaction' where the entire set of changes succeed or fail as a single entity."
+        },
+        {
+          "info": {
+            "name": "Get the version history of all resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/_history",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the version history of all resources"
+        },
+        {
+          "info": {
+            "name": "Get this FHIR server's metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/metadata",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR version of the CapabilityStatement itself). There is no default value."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves the server's Capability Statement that defines how it supports resources."
+        },
+        {
+          "info": {
+            "name": "Get OpenAPI spec",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/openapi",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get OpenAPI spec"
+        },
+        {
+          "info": {
+            "name": "AsyncCancel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/$async-cancel",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "operation",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Asynchronous operation to cancel"
+              },
+              {
+                "name": "operation_uri",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Canonical URI of asynchronous operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "AsyncCancel"
+        },
+        {
+          "info": {
+            "name": "AsyncStatus",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/$async-status",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "operation",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Asynchronous operation to check status for"
+              },
+              {
+                "name": "operation_uri",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Canonical URI of asynchronous operation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "AsyncStatus"
+        },
+        {
+          "info": {
+            "name": "Bulk delete data from a FHIR server",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/$bulk-delete",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "_since",
+                "value": "",
+                "type": "query",
+                "description": "First updated timestamp of the resources to delete."
+              },
+              {
+                "name": "_until",
+                "value": "",
+                "type": "query",
+                "description": "Last updated timestamp of the resources to delete."
+              },
+              {
+                "name": "_type",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of FHIR resource types to delete."
+              },
+              {
+                "name": "_typeFilter",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of FHIR REST API queries."
+              },
+              {
+                "name": "_lists",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of subscriptions."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Bulk delete data from a FHIR server"
+        },
+        {
+          "info": {
+            "name": "Export data from a FHIR server",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/$export",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Export data from a FHIR server"
+        },
+        {
+          "info": {
+            "name": "Import data from a FHIR server",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/$import",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Import data from a FHIR server"
+        },
+        {
+          "info": {
+            "name": "Closure Table Maintenance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/$closure",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation provides support for ongoing maintenance of a client-side [transitive closure table](https://en.wikipedia.org/wiki/Transitive_closure#In_graph_theory) based on server-side terminological logic. For details of how this is used, see [Maintaining a Closure Table](https://www.hl7.org/fhir/terminology-service.html#closure)"
+        },
+        {
+          "info": {
+            "name": "Discover what versions a server supports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/$versions",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Using the [FHIR Version Mime Type Parameter](https://www.hl7.org/fhir/http.html#version-parameter), a server can support [multiple versions on the same end-point](https://www.hl7.org/fhir/versioning.html#mt-version). The only way for client to find out what versions a server supports in this fashion is the $versions operation. The client invokes the operation with no parameters. and the server returns the list of supported versions, along with the default version it will use if no fhirVersion pa"
+        },
+        {
+          "info": {
+            "name": "Fetch Encounter Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/Encounter/:id/$everything",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "_since",
+                "value": "",
+                "type": "query",
+                "description": "Resources updated after this period will be included in the response. The intent of this parameter is to allow a client to request only records that have changed since the last request, based on either the return header time, or or (for asynchronous use), the transaction time"
+              },
+              {
+                "name": "_type",
+                "value": "",
+                "type": "query",
+                "description": "One or more parameters, each containing one or more comma-delimited FHIR resource types to include in the return resources. In the absense of any specified types, the server returns all resource types"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "See discussion below on the utility of paging through the results of the $everything operation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation is used to return all the information related to an encounter described in the resource on which this operation is invoked. The response is a bundle of type \"searchset\". At a minimum, the encounter resource itself is returned, along with any other resources that the server has available for the given encounter for the user. The server also returns whatever resources are needed to support the records - e.g. linked practitioners, locations, organizations etc. The principle intended "
+        },
+        {
+          "info": {
+            "name": "Fetch a group of Patient Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/Group/:id/$everything",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) id of the instance"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no start date is provided, all records prior to the end date are in scope."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no end date is provided, all records subsequent to the start date are in scope."
+              },
+              {
+                "name": "_since",
+                "value": "",
+                "type": "query",
+                "description": "Resources updated after this period will be included in the response. The intent of this parameter is to allow a client to request only records that have changed since the last request, based on either the return header time, or or (for asynchronous use), the transaction time"
+              },
+              {
+                "name": "_type",
+                "value": "",
+                "type": "query",
+                "description": "One or more parameters, each containing one or more comma-delimited FHIR resource types to include in the return resources. In the absense of any specified types, the server returns all resource types"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "See discussion below on the utility of paging through the results of the $everything operation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation is used to return all the information related to one or more patients that are part of the group on which this operation is invoked. The response is a bundle of type \"searchset\". At a minimum, the patient resource(s) itself is returned, along with any other resources that the server has that are related to the patient(s), and that are available for the given user. The server also returns whatever resources are needed to support the records - e.g. linked practitioners, medications,"
+        },
+        {
+          "info": {
+            "name": "Find a functional list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/List/$find",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "patient",
+                "value": "",
+                "type": "query",
+                "description": "(Required) The id of a patient resource located on the server on which this operation is executed"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "(Required) The code for the functional list that is being found"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This operation allows a client to find an identified list for a particular function by its function. The operation takes two parameters, the identity of a patient, and the name of a functional list.     The list of defined functional lists can be found at [Current Resource Lists](https://www.hl7.org/fhir/lifecycle.html#lists). Applications are not required to support all the lists, and may define additional lists of their own.   If the system is able to locate a list that serves the identified p"
+        },
+        {
+          "info": {
+            "name": "Last N Observations Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/:fhir_version/Observation/$lastn",
+            "params": [
+              {
+                "name": "fhir_version",
+                "value": "",
+                "type": "path",
+                "description": "(Required) Version of the FHIR"
+              },
+              {
+                "name": "max",
+                "value": "",
+                "type": "query",
+                "description": "`max` is  an optional input parameter to the *lastn* query operation.  It is used to specify the maximum number of Observations to return from each group. For example for the query \"Fetch the last 3 results for all vitals for a patient\" `max` = 3."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "The *lastn query* meets the common need for searching for the most recent or last n=number of observations for a subject. For example, retrieving the last 5 temperatures for a patient to view trends or fetching the most recent laboratory results or vitals signs. To ask a server to return the last n=number of observations, the *lastn* query uses the [normal search parameters](https://www.hl7.org/fhir/observation.html#search) defined for the Observation resource.  However, rather than their normal"
+        },
+        {
+          "info": {
+            "name": "SMART App Launch Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/api/v1/r4/.well-known/smart-configuration",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "[SMART App Launch configuration](http://www.hl7.org/fhir/smart-app-launch/conformance/index.html#using-well-known)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authorization Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/auth/authorize",
+            "params": [
+              {
+                "name": "response_type",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Specifies the desired authentication flow. This parameter is a space-delimited string that supports any combination of the following values:\n* `code`: [Authorization Code](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth) flow.\n* `token`: [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth) flow.\n* `id_token`: [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth) flow.\n\nThe most common and secure usage is to pass the value `code`, which indicates that the client wishes to receive a single-use authorization `code` at its `redirect_uri`, which can then be exchanged for an access token using the Token Endpoint.\n\nAlternatively, the values `token` or `token id_token` (if using the `openid` scope) indicate that the client wishes to receive an access token and optional OpenID Connect ID token at its `redirect_uri` utilizing the [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth) flow. Finally, combinations such as `code token id_token` may also be used for the [Hybrid](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth) flow.\n\n**For security reasons, the Implicit and Hybrid flows may not be enabled in all Commure Platform environments.**"
+              },
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Client identifier provided by Commure."
+              },
+              {
+                "name": "redirect_uri",
+                "value": "",
+                "type": "query",
+                "description": "(Required) The URL to which the user should be navigated following completion or failure of the SSO process. For security reasons, this URL *must* be pre-configured with the Commure Platform; otherwise, the user will be presented with an error message."
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Specifies the scope of the access request. This parameter is a space-delimited string that supports any combination of the following values:\n* `openid`: Requests that the Token Endpoint return an OpenID Connect ID token.\n* `profile`: Requests that the OpenID Connect ID token contain the user's default profile claims (`name`, `family_name`, `given_name`, etc.).\n* `email`: Requests that the OpenID Connect ID token contain the `email` claim.\n* `phone`: Requests that the OpenID Connect ID token contain the user's phone number.\n* `address`: Requests that the OpenID Connect ID token contain the user's address.\n* `fhirUser`: Requests that the OpenID Connect ID token contain the SMART App Launch `fhirUser` claim."
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "(Required) Opaque value used for passing state to the `redirect_uri` and mitigating session fixation/cross-site request forgery (CSRF) vulnerabilities. Clients not using the `<CommureSmartApp/>` React component should include a cryptographically secure pseudorandom value in the `state` parameter for each authentication request and verify this value at the specified `redirect_uri`, as described in [Section 10.12 of RFC 6749](https://tools.ietf.org/html/rfc6749#section-10.12)."
+              },
+              {
+                "name": "nonce",
+                "value": "",
+                "type": "query",
+                "description": "Value used for mitigating ID token replay vulnerabilities. If the `openid` scope is requested, this parameter will be included as the `nonce` value in the OpenID Connect ID token. Clients not using the `<CommureSmartApp/>` React component should provide a cryptographically secure pseudorandom `nonce` value for each authentication request and verify that the `nonce` contained in the ID token returned by the Token Endpoint (or passed to the `redirect_uri` in the Implicit or Hybrid flows) matches this value."
+              },
+              {
+                "name": "code_challenge",
+                "value": "",
+                "type": "query",
+                "description": "[Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) challenge for mitigating authorization code interception attacks. Clients without a client secret are strongly encouraged to use PKCE when utilizing the Authorization Code flow."
+              },
+              {
+                "name": "code_challenge_method",
+                "value": "",
+                "type": "query",
+                "description": "[Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) challenge method. For security reasons, the Commure Authentication API only supports the `S256` (SHA-256) challenge method."
+              },
+              {
+                "name": "launch",
+                "value": "",
+                "type": "query",
+                "description": "Opaque value issued by the EHR during the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence). If omitted, the [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence) is used."
+              },
+              {
+                "name": "aud",
+                "value": "",
+                "type": "query",
+                "description": "URL of the EHR FHIR server that should be used to authenticate the user. This URL must be pre-configured with the Commure Platform. This parameter is required for the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence) and is typically used alongside the `launch` parameter. However, it may optionally be specified for the [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence) as well."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint allows clients to initiate the OpenID Connect/SMART App Launch authentication process. The Commure Authentication API supports the OpenID Connect [Authorization Code](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth), [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth), and [Hybrid](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth) flows, combined with the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart"
+        },
+        {
+          "info": {
+            "name": "Token Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-{tenant-id}.developer.commure.com/auth/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint allows clients to retrieve access tokens for use in authenticated requests to Commure APIs.\n\nThe following grant types are supported:\n* Authorization Code: used for exchanging a single-use authorization `code` sent to a client's `redirect_uri` for an access token and optional refresh token.\n* Client Credentials: used by clients with an associated client secret for which the Client Credentials grant is enabled within the specific Commure Platform environment to exchange their client"
+        },
+        {
+          "info": {
+            "name": "Public Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/auth/jwks",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint returns a [JSON Web Key Set (JWKS)](https://tools.ietf.org/html/rfc7517) that clients can use to verify OpenID Connect ID tokens issued by the Commure Authentication API."
+        },
+        {
+          "info": {
+            "name": "OpenID Connect Provider Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/auth/.well-known/openid-configuration",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "[OpenID Connect Discovery metadata](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig) describing provider configuration."
+        },
+        {
+          "info": {
+            "name": "UserInfo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/auth/userinfo",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint returns information about the authenticated user in the form of [OpenID Connect claims](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). The returned claims depend on the `scope` values associated with the access token as well as the information provided by the single sign-on (SSO) provider and electronic health record (EHR). Even when the relevant scope has been requested, clients should expect that any claim except `aud` (audience client ID) and `sub` (subject ID)"
+        },
+        {
+          "info": {
+            "name": "Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-{tenant-id}.developer.commure.com/auth/logout",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-{tenant-id}.developer.commure.com/auth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint logs out the authenticated user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
