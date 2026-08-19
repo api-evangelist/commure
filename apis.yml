@@ -51,7 +51,7 @@ tags:
 - Terminology Services
 created: '2026-07-24'
 modified: '2026-08-15'
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 x-type: company
 x-source: harvest:secondary-market
 apis:
