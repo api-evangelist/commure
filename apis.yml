@@ -55,33 +55,16 @@ specificationVersion: '0.23'
 x-type: company
 x-source: harvest:secondary-market
 apis:
-- aid: commure:commure-fhir-api
-  name: Commure FHIR API
-  description: >-
-    The HL7 FHIR REST API of the Commure Developer Platform, together with its
-    OpenID Connect / SMART App Launch authentication surface. Covers the FHIR
-    RESTful interactions (read, vread, update, delete, create, search, history,
-    batch/transaction), the terminology operations ($lookup, $validate-code,
-    $subsumes, $translate, $expand, $closure), the conformance operations
-    ($subset, $implements, $conforms, $snapshot, $transform), the record
-    operations ($everything on Patient/Encounter/Group/MedicinalProduct), FHIR
-    Bulk Data ($export, $import, $bulk-delete, $async-status, $async-cancel) and
-    two Commure extensions ($commure-json-patch, $fhir-patch). Access is gated
-    behind the Commure Developer User Agreement; the tenant hosts described by
-    the published contract no longer resolve publicly.
+- aid: commure:commure-auth-api
+  name: Commure Auth API
+  description: The auth API from Commure — 6 operation(s) for auth.
   humanURL: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
   baseURL: https://api-{tenant-id}.developer.commure.com
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   tags:
-  - FHIR
-  - SMART on FHIR
-  - Healthcare
-  - Terminology
-  - Bulk Data
-  - OpenID Connect
+  - auth
   properties:
   - type: OpenAPI
-    url: openapi/commure-fhir-openapi.yml
+    url: openapi/commure-auth-api-openapi.yml
   - type: Postman
     url: postman/commure-fhir-api-collection.json
   - type: APIReference
@@ -98,14 +81,44 @@ apis:
     url: conventions/commure-conventions.yml
   - type: DataModel
     url: data-model/commure-data-model.yml
-  - type: Overlay
-    url: overlays/commure-fhir-overlay.yaml
   - type: RateLimits
     url: rate-limits/commure-rate-limits.yml
   - type: Sandbox
     url: sandbox/commure-sandbox.yml
-  - type: MCPServer
-    url: mcp/commure-mcp.yml
+  - type: Packages
+    url: packages/commure-packages.yml
+  - type: WellKnown
+    url: well-known/commure-well-known.yml
+- aid: commure:commure-fhir-api
+  name: Commure FHIR API
+  description: The FHIR API from Commure — 49 operation(s) for fhir.
+  humanURL: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+  baseURL: https://api-{tenant-id}.developer.commure.com
+  tags:
+  - FHIR
+  properties:
+  - type: OpenAPI
+    url: openapi/commure-fhir-api-openapi.yml
+  - type: Postman
+    url: postman/commure-fhir-api-collection.json
+  - type: APIReference
+    url: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
+  - type: Authentication
+    url: authentication/commure-authentication.yml
+  - type: OAuthScopes
+    url: scopes/commure-scopes.yml
+  - type: ErrorCatalog
+    url: errors/commure-problem-types.yml
+  - type: Conventions
+    url: conventions/commure-conventions.yml
+  - type: Idempotency
+    url: conventions/commure-conventions.yml
+  - type: DataModel
+    url: data-model/commure-data-model.yml
+  - type: RateLimits
+    url: rate-limits/commure-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/commure-sandbox.yml
   - type: Packages
     url: packages/commure-packages.yml
   - type: WellKnown
