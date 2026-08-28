@@ -21,6 +21,18 @@ description: >-
   FHIR RESTful, terminology and Bulk Data operations plus the OpenID Connect /
   SMART App Launch authentication endpoints, alongside five clinical-scenario
   collections. Home market is the United States.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: approval
