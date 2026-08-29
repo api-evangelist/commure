@@ -18,8 +18,9 @@ edges:
   capability_id: BC-2900.60
   capability_id_l1: BC-2900
   capability_name: Healthcare Interoperability Operations
-  confidence: 0.7
-  evidence: '''endpoints are specified by the HL7 FHIR standard for healthcare data exchange'' with ''standard
-    FHIR RESTful, terminology, and Bulk Data operations'''
-  reason: Generic FHIR resource CRUD/search/bulk operations constitute healthcare interoperability operations
-    (FHIR endpoints) rather than a specific clinical capability.
+  confidence: 0.82
+  evidence: '"endpoints are specified by the HL7 FHIR standard for healthcare data exchange"; searchResourcesType,
+    createResource, validateResource, Bulk Data operations'
+  reason: Generic FHIR RESTful/terminology/bulk-data resource CRUD is the operation of FHIR endpoints
+    for clinical data exchange, mapping to healthcare interoperability operations rather than any specific
+    clinical or revenue capability.
