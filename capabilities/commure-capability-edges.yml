@@ -1,0 +1,25 @@
+slug: commure
+provider: Commure
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Healthcare Providers
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: FHIR
+  spec_file: commure-fhir-api-openapi.yml
+  capability_id: BC-2900.60
+  capability_id_l1: BC-2900
+  capability_name: Healthcare Interoperability Operations
+  confidence: 0.7
+  evidence: '''endpoints are specified by the HL7 FHIR standard for healthcare data exchange'' with ''standard
+    FHIR RESTful, terminology, and Bulk Data operations'''
+  reason: Generic FHIR resource CRUD/search/bulk operations constitute healthcare interoperability operations
+    (FHIR endpoints) rather than a specific clinical capability.
