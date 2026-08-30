@@ -1,0 +1,323 @@
+openapi: 3.2.0
+info:
+  title: Commure FHIR Auth API
+  version: v1
+  summary: HL7 FHIR REST API and SMART App Launch / OpenID Connect authentication surface of the Commure Developer Platform.
+  description: 'Derived verbatim from Commure''s first-party PUBLIC Postman collection "Commure FHIR API" (https://www.postman.com/commure/commure/collection/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24). The majority of endpoints are specified by the HL7 FHIR standard for healthcare data exchange; Commure adds extended operations ($commure-json-patch, $bulk-delete, $async-status, $async-cancel) alongside the standard FHIR RESTful, terminology, and Bulk Data operations.
+
+
+    NOTE ON AVAILABILITY: the Commure Developer Platform this contract describes (developer.commure.com, tenant hosts api-{tenant-id}.developer.commure.com) no longer resolves publicly (HTTP 404 / NXDOMAIN as of 2026-07-31). This document is captured as the machine-readable record of a real, published contract - it is not a claim that the endpoints are currently callable.'
+  contact:
+    name: Commure Developer Support
+    email: dev-support@commure.com
+  x-origin:
+  - format: postman
+    version: 2.1.0
+    url: https://www.postman.com/collections/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24
+    converter: api-evangelist enrichment pipeline (postman->openapi)
+servers:
+- url: https://api-{tenant-id}.developer.commure.com
+  description: Tenant-scoped Commure Developer Platform host (per Commure's published Postman collection). Currently non-resolving.
+  variables:
+    tenant-id:
+      default: tenant-id
+      description: Tenant identifier, the suffix on the dashboard URL when signed in to the Commure Developer Platform.
+security:
+- SMARTonFHIR: []
+- bearerAuth: []
+tags:
+- name: auth
+paths:
+  /auth/authorize:
+    get:
+      operationId: authorizationEndpoint
+      summary: Authorization Endpoint
+      description: 'This endpoint allows clients to initiate the OpenID Connect/SMART App Launch authentication process. The Commure Authentication API supports the OpenID Connect [Authorization Code](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth), [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth), and [Hybrid](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth) flows, combined with the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence) and [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence).
+
+
+        To initiate the authentication process, clients should navigate the user to this endpoint, which will authenticate the user via single sign-on (SSO), typically using an SSO provider configured by a hospital. After the SSO process completes, the user will be redirected to the URL specified in the `redirect_uri` query parameter. This callback will include query parameters that depend on the requested `response_type`, as defined by [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html). If an error occurs, the user will be forwarded to the `redirect_uri` with an [error response](https://openid.net/specs/openid-connect-core-1_0.html#AuthError).'
+      tags:
+      - auth
+      parameters:
+      - name: response_type
+        in: query
+        required: false
+        description: '(Required) Specifies the desired authentication flow. This parameter is a space-delimited string that supports any combination of the following values:
+
+          * `code`: [Authorization Code](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth) flow.
+
+          * `token`: [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth) flow.
+
+          * `id_token`: [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth) flow.
+
+
+          The most common and secure usage is to pass the value `code`, which indicates that the client wishes to receive a single-use authorization `code` at its `redirect_uri`, which can then be exchanged for an access token using the Token Endpoint.
+
+
+          Alternatively, the values `token` or `token id_token` (if using the `openid` scope) indicate that the client wishes to receive an access token and optional OpenID Connect ID token at its `redirect_uri` utilizing the [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth) flow. Finally, combinations such as `code token id_token` may also be used for the [Hybrid](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth) flow.
+
+
+          **For security reasons, the Implicit and Hybrid flows may not be enabled in all Commure Platform environments.**'
+        schema:
+          type: string
+      - name: client_id
+        in: query
+        required: false
+        description: (Required) Client identifier provided by Commure.
+        schema:
+          type: string
+      - name: redirect_uri
+        in: query
+        required: false
+        description: (Required) The URL to which the user should be navigated following completion or failure of the SSO process. For security reasons, this URL *must* be pre-configured with the Commure Platform; otherwise, the user will be presented with an error message.
+        schema:
+          type: string
+          format: uri
+      - name: scope
+        in: query
+        required: false
+        description: '(Required) Specifies the scope of the access request. This parameter is a space-delimited string that supports any combination of the following values:
+
+          * `openid`: Requests that the Token Endpoint return an OpenID Connect ID token.
+
+          * `profile`: Requests that the OpenID Connect ID token contain the user''s default profile claims (`name`, `family_name`, `given_name`, etc.).
+
+          * `email`: Requests that the OpenID Connect ID token contain the `email` claim.
+
+          * `phone`: Requests that the OpenID Connect ID token contain the user''s phone number.
+
+          * `address`: Requests that the OpenID Connect ID token contain the user''s address.
+
+          * `fhirUser`: Requests that the OpenID Connect ID token contain the SMART App Launch `fhirUser` claim.'
+        schema:
+          type: string
+      - name: state
+        in: query
+        required: false
+        description: (Required) Opaque value used for passing state to the `redirect_uri` and mitigating session fixation/cross-site request forgery (CSRF) vulnerabilities. Clients not using the `<CommureSmartApp/>` React component should include a cryptographically secure pseudorandom value in the `state` parameter for each authentication request and verify this value at the specified `redirect_uri`, as described in [Section 10.12 of RFC 6749](https://tools.ietf.org/html/rfc6749#section-10.12).
+        schema:
+          type: string
+      - name: nonce
+        in: query
+        required: false
+        description: Value used for mitigating ID token replay vulnerabilities. If the `openid` scope is requested, this parameter will be included as the `nonce` value in the OpenID Connect ID token. Clients not using the `<CommureSmartApp/>` React component should provide a cryptographically secure pseudorandom `nonce` value for each authentication request and verify that the `nonce` contained in the ID token returned by the Token Endpoint (or passed to the `redirect_uri` in the Implicit or Hybrid flows) matches this value.
+        schema:
+          type: string
+      - name: code_challenge
+        in: query
+        required: false
+        description: '[Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) challenge for mitigating authorization code interception attacks. Clients without a client secret are strongly encouraged to use PKCE when utilizing the Authorization Code flow.'
+        schema:
+          type: string
+      - name: code_challenge_method
+        in: query
+        required: false
+        description: '[Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) challenge method. For security reasons, the Commure Authentication API only supports the `S256` (SHA-256) challenge method.'
+        schema:
+          type: string
+      - name: launch
+        in: query
+        required: false
+        description: Opaque value issued by the EHR during the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence). If omitted, the [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence) is used.
+        schema:
+          type: string
+      - name: aud
+        in: query
+        required: false
+        description: URL of the EHR FHIR server that should be used to authenticate the user. This URL must be pre-configured with the Commure Platform. This parameter is required for the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence) and is typically used alongside the `launch` parameter. However, it may optionally be specified for the [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence) as well.
+        schema:
+          type: string
+          format: uri
+      responses:
+        '303':
+          description: See Other
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/token:
+    post:
+      operationId: tokenEndpoint
+      summary: Token Endpoint
+      description: 'This endpoint allows clients to retrieve access tokens for use in authenticated requests to Commure APIs.
+
+
+        The following grant types are supported:
+
+        * Authorization Code: used for exchanging a single-use authorization `code` sent to a client''s `redirect_uri` for an access token and optional refresh token.
+
+        * Client Credentials: used by clients with an associated client secret for which the Client Credentials grant is enabled within the specific Commure Platform environment to exchange their client credentials for an access token and optional refresh token. This grant should only be used when making Commure API requests that cannot reasonably be associated with an individual user. Otherwise, the Authorization Code grant should be used.
+
+        * Refresh Token: used for exchanging a refresh token for a new access token and optional refresh token.'
+      tags:
+      - auth
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/jwks:
+    get:
+      operationId: publicKeys
+      summary: Public Keys
+      description: This endpoint returns a [JSON Web Key Set (JWKS)](https://tools.ietf.org/html/rfc7517) that clients can use to verify OpenID Connect ID tokens issued by the Commure Authentication API.
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/.well-known/openid-configuration:
+    get:
+      operationId: openIDConnectProviderMetadata
+      summary: OpenID Connect Provider Metadata
+      description: '[OpenID Connect Discovery metadata](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig) describing provider configuration.'
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/userinfo:
+    get:
+      operationId: userInfo
+      summary: UserInfo
+      description: This endpoint returns information about the authenticated user in the form of [OpenID Connect claims](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). The returned claims depend on the `scope` values associated with the access token as well as the information provided by the single sign-on (SSO) provider and electronic health record (EHR). Even when the relevant scope has been requested, clients should expect that any claim except `aud` (audience client ID) and `sub` (subject ID) may be omitted from the response.
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+  /auth/logout:
+    get:
+      operationId: logout
+      summary: Logout
+      description: This endpoint logs out the authenticated user.
+      tags:
+      - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+      security:
+      - SMARTonFHIR: []
+      - bearerAuth: []
+components:
+  schemas:
+    OperationOutcome:
+      type: object
+      description: HL7 FHIR OperationOutcome - the standard FHIR error envelope returned on 4xx/5xx.
+      properties:
+        resourceType:
+          type: string
+          const: OperationOutcome
+        issue:
+          type: array
+          items:
+            type: object
+            properties:
+              severity:
+                type: string
+                enum:
+                - fatal
+                - error
+                - warning
+                - information
+              code:
+                type: string
+              diagnostics:
+                type: string
+              details:
+                type: object
+              expression:
+                type: array
+                items:
+                  type: string
+  securitySchemes:
+    SMARTonFHIR:
+      type: oauth2
+      description: OpenID Connect / SMART App Launch. Supports the authorization code (with PKCE), implicit, hybrid, client credentials and refresh token grants.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api-{tenant-id}.developer.commure.com/auth/authorize
+          tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+          refreshUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+          scopes:
+            openid: OpenID Connect authentication; returns an ID token.
+            profile: OpenID Connect profile claims for the authenticated user.
+            email: OpenID Connect email claim for the authenticated user.
+            launch: SMART EHR launch context.
+            offline_access: Request a refresh token for long-lived access.
+        clientCredentials:
+          tokenUrl: https://api-{tenant-id}.developer.commure.com/auth/token
+          scopes: {}
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Access token issued by the Commure Authentication API, presented as a bearer token (tokens are prefixed "Sec-").
