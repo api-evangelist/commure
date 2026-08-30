@@ -73,6 +73,8 @@ apis:
   humanURL: https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api
   baseURL: https://api-{tenant-id}.developer.commure.com
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
