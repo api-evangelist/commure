@@ -2,25 +2,19 @@ aid: commure
 url: https://raw.githubusercontent.com/api-evangelist/commure/refs/heads/main/apis.yml
 name: Commure
 kind: company
-description: >-
-  Commure is a San Francisco-based AI-native healthcare technology company that
-  operates an integrated clinical and operational platform for United States
-  health systems following its 2023 combination with Athelas. Its products span
-  Ambient AI clinical documentation (Scribe/Dictation), end-to-end Revenue Cycle
-  Management (RCM), Call Center Agents, referral Orchestrator, patient Engage
-  coordination, Commure Pro clinical intelligence, Strongline staff-safety
-  alerting, and Athelas Home point-of-care diagnostics, integrating with 60+
-  EHRs across 130+ health systems processing over $25B in annual claims. Commure
-  launched a FHIR-native open developer platform in 2020; that public developer
-  portal (developer.commure.com) and its tenant API hosts
-  (api-{tenant-id}.developer.commure.com) no longer resolve, and today the API
-  surface is a gated, partner-only offering governed by a Developer User
-  Agreement (Sandbox Environment + Developer Services). The one surviving
-  first-party machine-readable contract is Commure's public Postman workspace,
-  which publishes a 59-request "Commure FHIR API" collection covering the HL7
-  FHIR RESTful, terminology and Bulk Data operations plus the OpenID Connect /
-  SMART App Launch authentication endpoints, alongside five clinical-scenario
-  collections. Home market is the United States.
+description: Commure is a San Francisco-based AI-native healthcare technology company that operates an
+  integrated clinical and operational platform for United States health systems following its 2023 combination
+  with Athelas. Its products span Ambient AI clinical documentation (Scribe/Dictation), end-to-end Revenue
+  Cycle Management (RCM), Call Center Agents, referral Orchestrator, patient Engage coordination, Commure
+  Pro clinical intelligence, Strongline staff-safety alerting, and Athelas Home point-of-care diagnostics,
+  integrating with 60+ EHRs across 130+ health systems processing over $25B in annual claims. Commure
+  launched a FHIR-native open developer platform in 2020; that public developer portal (developer.commure.com)
+  and its tenant API hosts (api-{tenant-id}.developer.commure.com) no longer resolve, and today the API
+  surface is a gated, partner-only offering governed by a Developer User Agreement (Sandbox Environment
+  + Developer Services). The one surviving first-party machine-readable contract is Commure's public Postman
+  workspace, which publishes a 59-request "Commure FHIR API" collection covering the HL7 FHIR RESTful,
+  terminology and Bulk Data operations plus the OpenID Connect / SMART App Launch authentication endpoints,
+  alongside five clinical-scenario collections. Home market is the United States.
 deliveryModel:
   model: saas
   open_source: false
@@ -62,7 +56,7 @@ tags:
 - Health System
 - Terminology Services
 created: '2026-07-24'
-modified: '2026-08-15'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 x-type: company
 x-source: harvest:secondary-market
@@ -155,7 +149,7 @@ common:
 - type: Postman
   url: https://www.postman.com/commure/commure/
 - type: OpenAPI
-  url: openapi/commure-fhir-openapi.yml
+  url: openapi/_original/commure-fhir-openapi.yml
 - type: Authentication
   url: authentication/commure-authentication.yml
 - type: OAuthScopes
@@ -196,7 +190,10 @@ common:
   url: components/commure-components.yml
 - type: X-MCPServerCandidate
   url: mcp/commure-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
 - type: Sandbox
   url: sandbox/commure-sandbox.yml
 - type: Plans
