@@ -3,10 +3,7 @@ info:
   title: Commure FHIR Auth API
   version: v1
   summary: HL7 FHIR REST API and SMART App Launch / OpenID Connect authentication surface of the Commure Developer Platform.
-  description: 'Derived verbatim from Commure''s first-party PUBLIC Postman collection "Commure FHIR API" (https://www.postman.com/commure/commure/collection/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24). The majority of endpoints are specified by the HL7 FHIR standard for healthcare data exchange; Commure adds extended operations ($commure-json-patch, $bulk-delete, $async-status, $async-cancel) alongside the standard FHIR RESTful, terminology, and Bulk Data operations.
-
-
-    NOTE ON AVAILABILITY: the Commure Developer Platform this contract describes (developer.commure.com, tenant hosts api-{tenant-id}.developer.commure.com) no longer resolves publicly (HTTP 404 / NXDOMAIN as of 2026-07-31). This document is captured as the machine-readable record of a real, published contract - it is not a claim that the endpoints are currently callable.'
+  description: Derived verbatim from Commure's first-party PUBLIC Postman collection "Commure FHIR API" (https://www.postman.com/commure/commure/collection/8745312-3d47dab4-e5ff-4e53-85fd-e53659614b24).
   contact:
     name: Commure Developer Support
     email: dev-support@commure.com
@@ -26,18 +23,18 @@ security:
 - SMARTonFHIR: []
 - bearerAuth: []
 tags:
-- name: auth
+- name: Auth
 paths:
   /auth/authorize:
     get:
       operationId: authorizationEndpoint
       summary: Authorization Endpoint
-      description: 'This endpoint allows clients to initiate the OpenID Connect/SMART App Launch authentication process. The Commure Authentication API supports the OpenID Connect [Authorization Code](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth), [Implicit](https://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth), and [Hybrid](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth) flows, combined with the [SMART EHR launch sequence](https://www.hl7.org/fhir/smart-app-launch/#ehr-launch-sequence) and [SMART standalone launch sequence](https://www.hl7.org/fhir/smart-app-launch/#standalone-launch-sequence).
+      description: 'This endpoint allows clients to initiate the OpenID Connect/SMART App Launch authentication process. The Commure Authentication API supports the OpenID Connect Authorization Code, Implicit, and Hybrid flows, combined with the SMART EHR launch sequence and SMART standalone launch sequence.
 
 
-        To initiate the authentication process, clients should navigate the user to this endpoint, which will authenticate the user via single sign-on (SSO), typically using an SSO provider configured by a hospital. After the SSO process completes, the user will be redirected to the URL specified in the `redirect_uri` query parameter. This callback will include query parameters that depend on the requested `response_type`, as defined by [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html). If an error occurs, the user will be forwarded to the `redirect_uri` with an [error response](https://openid.net/specs/openid-connect-core-1_0.html#AuthError).'
+        To initiate the authentication process, clients should navigate the user to this endpoint, which will authenticate the user via single sign-on (SSO), typically using an SSO provider configured by a hospital. After the SSO process completes, the user will be redirected to the URL specified in the `redirect_uri` query parameter. This callback will include query parameters that depend on the requested `response_type`, as defined by OpenID Connect. If an error occurs, the user will be forwarded to the `redirect_uri` with an error response.'
       tags:
-      - auth
+      - Auth
       parameters:
       - name: response_type
         in: query
@@ -159,7 +156,7 @@ paths:
 
         * Refresh Token: used for exchanging a refresh token for a new access token and optional refresh token.'
       tags:
-      - auth
+      - Auth
       requestBody:
         required: true
         content:
@@ -192,9 +189,9 @@ paths:
     get:
       operationId: publicKeys
       summary: Public Keys
-      description: This endpoint returns a [JSON Web Key Set (JWKS)](https://tools.ietf.org/html/rfc7517) that clients can use to verify OpenID Connect ID tokens issued by the Commure Authentication API.
+      description: This endpoint returns a JSON Web Key Set (JWKS) that clients can use to verify OpenID Connect ID tokens issued by the Commure Authentication API.
       tags:
-      - auth
+      - Auth
       responses:
         '200':
           description: OK
@@ -209,9 +206,9 @@ paths:
     get:
       operationId: openIDConnectProviderMetadata
       summary: OpenID Connect Provider Metadata
-      description: '[OpenID Connect Discovery metadata](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig) describing provider configuration.'
+      description: OpenID Connect Discovery metadata describing provider configuration.
       tags:
-      - auth
+      - Auth
       responses:
         '200':
           description: OK
@@ -226,9 +223,9 @@ paths:
     get:
       operationId: userInfo
       summary: UserInfo
-      description: This endpoint returns information about the authenticated user in the form of [OpenID Connect claims](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). The returned claims depend on the `scope` values associated with the access token as well as the information provided by the single sign-on (SSO) provider and electronic health record (EHR). Even when the relevant scope has been requested, clients should expect that any claim except `aud` (audience client ID) and `sub` (subject ID) may be omitted from the response.
+      description: This endpoint returns information about the authenticated user in the form of OpenID Connect claims. The returned claims depend on the `scope` values associated with the access token as well as the information provided by the single sign-on (SSO) provider and electronic health record (EHR). Even when the relevant scope has been requested, clients should expect that any claim except `aud` (audience client ID) and `sub` (subject ID) may be omitted from the response.
       tags:
-      - auth
+      - Auth
       responses:
         '200':
           description: OK
@@ -251,7 +248,7 @@ paths:
       summary: Logout
       description: This endpoint logs out the authenticated user.
       tags:
-      - auth
+      - Auth
       responses:
         '200':
           description: OK
