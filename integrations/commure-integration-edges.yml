@@ -2,6 +2,8 @@ generated: '2026-10-13'
 method: searched
 checked:
 - https://aws.amazon.com/marketplace/
+- https://lantern.healthit.gov/api/daily/download
+- https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -19,3 +21,36 @@ edges:
   seller_name: Commure
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: ONC Certified Health IT ((g)(10) FHIR API)
+  partner: null
+  partner_match: register
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://lantern.healthit.gov/api/daily/download
+  category: ONC certified health IT (FHIR API)
+  contract_reference:
+    register: ONC Lantern FHIR endpoint monitor (lantern.healthit.gov daily download, source CHPL)
+    standard: ONC Health IT Certification 170.315(g)(10)
+    spec_file: null
+    role: onc-g10-certified-developer
+    registered_name: Commure (d/b/a Athelas)
+    register_id: Commure (d/b/a Athelas)
+    matched_domain: commure.com
+    matched_by: domain
+    domain_source: service-base-url list host
+    list_hosts:
+    - api.commure.com
+    fhir_versions:
+    - 4.0.1
+    signal_note: 'participation only: Lantern lists developers publishing the service-base-URL list a (g)(10) certification
+      requires, but not the CHPL listing status, so no certified_products / lapsed are claimed; endpoint counts
+      are the developer''s customers, context only, never counted'
+    detected_by: sweep-medtech.py
+    detected: '2026-10-18'
+  detected_by: sweep-medtech.py
+  first_seen: '2026-10-18'
+source:
+- https://lantern.healthit.gov/api/daily/download
+- https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices
