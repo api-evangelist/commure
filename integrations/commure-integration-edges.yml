@@ -4,6 +4,9 @@ checked:
 - https://aws.amazon.com/marketplace/
 - https://lantern.healthit.gov/api/daily/download
 - https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices
+- https://accreditation.directtrust.org/accredited-organizations
+- https://www.drummondgroup.com/certified-products/epcs/
+- https://www.ncpdp.org/Members
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -51,6 +54,43 @@ edges:
     detected: '2026-10-18'
   detected_by: sweep-medtech.py
   first_seen: '2026-10-18'
+- partner_name: Drummond Group (DEA EPCS certification)
+  partner: null
+  partner_match: register-name
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.drummondgroup.com/certified-products/epcs/
+  category: DEA EPCS certified application
+  contract_reference:
+    register: Drummond Group DEA EPCS certified products (drummondgroup.com/certified-products/epcs)
+    spec_file: null
+    standard: DEA EPCS (21 CFR Part 1311) third-party certification
+    role: epcs-certified
+    registered_name: Commure
+    matched_domain: null
+    matched_by: register-name
+    identity: register-name
+    identity_source: register-name
+    listing_kinds:
+    - prescriber
+    products_sample:
+    - PatientKeeper 9.2
+    certified_products:
+    - product: DEA EPCS prescriber application (Drummond certified)
+      lapsed: false
+      latest_certified: '2025-10-24'
+    signal_note: certified_products = one entry per EPCS application TYPE (prescriber / pharmacy) the company built
+      and had audited; integration audits (a purchased EPCS module) are participation only; lapsed when the newest
+      certification of that type is over two years old (DEA re-audit cycle); product and version counts are context,
+      never counted
+    detected_by: sweep-e-prescribing.py
+    detected: '2026-10-20'
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  detected_by: sweep-e-prescribing.py
+  first_seen: '2026-10-20'
 source:
 - https://lantern.healthit.gov/api/daily/download
 - https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices
