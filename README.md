@@ -1,4 +1,4 @@
-# Commure (commure)
+# Commure
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,90 +64,135 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Commure is a San Francisco-based AI-native healthcare technology company serving United States health systems, formed by the 2023 combination of Commure and Athelas. Its integrated platform spans Ambient AI clinical documentation (Scribe/Dictation), end-to-end Revenue Cycle Management (RCM), Call Center Agents, referral Orchestrator, patient Engage coordination, Commure Pro clinical intelligence, Strongline staff-safety alerting, and Athelas Home point-of-care diagnostics, integrating with 60+ EHRs across 130+ health systems processing over $25B in annual claims.
+Commure is a San Francisco-based AI-native healthcare technology company that operates an integrated clinical and operational platform for United States health systems following its 2023 combination with Athelas. Its products span Ambient AI clinical documentation (Scribe/Dictation), end-to-end Revenue Cycle Management (RCM), Call Center Agents, referral Orchestrator, patient Engage coordination, Commure Pro clinical intelligence, Strongline staff-safety alerting, and Athelas Home point-of-care diagnostics, integrating with 60+ EHRs across 130+ health systems processing over $25B in annual claims. Commure launched a FHIR-native open developer platform in 2020; that public developer portal (developer.commure.com) and its tenant API hosts (api-{tenant-id}.developer.commure.com) no longer resolve, and today the API surface is a gated, partner-only offering governed by a Developer User Agreement (Sandbox Environment + Developer Services). The one surviving first-party machine-readable contract is Commure's public Postman workspace, which publishes a 59-request "Commure FHIR API" collection covering the HL7 FHIR RESTful, terminology and Bulk Data operations plus the OpenID Connect / SMART App Launch authentication endpoints, alongside five clinical-scenario collections. Home market is the United States.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/commure/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/commure/refs/heads/main/apis.yml)
+**Areas:** Healthcare · United States · Clinical AI · Ambient AI · Revenue Cycle Management · FHIR · SMART on FHIR · Interoperability · Electronic Health Records · Remote Monitoring · Health System · Terminology Services
 
-## API surface
+## Commure on APIs.io
 
-Commure's API is a **gated, partner-only** Developer Services offering governed by the [Developer User Agreement](https://www.commure.com/legal/developer-user-agreement). The FHIR-native open developer platform launched in 2020 has been withdrawn without a published sunset notice: `developer.commure.com` returns HTTP 404 on every path, and the tenant API hosts `api-{tenant-id}.developer.commure.com` no longer resolve.
+Everything profiled for Commure is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/commure/](https://apis.io/providers/commure/)** — or go straight to one of the APIs or properties below.
 
-The one surviving first-party machine-readable contract is Commure's **public Postman workspace** ([postman.com/commure/commure](https://www.postman.com/commure/commure/)), which publishes a 59-request `Commure FHIR API` collection plus five clinical-scenario collections. All six are saved verbatim in `postman/`, and `openapi/commure-fhir-openapi.yml` is an OpenAPI 3.1 document derived from the reference collection — 55 paths, 59 operations covering the HL7 FHIR RESTful interactions, terminology services, conformance operations, FHIR Bulk Data, and the OpenID Connect / SMART App Launch authentication surface.
+### APIs (2)
 
-## Tags
+- [Commure Auth API](https://apis.io/apis/commure/commure-auth-api/) — The auth API from Commure — 6 operation(s) for auth.
+- [Commure FHIR API](https://apis.io/apis/commure/commure-fhir-api/) — The FHIR API from Commure — 49 operation(s) for fhir.
 
-- Healthcare
-- United States
-- Clinical AI
-- Ambient AI
-- Revenue Cycle Management
-- FHIR
-- SMART on FHIR
-- Interoperability
-- EHR
-- Remote Monitoring
-- Health System
-- Terminology Services
+### Published properties
 
-## Timestamps
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Created:** 2026-07-24
-- **Modified:** 2026-07-31
+#### MCP servers (1)
 
-## APIs
+Model Context Protocol servers that expose the API to agents.
 
-- **Commure FHIR API** — [Postman documentation](https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api) · base URL `https://api-{tenant-id}.developer.commure.com` (published; currently non-resolving) · OAuth 2.0 / OpenID Connect / SMART App Launch
+- [commure-mcp.yml](https://apis.io/servers/commure/commure-mcp-yml/)
 
-## Repo contents
+#### Collections (1)
 
-| Path | What |
-|---|---|
-| `apis.yml` | APIs.json 0.20 profile |
-| `openapi/` | OpenAPI 3.1 derived from the published Postman collection |
-| `postman/` | All six public Commure collections, verbatim |
-| `authentication/`, `scopes/` | OAuth 2.0 / OIDC / SMART App Launch profile and scopes |
-| `conventions/` | Idempotency, pagination, versioning, media types, async semantics |
-| `errors/` | FHIR OperationOutcome catalog |
-| `data-model/` | FHIR entity/relationship graph |
-| `conformance/` | Standards conformance assertions |
-| `lifecycle/` | Versioning, deprecation, status page |
-| `well-known/` | `/.well-known/` probe results (none served) |
-| `security/` | Domain security probe, trust center |
-| `skills/` | 5 packaged agent skills grounded in real operationIds |
-| `overlays/` | OpenAPI Overlay of API Evangelist annotations |
-| `llms/` | llms.txt |
-| `review.yml` | Original reviewer finding |
+Postman and Open Collection request collections.
 
-## Common Properties
+- [Commure FHIR API](https://apis.io/collections/commure/open-commure-fhir/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Commure Fhir Overlay](https://apis.io/overlays/commure/commure-fhir-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Commure Authentication](https://apis.io/security/commure/commure-authentication/)
+- [Commure Domain Security](https://apis.io/security/commure/commure-domain-security/)
+- [Commure Trust Center](https://apis.io/security/commure/commure-trust-center/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Commure Scopes](https://apis.io/scopes/commure/commure-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Commure Plans Pricing](https://apis.io/plans/commure/commure-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Commure Rate Limits](https://apis.io/rate-limits/commure/commure-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.commure.com/)
-- [Company](https://www.commure.com/company)
-- [API Reference (Postman)](https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api)
-- [Postman workspace](https://www.postman.com/commure/commure/)
-- [Sign up](https://accounts.commure.com/signin/register) · [Sign in](https://accounts.commure.com/signin)
+- [API reference](https://www.postman.com/commure/commure/documentation/vp76tv7/commure-fhir-api)
+- [Pricing](https://www.commure.com/pricing)
+- [Sign up](https://accounts.commure.com/signin/register)
+- [Support](https://www.commure.com/contact)
 - [Blog](https://www.commure.com/blog)
-- [News](https://www.commure.com/news)
-- [Partners](https://www.commure.com/partners)
-- [Customers](https://www.commure.com/customers)
-- [Support / Contact](https://www.commure.com/contact)
-- [Status Page](https://status.commure.com)
-- [Trust Center](https://www.commure.com/trust-center)
-- [Terms of Use](https://www.commure.com/legal/general-terms-of-use)
-- [Privacy Policy](https://www.commure.com/legal/privacy-policy)
-- [Business Associate Agreement](https://www.commure.com/legal/business-associate-agreement)
-- [Developer User Agreement](https://www.commure.com/legal/developer-user-agreement)
-- [GitHub Organization](https://github.com/commure)
-- [LinkedIn](https://www.linkedin.com/company/commure)
+- [Compliance](https://www.commure.com/trust-center)
+- [Trust centre](https://www.commure.com/trust-center)
+- [Terms of service](https://www.commure.com/legal/general-terms-of-use)
+- [Privacy policy](https://www.commure.com/legal/privacy-policy)
+- [GitHub](https://github.com/commure)
+- [Status](https://status.commure.com)
 
-## Not present (probed, honest negatives)
+## API Evangelist rating
 
-- No `/.well-known/security.txt`, `openid-configuration`, `api-catalog`, `ai-plugin.json` or agent card on any reachable host.
-- No A2A Agent Card — `/.well-known/agent-card.json` and `/.well-known/agent.json` both 404 everywhere probed.
-- No MCP server, no GraphQL endpoint, no gRPC/protobuf, no AsyncAPI and no documented webhook catalog.
-- No first-party SDK, CLI or client library on npm, PyPI, crates.io or the GitHub org.
-- No dated API changelog, no published SLA, no vulnerability disclosure program or bug bounty.
+**Kin Score 47.2** — developing · rubric 0.25.0 · scored 2026-10-23
 
-## Maintainers
+| Facet | Score |
+|---|---|
+| Discoverability | 74.1 |
+| Contract quality | 46.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 33.9 |
+| Access clarity | 60.5 |
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Agent readiness 38.9** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | derived (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 51.6** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/commure/](https://apis.io/providers/commure/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Commure: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/commure/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
